@@ -6,12 +6,20 @@
 </template>
 
 <script>
-// import firebase from "firebase"
+import firebase from "firebase";
 import NavBar from "@/components/NavBar.vue";
 
 export default {
+  data() {
+    return {
+      user: null,
+    };
+  },
   components: {
     NavBar,
+  },
+  mounted() {
+    firebase.auth().onAuthStateChanged((user) => (this.user = user));
   },
 };
 </script>
