@@ -16,51 +16,47 @@
       <!-- 調理時間 -->
       <div>
         <h2>調理時間</h2>
-      </div>
-      <div>
-        <select name="time" v-model="recipe.selected">
-          <option disabled value="">選択してください</option>
-          <option v-for="option in options" :key="option.id">
-            {{option.name}}
-          </option>
-        </select>
+        <div>
+          <select name="time" v-model="recipe.selected">
+            <option disabled value="">選択してください</option>
+            <option v-for="option in options" :key="option.id">
+             {{option.name}}
+            </option>
+          </select>
+        </div>
       </div>
       <br>
       <!-- 写真 -->
       <div>
-        <input type="file">
+        <input type="file" accept="image/*" @change="onImageUploaded($event)">
+        <img src="" alt="料理の写真">
       </div>
       <!-- 紹介文 -->
       <div class="introduce">
-        <textarea id="" cols="30" rows="10" placeholder="紹介文"></textarea>
+        <textarea v-model="recipe.introduce" id="" cols="30" rows="10" placeholder="紹介文"></textarea>
       </div>
       <!-- 材料 -->
       <div class="ingredients">
-        <h2>材料</h2>
-        <div v-for="(ingredient, index) in recipe.ingredients" :key="index">
-          {{index + 1}}  {{ingredient.name}} {{ingredient.amount}}
-          <button @click.prevent="removeIngredients(index)">削除</button>
-        </div>
-        
+        <h2>材料</h2> 
         <div v-for="(newIngredient, index) in newIngredients" :key="index">
           <input v-model="newIngredient.name" type="text" placeholder="玉ねぎ">
           <input v-model="newIngredient.amount" type="text" placeholder="一個">
-          <button @click.prevent="addIngredients">追加</button>
           <button @click.prevent="removeIngredients(index)">削除</button>
         </div>
+          <button @click.prevent="addIngredients">材料を追加する</button>
       </div>
       <!-- 作り方 -->
       <div class="howTo" >
         <h2>作り方</h2>
-        <div v-for="(howTo, index) in this.recipe.howTos" :key="index">
-          {{index + 1}}  {{howTo.text}}
-          <button @click.prevent="removeHowTos(index)">削除</button>
-        </div>
-        <div>
+        <div v-for="(newHowTo, index) in newHowTos" :key="index">
+           {{index + 1}}
           <textarea v-model="newHowTo.text" cols="30" rows="5" placeholder="作り方"></textarea>
-          <button @click.prevent="addHowTos">追加</button>
+          <button @click.prevent="removeNewHowTos(index)">削除</button>
         </div>
+          <button @click.prevent="addNewHowTos">作り方を追加する</button>
       </div>
+
+      
       <!-- 投稿ボタン -->
       <div>
         <button type="submit" class="make-button">投稿</button>
@@ -72,16 +68,16 @@
       <h2>市販</h2>
       <form @submit.prevent="madePostForm">
         <div class="title">
-        <input type="text" placeholder="料理タイトル">
+          <input type="text" placeholder="料理タイトル">
         </div>
         <div>
-        <input type="file">
+          <input type="file">
         </div>
         <div class="introduce">
-        <textarea id="" cols="30" rows="10" placeholder="紹介文"></textarea>
+          <textarea id="" cols="30" rows="10" placeholder="紹介文"></textarea>
         </div>
         <div>
-        <button type="submit" class="make-button">投稿</button>
+          <button type="submit" class="make-button">投稿</button>
         </div>
       </form>
     </div>
@@ -97,14 +93,8 @@ export default {
       recipe: {
         title: "",
         selected: "",
-        file: "",
+        image: "",
         introduce: "",
-        ingredients: [
-          // {name: "", amount: ""},
-        ],
-        howTos: [
-          // {text: ""}
-        ],
       },
       options: [
         {id: 1, name: "５分以内"},
@@ -117,9 +107,9 @@ export default {
       newIngredients: [
         {name: "", amount: ""}
       ],
-      newHowTo: {
-        text: ""
-      },
+      newHowTos: [
+        {text: ""}
+      ],
     }
   },
   methods:{
@@ -136,20 +126,28 @@ export default {
         name: "",
         amount: ""
       })
-      this.newIngredient.name= ""
-      this.newIngredient.amount= ""
     },
     removeIngredients(index){
       this.newIngredients.splice(index, 1)
     },
-    addHowTos(){
-      this.recipe.howTos.push({
-        text: this.newHowTo.text
+    addNewHowTos(){
+      this.newHowTos.push({
+        text: ""
       })
-      this.newHowTo.text= ""
     },
-    removeHowTos(index){
-      this.recipe.howTos.splice(index, 1)
+    removeNewHowTos(index){
+      this.newHowTos.splice(index, 1)
+    },
+    onImageUploaded(e){
+      const image = e.target.files[0]
+      this.createImage(image)
+    },
+    createImage(image){
+      const render = new FileRender()
+      render.readAsDataURL(image)
+      render.omload = () =>{
+        this.submittedArticle.image = render.result
+      }
     }
   }
 }
