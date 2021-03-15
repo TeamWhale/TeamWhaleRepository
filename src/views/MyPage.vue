@@ -1,5 +1,7 @@
 <template>
   <div class="home">
+    <div>lllllllll</div>
+    <button>なんでもない</button>
     <HomeBar />
   </div>
 </template>
