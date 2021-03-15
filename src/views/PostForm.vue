@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="wrapper">
     <h1>投稿</h1>
     <div>
       <button @click="make">手作り</button>
@@ -15,6 +15,7 @@
             v-model="recipe.title"
             type="text"
             placeholder="料理タイトル"
+            class="input-rec"
           />
         </div>
         <!-- 調理時間 -->
@@ -22,7 +23,9 @@
           <h2>調理時間</h2>
           <div>
             <select name="time" v-model="recipe.selected">
-              <option disabled value="">選択してください</option>
+              <option class="input-rec" disabled value=""
+                >選択してください</option
+              >
               <option v-for="option in options" :key="option.id">
                 {{ option.name }}
               </option>
@@ -47,6 +50,7 @@
             cols="30"
             rows="10"
             placeholder="紹介文"
+            class="input-rec"
           ></textarea>
         </div>
         <!-- 材料 -->
@@ -57,11 +61,13 @@
               v-model="newIngredient.name"
               type="text"
               placeholder="玉ねぎ"
+              class="input-rec"
             />
             <input
               v-model="newIngredient.amount"
               type="text"
               placeholder="一個"
+              class="input-rec"
             />
             <button @click.prevent="removeIngredients(index)">削除</button>
           </div>
@@ -77,6 +83,7 @@
               cols="30"
               rows="5"
               placeholder="作り方"
+              class="input-rec"
             ></textarea>
             <button @click.prevent="removeNewHowTos(index)">削除</button>
           </div>
@@ -176,4 +183,33 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.wrapper {
+  text-align: center;
+}
+.input-rec {
+  font-family: inherit;
+  border-color: #ececec;
+  border-radius: 5px;
+  border-width: 2px;
+  padding: 10px;
+}
+.input-rec:focus {
+  border: #fff;
+  /* なんか効かない... */
+}
+button:hover {
+  cursor: pointer;
+}
+.make-button {
+  width: 400px;
+  height: 48px;
+  margin-top: 20px;
+  margin-bottom: 80px;
+  font-size: 16px;
+  color: #ffffff;
+  background-color: #ff9900;
+  border: none;
+  border-radius: 4px;
+}
+</style>
