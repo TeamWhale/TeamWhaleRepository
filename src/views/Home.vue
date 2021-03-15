@@ -56,7 +56,7 @@ export default {
   name: 'Home',
   components: {
     HomeBar
-  }
+  },
   data() {
     return {
       search_keyword: "",
