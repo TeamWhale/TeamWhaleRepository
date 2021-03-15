@@ -4,9 +4,6 @@
     <div class="nav__items">
       <router-link to="/PostForm" class="nav__item nav__link">投稿</router-link>
       <button v-on:click="signIn" class="nav__item nav__link">ログイン</button>
-      <router-link to="/singUp" class="nav__item nav__link"
-        >新規登録</router-link
-      >
     </div>
   </div>
 </template>
@@ -33,12 +30,12 @@ export default {
 
 <style scoped>
 .nav__bar {
-  height: 50px;
+  height: 60px;
   display: flex;
   justify-content: space-between;
   align-items: stretch;
   background-color: #fff;
-  border-bottom: 1px solid #111;
+  border-bottom: 2px solid #fffacd;
 }
 .nav__link {
   display: flex;
