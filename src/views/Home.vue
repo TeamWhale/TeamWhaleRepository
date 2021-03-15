@@ -2,7 +2,13 @@
   <div class="home">
     <div class="search_bar">
       <div class="search_box">
-        <input id="search_input" type="text" placeholder="キーワードを入力" />
+        <input
+          id="search_input"
+          type="text"
+          placeholder="キーワードを入力"
+          v-model="search_keyword"
+          required
+        />
         <img
           v-on:click="search"
           id="search_icon"
@@ -33,7 +39,7 @@
           </div>
           <div class="recom_item">
             <div class="recom_description">
-              <div class="recom_name">焼きそば</div>
+              <div class="recom_name">味の素「ザ★チャーハン」</div>
             </div>
           </div>
         </div>
@@ -47,6 +53,12 @@
 
 export default {
   name: "search",
+  data() {
+    return {
+      search_keyword: "",
+      recipes: [{ title: "", image: "", rank: "", time: "" }],
+    };
+  },
   methods: {
     search() {
       alert("検索機能の実装調べます～byさき");
@@ -62,7 +74,7 @@ export default {
 .search_bar {
   display: flex;
   width: 100%;
-  height: 60px;
+  height: 54px;
   background-color: #ff9900;
   justify-content: center;
 }
@@ -74,7 +86,7 @@ export default {
   width: 500px;
   background-color: #f8f5f4;
   border-radius: 4px;
-  margin-top: 10px;
+  margin-top: 7px;
   padding: 5px;
 }
 #search_input {
