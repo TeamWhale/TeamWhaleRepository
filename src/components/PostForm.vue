@@ -41,10 +41,12 @@
           {{index + 1}}  {{ingredient.name}} {{ingredient.amount}}
           <button @click.prevent="removeIngredients(index)">削除</button>
         </div>
-        <div>
+        
+        <div v-for="(newIngredient, index) in newIngredients" :key="index">
           <input v-model="newIngredient.name" type="text" placeholder="玉ねぎ">
           <input v-model="newIngredient.amount" type="text" placeholder="一個">
           <button @click.prevent="addIngredients">追加</button>
+          <button @click.prevent="removeIngredients(index)">削除</button>
         </div>
       </div>
       <!-- 作り方 -->
@@ -112,10 +114,9 @@ export default {
         {id: 5, name: "約１時間"},
         {id: 6, name: "1時間以上"}
       ],
-      newIngredient:{
-        name: "",
-        amount: "",
-      },
+      newIngredients: [
+        {name: "", amount: ""}
+      ],
       newHowTo: {
         text: ""
       },
@@ -131,15 +132,15 @@ export default {
       this.cook= false
     },
     addIngredients(){
-      this.recipe.ingredients.push({
-        name: this.newIngredient.name,
-        amount: this.newIngredient.amount
+      this.newIngredients.push({
+        name: "",
+        amount: ""
       })
       this.newIngredient.name= ""
       this.newIngredient.amount= ""
     },
     removeIngredients(index){
-      this.recipe.ingredients.splice(index, 1)
+      this.newIngredients.splice(index, 1)
     },
     addHowTos(){
       this.recipe.howTos.push({

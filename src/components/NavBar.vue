@@ -43,15 +43,14 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100%;
-  color: #111;
+  color: #3f1f1a;
   text-decoration: none;
 }
 .nav__link:visited {
-  color: #111;
+  color: #3f1f1a;
 }
 .nav__link:hover {
   font-weight: bold;
-  color: #000;
   border-bottom: 2px solid #f90;
 }
 .nav__logo {
@@ -64,6 +63,6 @@ export default {
 }
 .nav__item {
   width: 100px;
-  /*border-left: 1px solid #111;  nav要素間の敷居*/
+  /*border-left: 1px solid #3f1f1a;  nav要素間の敷居*/
 }
 </style>
