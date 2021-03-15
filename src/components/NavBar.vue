@@ -2,6 +2,7 @@
   <div class="nav__bar">
     <router-link to="/" class="nav__logo nav__link">レシピサイト</router-link>
     <div class="nav__items">
+      <router-link to="/MyPage" class="nav__item nav__link">マイページ</router-link>
       <router-link to="/PostForm" class="nav__item nav__link">投稿</router-link>
       <button v-on:click="signIn" class="nav__item nav__link">ログイン</button>
     </div>
