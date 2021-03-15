@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <HomeBar />
     <div class="search_bar">
       <div class="search_box">
         <input
@@ -49,10 +50,13 @@
 </template>
 
 <script>
-// @ is an alias to /src
+import HomeBar from '@/components/HomeBar.vue'
 
 export default {
-  name: "search",
+  name: 'Home',
+  components: {
+    HomeBar
+  }
   data() {
     return {
       search_keyword: "",

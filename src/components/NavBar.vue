@@ -3,15 +3,30 @@
     <router-link to="/" class="nav__logo nav__link">レシピサイト</router-link>
     <div class="nav__items">
       <router-link to="/PostForm" class="nav__item nav__link">投稿</router-link>
-      <router-link to="/singIn" class="nav__item nav__link"
-        >ログイン</router-link
-      >
-      <router-link to="/singUp" class="nav__item nav__link"
-        >新規登録</router-link
-      >
+      <button v-on:click="signIn" class="nav__item nav__link">ログイン</button>
     </div>
   </div>
 </template>
+
+<script>
+import firebase from "firebase";
+
+export default {
+  data() {
+    return {
+      user: null,
+    };
+  },
+  methods: {
+    signIn() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      firebase
+        .auth()
+        .signInWithRedirect(provider)
+    },
+  },
+};
+</script>
 
 <style scoped>
 .nav__bar {
@@ -20,6 +35,7 @@
   justify-content: space-between;
   align-items: stretch;
   background-color: #fff;
+  border-bottom: 2px solid #fffacd;
 }
 .nav__link {
   display: flex;
