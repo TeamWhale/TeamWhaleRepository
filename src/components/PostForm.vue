@@ -5,19 +5,19 @@
       <button @click="make">手作り</button>
       <button @click="made">市販</button>
     </div>
-
+      <!-- 手作り投稿 -->
     <div v-if="cook">
       <h2>手作り</h2>
       <form @submit.prevent="makePostForm">
         <!-- 料理名 -->
       <div class="title">
-        <input v-model="recipe.title" type="text" placeholder="料理タイトル">
+        <input v-model="makeRecipe.title" type="text" placeholder="料理タイトル">
       </div>
       <!-- 調理時間 -->
       <div>
         <h2>調理時間</h2>
         <div>
-          <select name="time" v-model="recipe.selected">
+          <select name="time" v-model="makeRecipe.selected">
             <option disabled value="">選択してください</option>
             <option v-for="option in options" :key="option.id">
              {{option.name}}
@@ -28,17 +28,17 @@
       <br>
       <!-- 写真 -->
       <div>
-        <input type="file" accept="image/*" @change="onImageUploaded($event)">
-        <img :src="recipe.image" alt="料理の写真" width="300" height="200">
+        <input type="file" accept="image/*" @change="onImageUploadedMake($event)">
+        <img :src="makeRecipe.image" alt="料理の写真" width="300" height="200">
       </div>
       <!-- 紹介文 -->
       <div class="introduce">
-        <textarea v-model="recipe.introduce" id="" cols="30" rows="10" placeholder="紹介文"></textarea>
+        <textarea v-model="makeRecipe.introduce" id="" cols="30" rows="10" placeholder="紹介文"></textarea>
       </div>
       <!-- 材料 -->
       <div class="ingredients">
         <h2>材料</h2> 
-        <div v-for="(newIngredient, index) in newIngredients" :key="index">
+        <div v-for="(newIngredient, index) in makeRecipe.newIngredients" :key="index">
           <input v-model="newIngredient.name" type="text" placeholder="玉ねぎ">
           <input v-model="newIngredient.amount" type="text" placeholder="一個">
           <button @click.prevent="removeIngredients(index)">削除</button>
@@ -48,15 +48,13 @@
       <!-- 作り方 -->
       <div class="howTo" >
         <h2>作り方</h2>
-        <div v-for="(newHowTo, index) in newHowTos" :key="index">
+        <div v-for="(newHowTo, index) in makeRecipe.newHowTos" :key="index">
            {{index + 1}}
           <textarea v-model="newHowTo.text" cols="30" rows="5" placeholder="作り方"></textarea>
           <button @click.prevent="removeNewHowTos(index)">削除</button>
         </div>
           <button @click.prevent="addNewHowTos">作り方を追加する</button>
       </div>
-
-      
       <!-- 投稿ボタン -->
       <div>
         <button type="submit" class="make-button">投稿</button>
@@ -64,18 +62,24 @@
       </form>
     </div>
 
+      <!-- 市販投稿 -->
     <div v-if="cooked">
       <h2>市販</h2>
       <form @submit.prevent="madePostForm">
+        <!-- タイトル -->
         <div class="title">
-          <input type="text" placeholder="料理タイトル">
+          <input v-model="madeRecipe.title" type="text" placeholder="料理タイトル">
         </div>
+        <!-- 写真 -->
         <div>
-          <input type="file">
+          <input type="file" accept="image/*" @change="onImageUploadedMade($event)">
+          <img :src="madeRecipe.image" alt="料理の写真" width="300" height="200">
         </div>
+        <!-- 紹介文 -->
         <div class="introduce">
           <textarea id="" cols="30" rows="10" placeholder="紹介文"></textarea>
         </div>
+        <!-- 投稿ボタン -->
         <div>
           <button type="submit" class="make-button">投稿</button>
         </div>
@@ -85,14 +89,28 @@
 </template>
 
 <script>
+import firebase from "firebase"
+import "firebase/firestore"
+import "firebase/auth"
 export default {
   data(){
     return{
       cook: false,
       cooked: false,
-      recipe: {
+      makeRecipe: {
         title: "",
         selected: "",
+        image: "",
+        introduce: "",
+        newIngredients: [
+          {name: "", amount: ""}
+        ],
+        newHowTos: [
+          {text: ""}
+        ],
+      },
+      madeRecipe: {
+        title: "",
         image: "",
         introduce: "",
       },
@@ -103,12 +121,6 @@ export default {
         {id: 4, name: "約３０分"},
         {id: 5, name: "約１時間"},
         {id: 6, name: "1時間以上"}
-      ],
-      newIngredients: [
-        {name: "", amount: ""}
-      ],
-      newHowTos: [
-        {text: ""}
       ],
     }
   },
@@ -122,32 +134,51 @@ export default {
       this.cook= false
     },
     addIngredients(){
-      this.newIngredients.push({
+      this.makeRecipe.newIngredients.push({
         name: "",
         amount: ""
       })
     },
     removeIngredients(index){
-      this.newIngredients.splice(index, 1)
+      this.makeRecipe.newIngredients.splice(index, 1)
     },
     addNewHowTos(){
-      this.newHowTos.push({
+      this.makeRecipe.newHowTos.push({
         text: ""
       })
     },
     removeNewHowTos(index){
-      this.newHowTos.splice(index, 1)
+      this.makeRecipe.newHowTos.splice(index, 1)
     },
-    onImageUploaded(e){
+    // makeの写真投稿メソッド
+    onImageUploadedMake(e){
       const image = e.target.files[0]
-      this.createImage(image)
+      this.createImageMake(image)
     },
-    createImage(image){
+    createImageMake(image){
       const render = new FileReader()
       render.readAsDataURL(image)
       render.onload = () =>{
-        this.recipe.image = render.result
+        this.makeRecipe.image = render.result
       }
+    },
+    // madeの写真投稿メソッド
+    onImageUploadedMade(e){
+      const image = e.target.files[0]
+      this.createImageMade(image)
+    },
+    createImageMade(image){
+      const render = new FileReader()
+      render.readAsDataURL(image)
+      render.onload = () =>{
+        this.madeRecipe.image = render.result
+      }
+    },
+    // firebaseに保存
+    makePostForm(){
+      firebase.firestore().collection("recipe").add({
+        recipe: this.makeRecipe
+      })
     }
   }
 }
