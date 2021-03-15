@@ -37,6 +37,7 @@
       </div>
       <!-- 材料 -->
       <div class="ingredients">
+
         <h2>材料</h2> 
         <div v-for="(newIngredient, index) in makeRecipe.newIngredients" :key="index">
           <input v-model="newIngredient.name" type="text" placeholder="玉ねぎ">

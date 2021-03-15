@@ -1,27 +1,45 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import PostForm from '../components/PostForm.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Home from "../views/Home.vue";
+import PostForm from "../views/PostForm.vue";
+import MyPage from "../views/MyPage.vue";
+import HomeRecipe from "../views/HomeRecipe.vue";
+import HomePurchase from "../views/HomePurchase.vue";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: "/",
+    name: "Home",
+    component: Home,
   },
   {
-    path: '/PostForm',
-    name: 'PostForm',
-    component: PostForm
+    path: "/PostForm",
+    name: "PostForm",
+    component: PostForm,
   },
-]
+  {
+    path: "/MyPage",
+    name: "MyPage",
+    component: MyPage,
+  },
+  {
+    path: "/HomeRecipe",
+    name: "HomeRecipe",
+    component: HomeRecipe,
+  },
+  {
+    path: "/HomePurchase",
+    name: "HomePurchase",
+    component: HomePurchase,
+  },
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
