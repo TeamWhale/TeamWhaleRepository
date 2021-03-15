@@ -1,9 +1,10 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import PostForm from "../components/PostForm.vue";
-import HomeRecipe from "../components/HomeRecipe.vue";
-import HomePurchase from "../components/HomePurchase.vue";
+import PostForm from "../views/PostForm.vue";
+import MyPage from "../views/MyPage.vue";
+import HomeRecipe from "../views/HomeRecipe.vue";
+import HomePurchase from "../views/HomePurchase.vue";
 
 Vue.use(VueRouter);
 
@@ -17,6 +18,11 @@ const routes = [
     path: "/PostForm",
     name: "PostForm",
     component: PostForm,
+  },
+  {
+    path: "/MyPage",
+    name: "MyPage",
+    component: MyPage,
   },
   {
     path: "/HomeRecipe",
