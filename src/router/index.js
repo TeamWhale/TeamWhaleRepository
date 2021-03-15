@@ -1,8 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import MyPage from "../components/MyPage.vue";
-import PostForm from "../components/PostForm.vue";
+import MyPage from "../views/MyPage.vue";
+import PostForm from "../views/PostForm.vue";
 
 Vue.use(VueRouter);
 
