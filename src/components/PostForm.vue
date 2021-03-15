@@ -29,7 +29,7 @@
       <!-- 写真 -->
       <div>
         <input type="file" accept="image/*" @change="onImageUploaded($event)">
-        <img src="" alt="料理の写真">
+        <img :src="recipe.image" alt="料理の写真" width="300" height="200">
       </div>
       <!-- 紹介文 -->
       <div class="introduce">
@@ -143,10 +143,10 @@ export default {
       this.createImage(image)
     },
     createImage(image){
-      const render = new FileRender()
+      const render = new FileReader()
       render.readAsDataURL(image)
-      render.omload = () =>{
-        this.submittedArticle.image = render.result
+      render.onload = () =>{
+        this.recipe.image = render.result
       }
     }
   }
