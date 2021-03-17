@@ -78,7 +78,7 @@
         </div>
         <!-- 紹介文 -->
         <div class="introduce">
-          <textarea id="" cols="30" rows="10" placeholder="紹介文"></textarea>
+          <textarea v-model="madeRecipe.introduce" cols="30" rows="10" placeholder="紹介文"></textarea>
         </div>
         <!-- 投稿ボタン -->
         <div>
@@ -178,7 +178,16 @@ export default {
     // firebaseに保存
     makePostForm(){
       firebase.firestore().collection("recipe").add({
-        recipe: this.makeRecipe
+        recipe: this.makeRecipe,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        type: "手作り"
+      })
+    },
+    madePostForm(){
+      firebase.firestore().collection("recipe").add({
+        recipe: this.madeRecipe,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        type: "市販"
       })
     }
   }
