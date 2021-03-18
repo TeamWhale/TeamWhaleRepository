@@ -170,26 +170,40 @@ export default {
     },
     // firebaseに保存
     makePostForm(){
-      firebase.firestore().collection("recipe").add({
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        type: "手作り",
-        title: this.title,
-        selected: this.selected,
-        image: this.image,
-        introduce: this.introduce,
-        newIngredients: this.newIngredients,
-        newHowTo: this.newHowTos,
+      // ログインしているユーザーの uidを取得
+      firebase.auth().onAuthStateChanged(user =>{
+        if(user){
+          //firestoreのrecipeにdataと取得したuidを保存
+          firebase.firestore().collection("recipe").add({
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            type: "手作り",
+            title: this.title,
+            selected: this.selected,
+            image: this.image,
+            introduce: this.introduce,
+            newIngredients: this.newIngredients,
+            newHowTo: this.newHowTos,
+            uid: user.uid
+          })
+        }
       })
     },
     madePostForm(){
-      firebase.firestore().collection("recipe").add({
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        type: "市販",
-        title: this.title,
-        image: this.image,
-        introduce: this.introduce,
+      // ログインしているユーザーの uidを取得
+      firebase.auth().onAuthStateChanged(user =>{
+        if(user){
+          //firestoreのrecipeにdataと取得したuidを保存
+          firebase.firestore().collection("recipe").add({
+           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+           type: "市販",
+           title: this.title,
+           image: this.image,
+           introduce: this.introduce,
+           uid: user.uid
+          })
+        }
       })
-    }
+    },
   }
 }
 </script>

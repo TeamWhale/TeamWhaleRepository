@@ -7,12 +7,14 @@
         >マイページ</router-link
       >
       <div v-on:click="signIn" class="nav__item nav__link">ログイン</div>
+      <div v-on:click="signOut" class="nav__item nav__link">ログアウト</div>
     </div>
   </div>
 </template>
 
 <script>
 import firebase from "firebase";
+import "firebase/auth"
 
 export default {
   data() {
@@ -24,7 +26,12 @@ export default {
     signIn() {
       const provider = new firebase.auth.GoogleAuthProvider();
       firebase.auth().signInWithRedirect(provider);
+      // this.$router.push("/MyPage")
     },
+    signOut(){
+      firebase.auth().signOut()
+      this.$router.push("/")
+    }
   },
 };
 </script>

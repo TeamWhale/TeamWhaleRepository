@@ -1,4 +1,3 @@
-MyPageにHomeを作ってます。
 変更点
 ・vueRouterで切り替えていた”すべて、すべて、市販”をv-ifで切り替えるようにした。
 ・ログインがボタンになっていたのでdivに変更した。
@@ -25,6 +24,7 @@ MyPageにHomeを作ってます。
           src="../assets/search_mark.png"
         />
       </div>
+        <div>マイページ</div>
     </div>
     <div class="tab_items">
       <div class="tab_item current nav__link" @click="switchAll">すべて</div>
@@ -36,7 +36,6 @@ MyPageにHomeを作ってます。
       <div class="recom_item" v-for="(all, index) in allRecipe" :key="index" :style="{ backgroundImgage: all.image}">
         <div class="recom_description">
           <div class="recom_name">{{all.title}}</div>
-          <!-- <div class="recom_easy">お手軽：★★★☆☆</div> -->
           <div class="recom_time">{{all.selected}}</div>
         </div>
       </div>   
@@ -46,7 +45,6 @@ MyPageにHomeを作ってます。
       <div class="recom_item" v-for="(recipe, index) in Recipes" :key="index" :style="{ backgroundImgage: recipe.image}">
         <div class="recom_description">
           <div class="recom_name">{{recipe.title}}</div>
-          <!-- <div class="recom_easy">お手軽：★★★☆☆</div> -->
           <div class="recom_time">{{recipe.selected}}</div>
         </div>
       </div>   
@@ -56,7 +54,6 @@ MyPageにHomeを作ってます。
       <div class="recom_item" v-for="(purchase, index) in Purchases" :key="index" :style="{ backgroundImgage: purchase.image}">
         <div class="recom_description">
           <div class="recom_name">{{purchase.title}}</div>
-          <!-- <div class="recom_easy">お手軽：★★★☆☆</div> -->
           <div class="recom_time">{{purchase.selected}}</div>
         </div>
       </div>   
@@ -104,36 +101,48 @@ export default {
     }
   },
   mounted(){
-    firebase.firestore().collection("recipe").orderBy("createdAt", "desc").get()
-    .then(snapshot =>{
-      snapshot.docs.forEach(doc =>{
-        this.allRecipe.push({
-          ...doc.data()
+    firebase.auth().onAuthStateChanged(user =>{
+      if(user){
+        //すべてにpush
+        firebase.firestore().collection("recipe").orderBy("createdAt", "desc").get()
+        .then(snapshot =>{
+          snapshot.docs.forEach(doc =>{
+            if(doc.data().uid === user.uid){
+              this.allRecipe.push({
+                ...doc.data()
+              })
+            }
+          })
         })
-      })
-    }),
-    firebase.firestore().collection("recipe").orderBy("createdAt", "desc").get()
-    .then(snapshot =>{
-      snapshot.docs.forEach(doc =>{
-        if(doc.data().type === "手作り"){
-          this.Recipes.push({
-            ...doc.data()
+        //手作りにpush
+        firebase.firestore().collection("recipe").orderBy("createdAt", "desc").get()
+        .then(snapshot =>{
+          snapshot.docs.forEach(doc =>{
+            if(doc.data().uid === user.uid){
+              if(doc.data().type === "手作り"){
+                this.Recipes.push({
+                  ...doc.data()
+                })
+              }
+            }
           })
-        }
-      })
-    }),
-    firebase.firestore().collection("recipe").orderBy("createdAt", "desc").get()
-    .then(snapshot =>{
-      snapshot.docs.forEach(doc =>{
-        if(doc.data().type === "市販"){
-          this.Purchases.push({
-            ...doc.data()
+        })
+        //市販にpush
+        firebase.firestore().collection("recipe").orderBy("createdAt", "desc").get()
+        .then(snapshot =>{
+          snapshot.docs.forEach(doc =>{
+            if(doc.data().uid === user.uid){
+              if(doc.data().type === "市販"){
+                this.Purchases.push({
+                  ...doc.data()
+                })
+              }
+            }
           })
-        }
-      })
+        })
+      }
     })
-
-  }
+  },
 };
 </script>
 
