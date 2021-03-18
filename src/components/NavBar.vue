@@ -6,7 +6,7 @@
       <router-link to="/MyPage" class="nav__item nav__link"
         >マイページ</router-link
       >
-      <button v-on:click="signIn" class="nav__item nav__link">ログイン</button>
+      <div v-on:click="signIn" class="nav__item nav__link">ログイン</div>
     </div>
   </div>
 </template>
