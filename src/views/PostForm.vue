@@ -13,6 +13,9 @@
       <div class="title">
         <input v-model="makeRecipe.title" type="text" placeholder="料理タイトル">
       </div>
+
+      <!-- テスト -->
+      <input v-model="title" type="text" placeholder="テスト投稿">
       <!-- 調理時間 -->
       <div>
         <h2>調理時間</h2>
@@ -110,6 +113,12 @@ export default {
           {text: ""}
         ],
       },
+
+
+      //テスト投稿
+      title:"",
+
+
       madeRecipe: {
         title: "",
         image: "",
@@ -180,7 +189,8 @@ export default {
       firebase.firestore().collection("recipe").add({
         recipe: this.makeRecipe,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        type: "手作り"
+        type: "手作り",
+        title: this.title
       })
     },
     madePostForm(){

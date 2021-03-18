@@ -1,28 +1,44 @@
 <template>
-  <div class="home">
-    <HomeBar />
+  <div>
+    <div class="all" v-for="(all, index) in allRecipe" :key="index">
+      {{all.title}}
+    </div>
+    <div class="Recipe"></div>
+    <div class="Purchase"></div>
   </div>
 </template>
 
 <script>
-import HomeBar from "@/components/HomeBar.vue";
+
+import firebase from "firebase"
+import "firebase/firestore"
 
 export default {
-  name: "Home",
-  components: {
-    HomeBar,
-  },
   data() {
     return {
       search_keyword: "",
       recipes: [{ title: "", image: "", rank: "", time: "" }],
+      allRecipe: [],
+      Recipes:[],
+      Purchases: []
     };
   },
   methods: {
-    search() {
-      alert("検索機能の実装調べます～byさき");
-    },
+    // search() {
+    //   alert("検索機能の実装調べます～byさき");
+    // },
   },
+  mounted(){
+    firebase.firestore().collection("recipe").orderBy("createdAt", "desc").get()
+    .then(snapshot =>{
+      snapshot.docs.forEach(doc =>{
+        console.log(doc.data())
+        this.allRecipe.push({
+          ...doc.data()
+        })
+      })
+    })
+  }
 };
 </script>
 
