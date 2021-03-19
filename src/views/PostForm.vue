@@ -35,26 +35,6 @@
       <div class="introduce">
         <textarea v-model="introduce" id="" cols="30" rows="10" placeholder="紹介文"></textarea>
       </div>
-      <!-- 材料 -->
-      <div class="ingredients">
-
-        <h2>材料</h2> 
-        <div v-for="(newIngredient, index) in newIngredients" :key="index">
-          <input v-model="newIngredient.name" type="text" placeholder="玉ねぎ">
-          <input v-model="newIngredient.amount" type="text" placeholder="一個">
-          <button @click.prevent="removeIngredients(index)">削除</button>
-        </div>
-        <!-- 紹介文 -->
-        <div class="introduce">
-          <textarea
-            v-model="recipe.introduce"
-            id=""
-            cols="30"
-            rows="10"
-            placeholder="紹介文"
-            class="input-rec"
-          ></textarea>
-        </div>
         <!-- 材料 -->
         <div class="ingredients">
           <h2>材料</h2>
@@ -154,9 +134,6 @@ export default {
         { id: 5, name: "約１時間" },
         { id: 6, name: "1時間以上" },
       ],
-      newIngredients: [{ name: "", amount: "" }],
-
-      newHowTos: [{ text: "" }],
     };
   },
   methods: {
@@ -184,9 +161,6 @@ export default {
     },
     removeNewHowTos(index){
       this.newHowTos.splice(index, 1)
-    },
-    removeNewHowTos(index) {
-      this.newHowTos.splice(index, 1);
     },
     createImageMake(image){
       // const render = new FileReader()
