@@ -165,7 +165,11 @@ export default {
     removeNewHowTos(index){
       this.newHowTos.splice(index, 1)
     },
-    
+    // makeの写真投稿メソッド
+    onImageUploadedMake(e){
+      const image = e.target.files[0]
+      this.createImageMake(image)
+    },
     createImageMake(image){
       // const render = new FileReader()
       // render.readAsDataURL(image)
@@ -190,12 +194,10 @@ export default {
       })
 
     },
-    createImage(image) {
-      const render = new FileReader();
-      render.readAsDataURL(image);
-      render.onload = () => {
-        this.recipe.image = render.result;
-      };
+    // madeの写真投稿メソッド
+    onImageUploadedMade(e){
+      const image = e.target.files[0]
+      this.createImageMade(image)
     },
     createImageMade(image){
       // const render = new FileReader()
