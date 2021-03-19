@@ -25,7 +25,6 @@ export default {
     signIn() {
       const provider = new firebase.auth.GoogleAuthProvider();
       firebase.auth().signInWithRedirect(provider);
-      // this.$router.push("/MyPage")
     },
   },
 };

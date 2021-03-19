@@ -23,7 +23,7 @@ const routes = [
         if(user) {
           next()
         } else {
-          window.alert("ログインしてください");
+          window.alert("ログインが必要です");
         }
       });
     }
@@ -38,8 +38,6 @@ const routes = [
           next()
         } else {
           window.alert("ログインが必要です");
-          // const provider = new firebase.auth.GoogleAuthProvider();
-          // firebase.auth().signInWithRedirect(provider)
         }
       })
     }
