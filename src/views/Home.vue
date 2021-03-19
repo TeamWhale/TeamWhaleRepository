@@ -12,17 +12,6 @@ export default {
   components: {
     HomeBar,
   },
-  data() {
-    return {
-      search_keyword: "",
-      recipes: [{ title: "", image: "", rank: "", time: "" }],
-    };
-  },
-  methods: {
-    search() {
-      alert("検索機能の実装調べます～byさき");
-    },
-  },
 };
 </script>
 
@@ -67,44 +56,9 @@ export default {
 #search_icon:hover {
   cursor: pointer;
 }
-.tab_items {
-  width: 100%;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  background-color: #fcf5ea;
-}
-.tab_item {
-  width: 130px;
-  height: 100%;
-  text-align: center;
-  font-size: 16px;
-  padding-top: 13px;
-}
-.current {
-  background-color: #fce7c7;
-}
+
 h2 {
   margin-left: 3%;
   font-weight: normal;
-}
-.recom_items {
-  display: flex;
-  flex-wrap: wrap;
-  margin-left: 3%;
-  margin-right: 3%;
-  margin-bottom: 25px;
-}
-.recom_item {
-  width: 250px;
-  height: 250px;
-  border-radius: 8px;
-  margin-left: 3%;
-  margin-bottom: 20px;
-  background-color: #c4c4c4;
-  color: #000;
-}
-.recom_description {
-  margin: 175px 0 15px 15px;
 }
 </style>

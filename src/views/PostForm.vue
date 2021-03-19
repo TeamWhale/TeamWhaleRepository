@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="post__wrapper">
     <h1>投稿</h1>
     <div>
       <button @click="make">手作り</button>
@@ -184,7 +184,7 @@ export default {
 </script>
 
 <style>
-.wrapper {
+.post__wrapper {
   text-align: center;
 }
 .input-rec {

@@ -1,5 +1,5 @@
 <template>
-  <div class="home__bar">
+  <div class="home__wrapper">
     <!-- 検索欄 -->
     <div class="search_bar">
       <div class="search_box">
@@ -19,91 +19,122 @@
     </div>
     <!-- すべて／手作り／市販のnavbar(HomeBar) -->
     <div class="tab_items">
-      <router-link to="/" class="tab_item current nav__link"
-        >すべて</router-link
-      >
-      <router-link to="/HomeRecipe" class="tab_item nav__link"
-        >手作り</router-link
-      >
-      <router-link to="/HomePurchase" class="tab_item nav__link"
-        >市販</router-link
-      >
+      <router-link to="/" class="tab_item current">すべて</router-link>
+      <router-link to="/HomeRecipe" class="tab_item">手作り</router-link>
+      <router-link to="/HomePurchase" class="tab_item">市販</router-link>
     </div>
-    <!-- ランダムで投稿を表示 -->
-    <div class="recipes">
-      <div class="recom">
-        <h2>今日のおすすめ</h2>
-        <div class="recom_items">
-          <!-- リアルタイム検索結果（タイトルにキーワードを含む投稿を表示） -->
+    <!-- すべて／手作り／市販の切り替えタブ.こっちの方がシンプルそう -->
+    <div class="main__wrapper">
+      <ul class="tab__items">
+        <li
+          v-on:click="tabChange('1')"
+          v-bind:class="{ active: isActive === '1' }"
+          class="tab__item"
+        >
+          すべて
+        </li>
+        <li
+          v-on:click="tabChange('2')"
+          v-bind:class="{ active: isActive === '2' }"
+          class="tab__item"
+        >
+          手作り
+        </li>
+        <li
+          v-on:click="tabChange('3')"
+          v-bind:class="{ active: isActive === '3' }"
+          class="tab__item"
+        >
+          市販
+        </li>
+      </ul>
+      <h2>ピックアップ</h2>
+      <div class="pickup__items">
+        <div v-if="isActive === '1'">
+          <!-- firebaseから受け取った投稿 3つ表示 -->
+          <!-- ランダムにというのを盛り込みたい -->
           <div
-            v-for="recipe in searchedRecipe"
+            v-for="recipe of RecipesCount"
             :key="recipe.id"
-            class="recom_item"
+            class="pickup__item from-firebase"
           >
-            <ul class="recom_description">
-              <li v-text="recipe.title" class="recom_name">
+            <ul class="pickup__description">
+              <li v-text="recipe.title" class="pickup__name">
                 {{ recipe.title }}
               </li>
-              <li v-text="recipe.introduce" class="recom_easy">
+              <li v-text="recipe.introduce" class="pickup__easy">
                 {{ recipe.introduce }}
               </li>
-              <li v-text="recipe.createdAt" class="recom_time">
-                {{ recipe.createdAt }}
+              <li v-text="recipe.type" class="pickup__type">
+                {{ recipe.type }}
               </li>
-            </ul>
-          </div>
-          <!-- こんな感じに表示されたらいいな、のやつ -->
-          <div class="recom_item ideal">
-            <ul class="recom_description">
-              <li class="recom_name">卵焼き</li>
-              <li class="recom_easy">簡単：★★★☆☆</li>
-              <li class="recom_time">時間：10分</li>
-            </ul>
-          </div>
-          <!-- firebaseにレシピを送る簡易版フォーム -->
-          <div class="test-form">
-            <!-- 料理名 -->
-            <div class="title">
-              <input
-                v-model="recipe.title"
-                type="text"
-                placeholder="料理タイトル"
-              />
-            </div>
-            <!-- 紹介文 -->
-            <div class="introduce">
-              <textarea
-                v-model="recipe.introduce"
-                id=""
-                cols="30"
-                rows="10"
-                placeholder="紹介文"
-              ></textarea>
-            </div>
-            <!-- 投稿ボタン -->
-            <div>
-              <button v-on:click="submit" class="make-button">投稿</button>
-            </div>
-          </div>
-          <!-- firebaseから受け取った投稿 簡易表示 -->
-          <div
-            v-for="recipe in recipes"
-            :key="recipe.id"
-            class="recom_item from-firebase"
-          >
-            <ul class="recom_description">
-              <li v-text="recipe.title" class="recom_name">
-                {{ recipe.title }}
-              </li>
-              <li v-text="recipe.introduce" class="recom_easy">
-                {{ recipe.introduce }}
-              </li>
-              <li v-text="recipe.createdAt" class="recom_time">
-                {{ recipe.createdAt }}
-              </li>
+              <!-- <li v-text="recipe.createdAt" class="pickup__time">
+              {{ recipe.createdAt }}
+            </li> -->
             </ul>
           </div>
         </div>
+        <div v-else-if="isActive === '2'">手作りの中から3つ</div>
+        <div v-else-if="isActive === '3'">市販の中から3つ</div>
+      </div>
+    </div>
+    <!-- ランダムで投稿表示（ピックアップ） -->
+
+    <!-- リアルタイム検索結果（タイトルにキーワードを含む投稿を表示） -->
+    <div v-for="recipe in searchedRecipe" :key="recipe.id" class="pickup__item">
+      <ul class="pickup__description">
+        <li v-text="recipe.title" class="pickup__name">
+          {{ recipe.title }}
+        </li>
+        <li v-text="recipe.introduce" class="pickup__easy">
+          {{ recipe.introduce }}
+        </li>
+        <li v-text="recipe.type" class="pickup__type">
+          {{ recipe.type }}
+        </li>
+        <!-- <li v-text="recipe.createdAt" class="pickup__time">
+              {{ recipe.createdAt }}
+            </li> -->
+      </ul>
+    </div>
+    <!-- こんな感じに表示されたらいいな、のやつ -->
+    <div class="pickup__item ideal">
+      <ul class="pickup__description">
+        <li class="pickup__name">卵焼き</li>
+        <li class="pickup__easy">簡単：★★★☆☆</li>
+        <li class="pickup__time">時間：10分</li>
+      </ul>
+    </div>
+    <!-- firebaseにレシピを送る簡易版フォーム -->
+    <div class="test-form">
+      <!-- 料理名 -->
+      <div class="title">
+        <input v-model="recipe.title" type="text" placeholder="料理タイトル" />
+      </div>
+      <!-- 紹介文 -->
+      <div class="introduce">
+        <textarea
+          v-model="recipe.introduce"
+          id=""
+          cols="30"
+          rows="10"
+          placeholder="紹介文"
+        ></textarea>
+      </div>
+      <!-- 手作り or 市販 -->
+      <div class="type">
+        <input
+          v-model="recipe.type"
+          id=""
+          type="radio"
+          value="手作り"
+          checked
+        />手作り
+        <input v-model="recipe.type" id="" type="radio" value="市販" />市販
+      </div>
+      <!-- 投稿ボタン -->
+      <div>
+        <button v-on:click="submit" class="make-button-test">投稿</button>
       </div>
     </div>
   </div>
@@ -124,7 +155,15 @@ export default {
       recipe: {
         title: "",
         introduce: "",
+        type: "",
       },
+      tablist: [
+        { id: 1, tab__label: "すべて", tab__content: "すべての中から3つ" },
+        { id: 2, tab__label: "手作り", tab__content: "手作りの中から3つ" },
+        { id: 3, tab__label: "市販", tab__content: "市販の中から3つ" },
+      ],
+      isActive: "1",
+      ary: [1, 2, 3, 4, 5],
     };
   },
   created() {
@@ -138,7 +177,8 @@ export default {
           this.recipes.push({
             title: doc.data().title,
             introduce: doc.data().introduce,
-            createdAt: doc.data().createdAt,
+            type: doc.data().type,
+            // createdAt: doc.data().createdAt,
           });
         });
       });
@@ -146,6 +186,10 @@ export default {
   methods: {
     search() {
       alert("検索機能、実装途中byさき");
+      // 押したら検索画面に移動する
+    },
+    tabChange: function(num) {
+      this.isActive = num;
     },
     submit() {
       //firebaseに投稿を登録
@@ -155,6 +199,7 @@ export default {
         .add({
           title: this.recipe.title,
           introduce: this.recipe.introduce,
+          type: this.recipe.type,
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         })
         .then((docRef) => {
@@ -163,12 +208,14 @@ export default {
               id: docRef.id,
               title: docRef.data().title,
               introduce: docRef.data().introduce,
+              type: docRef.data().type,
               createdAt: docRef.data().createdAt,
             });
           });
         });
       this.recipe.title = "";
       this.recipe.introduce = "";
+      this.recipe.type = "";
     },
   },
   computed: {
@@ -178,10 +225,17 @@ export default {
       for (const i in this.recipes) {
         const recipe = this.recipes[i];
         if (recipe.title.indexOf(this.keyword) !== -1) {
-          recipes.push(recipe);
+          // !== ～ →「～と異なる」、-1は
+          return this.recipes.slice(0, 3); //3つだけ表示
         }
       }
       return recipes;
+    },
+    // レシピ上から3つだけ表示
+    RecipesCount: function() {
+      // const rnd = Math.floor(Math.random() * this.ary.length);
+      // return this.ary[rnd];
+      return this.recipes.slice(0, 3);
     },
   },
 };
@@ -194,34 +248,79 @@ export default {
   align-items: stretch;
   background-color: #fffacd;
 }
-.nav__link {
+.tab_items {
+  width: 100%;
+  height: 50px;
   display: flex;
-  justify-content: center;
-  padding-top: 0;
   align-items: center;
+  background-color: #fcf5ea;
+}
+.tab_item {
+  display: flex;
+  width: 130px;
   height: 100%;
+  padding-top: 2px;
+  justify-content: center;
+  align-items: center;
   color: #111;
   text-decoration: none;
+  text-align: center;
+  font-size: 16px;
 }
-.nav__link:visited {
+.tab_item:visited {
   color: #111;
 }
-.nav__link:hover {
+.tab_item:hover {
   font-weight: bold;
   color: #000;
   background-color: #ffdb99;
 }
-.nav__logo {
-  font-size: 140%;
-  /*width: 15%;  横幅*/
-  margin-left: 3%;
-}
-.nav__items {
+.tab__items {
+  width: 100%;
+  height: 50px;
   display: flex;
+  padding-left: 0;
+  list-style: none;
+  align-items: center;
+  background-color: #fcf5ea;
 }
-.nav__item {
-  width: 100px;
-  /*border-left: 1px solid #111;  nav要素間の敷居*/
+.tab__item {
+  width: 130px;
+  height: 100%;
+  text-align: center;
+  font-size: 16px;
+  padding-top: 14px;
+  cursor: pointer;
+}
+.tab__item:hover {
+  align-items: stretch;
+  font-weight: bold;
+  color: #000;
+  background-color: #ffdb99;
+  cursor: pointer;
+}
+.active {
+  background-color: #fce7c7;
+}
+/* navigation barのcurrent表示 */
+.current {
+  background-color: #fce7c7;
+}
+.pickup__items {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 3%;
+  margin-right: 3%;
+  margin-bottom: 25px;
+}
+.pickup__item {
+  width: 250px;
+  height: 250px;
+  border-radius: 8px;
+  margin-left: 3%;
+  margin-bottom: 20px;
+  background-color: #c4c4c4;
+  color: #000;
 }
 .ideal {
   background-color: #fac73c;
@@ -229,7 +328,8 @@ export default {
 .from-firebase {
   background-color: #3164bb;
 }
-ul {
+.pickup__description {
+  margin: 150px 0 15px 15px;
   list-style: none;
   padding-left: 0;
 }
