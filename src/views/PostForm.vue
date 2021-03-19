@@ -5,7 +5,7 @@
       <button @click="make">手作り</button>
       <button @click="made">市販</button>
     </div>
-
+      <!-- 手作り投稿 -->
     <div v-if="cook">
       <h2>手作り</h2>
       <form @submit.prevent="makePostForm">
@@ -97,18 +97,23 @@
       </form>
     </div>
 
+      <!-- 市販投稿 -->
     <div v-if="cooked">
       <h2>市販</h2>
       <form @submit.prevent="madePostForm">
+        <!-- タイトル -->
         <div class="title">
           <input type="text" placeholder="料理タイトル" />
         </div>
+        <!-- 写真 -->
         <div>
           <input type="file" />
         </div>
+        <!-- 紹介文 -->
         <div class="introduce">
           <textarea id="" cols="30" rows="10" placeholder="紹介文"></textarea>
         </div>
+        <!-- 投稿ボタン -->
         <div>
           <button type="submit" class="make-button">投稿</button>
         </div>
@@ -118,14 +123,28 @@
 </template>
 
 <script>
+import firebase from "firebase"
+import "firebase/firestore"
+import "firebase/auth"
 export default {
   data() {
     return {
       cook: false,
       cooked: false,
-      recipe: {
+      makeRecipe: {
         title: "",
         selected: "",
+        image: "",
+        introduce: "",
+        newIngredients: [
+          {name: "", amount: ""}
+        ],
+        newHowTos: [
+          {text: ""}
+        ],
+      },
+      madeRecipe: {
+        title: "",
         image: "",
         introduce: "",
       },
