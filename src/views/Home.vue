@@ -1,34 +1,21 @@
 <template>
-  <div class="home__bar">
-    <div class="search_bar">
-      <div class="search_box">
-        <input
-          id="search_input"
-          type="text"
-          placeholder="キーワードを入力"
-          v-model="search_keyword"
-          required
-        />
-        <img
-          v-on:click="search"
-          id="search_icon"
-          src="../assets/search_mark.png"
-        />
-      </div>
-    </div>
+  <div class="home__wrapper">
+    <Search />
+    <!-- すべて／手作り／市販 切り替えタブ -->
     <div class="tab_items">
-      <div class="tab_item current nav__link" @click="switchAll">すべて</div>
-      <div class="tab_item current nav__link" @click="switchRecipes">
+      <div @click="switchAll" class="tab_item current">すべて</div>
+      <div @click="switchRecipes" class="tab_item">
         手作り
       </div>
-      <div class="tab_item current nav__link" @click="switchPurchases">
+      <div @click="switchPurchases" class="tab_item">
         市販
       </div>
     </div>
     <br />
-    <div v-if="allExpression" class="recom_items">
+    <h2>ピックアップ</h2>
+    <div v-if="allExpression" class="pickup_items">
       <div
-        class="recom_item"
+        class="pickup_item"
         v-for="(all, index) in allRecipe"
         :key="index"
         :style="{
@@ -36,16 +23,16 @@
           backgroundSize: 'cover',
         }"
       >
-        <div class="recom_description">
-          <div class="recom_name">{{ all.title }}</div>
-          <div class="recom_time">{{ all.selected }}</div>
+        <div class="pickup_description">
+          <div class="pickup_name">{{ all.title }}</div>
+          <div class="pickup_time">{{ all.selected }}</div>
         </div>
       </div>
     </div>
 
-    <div v-if="RecipesExpression" class="recom_items">
+    <div v-if="RecipesExpression" class="pickup_items">
       <div
-        class="recom_item"
+        class="pickup_item"
         v-for="(recipe, index) in Recipes"
         :key="index"
         :style="{
@@ -53,16 +40,16 @@
           backgroundSize: 'cover',
         }"
       >
-        <div class="recom_description">
-          <div class="recom_name">{{ recipe.title }}</div>
-          <div class="recom_time">{{ recipe.selected }}</div>
+        <div class="pickup_description">
+          <div class="pickup_name">{{ recipe.title }}</div>
+          <div class="pickup_time">{{ recipe.selected }}</div>
         </div>
       </div>
     </div>
 
-    <div v-if="PurchasesExpression" class="recom_items">
+    <div v-if="PurchasesExpression" class="pickup_items">
       <div
-        class="recom_item"
+        class="pickup_item"
         v-for="(purchase, index) in Purchases"
         :key="index"
         :style="{
@@ -70,9 +57,9 @@
           backgroundSize: 'cover',
         }"
       >
-        <div class="recom_description">
-          <div class="recom_name">{{ purchase.title }}</div>
-          <div class="recom_time">{{ purchase.selected }}</div>
+        <div class="pickup_description">
+          <div class="pickup_name">{{ purchase.title }}</div>
+          <div class="pickup_time">{{ purchase.selected }}</div>
         </div>
       </div>
     </div>
@@ -82,12 +69,11 @@
 <script>
 import firebase from "firebase";
 import "firebase/firestore";
+import Search from "../views/Search.vue";
 
 export default {
   data() {
     return {
-      search_keyword: "",
-      recipes: [{ title: "", image: "", rank: "", time: "" }],
       allRecipe: [],
       Recipes: [],
       Purchases: [],
@@ -96,9 +82,15 @@ export default {
       PurchasesExpression: false,
     };
   },
+  components: {
+    Search,
+  },
   methods: {
     search() {
       // alert("検索機能の実装調べます～byさき");
+    },
+    tabSelect(index) {
+      this.current = index;
     },
     switchAll() {
       this.allExpression = true;
@@ -162,9 +154,6 @@ export default {
 </script>
 
 <style>
-* {
-  color: #3f1f1a;
-}
 .search_bar {
   display: flex;
   width: 100%;
@@ -202,62 +191,49 @@ export default {
 #search_icon:hover {
   cursor: pointer;
 }
-
+.home__wrapper {
+  height: 50px;
+  justify-content: space-between;
+  align-items: stretch;
+  background-color: #fffacd;
+}
+.tab_items {
+  align-items: center;
+}
+.tab_item {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  text-decoration: none;
+}
+.tab_item:hover {
+  font-weight: bold;
+  background-color: #ffdb99;
+  cursor: pointer;
+}
+.current {
+  background-color: #fce7c7;
+}
 h2 {
   margin-left: 3%;
   font-weight: normal;
 }
-.recom_items {
+.pickup_items {
   display: flex;
   flex-wrap: wrap;
   margin-left: 3%;
   margin-right: 3%;
   margin-bottom: 25px;
 }
-.recom_item {
+.pickup_item {
   width: 250px;
   height: 250px;
   border-radius: 8px;
   margin-left: 3%;
   margin-bottom: 20px;
   background-color: #c4c4c4;
-  color: #000;
 }
-.recom_description {
+.pickup_description {
   margin: 175px 0 15px 15px;
-}
-.home__bar {
-  height: 50px;
-  justify-content: space-between;
-  align-items: stretch;
-  background-color: #fffacd;
-}
-.nav__link {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  color: #111;
-  text-decoration: none;
-}
-.nav__link:visited {
-  color: #111;
-}
-.nav__link:hover {
-  font-weight: bold;
-  color: #000;
-  background-color: #ffdb99;
-}
-.nav__logo {
-  font-size: 140%;
-  /*width: 15%;  横幅*/
-  margin-left: 3%;
-}
-.nav__items {
-  display: flex;
-}
-.nav__item {
-  width: 100px;
-  /*border-left: 1px solid #111;  nav要素間の敷居*/
 }
 </style>

@@ -3,7 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import PostForm from "../views/PostForm.vue";
 import MyPage from "../views/MyPage.vue";
-import SearchResult from "../views/SearchResult.vue";
+import Search from "../views/Search.vue";
 import firebase from "firebase";
 import "firebase/auth";
 
@@ -16,9 +16,9 @@ const routes = [
     component: Home,
   },
   {
-    path: "/SearchResult",
-    name: "SearchResult",
-    component: SearchResult,
+    path: "/Search",
+    name: "Search",
+    component: Search,
   },
   {
     path: "/PostForm",
