@@ -1,28 +1,126 @@
 <template>
-  <div class="home">
-    <HomeBar />
+  <div class="home__bar">
+    <div class="search_bar">
+      <div class="search_box">
+        <input
+          id="search_input"
+          type="text"
+          placeholder="キーワードを入力"
+          v-model="search_keyword"
+          required
+        />
+        <img
+          v-on:click="search"
+          id="search_icon"
+          src="../assets/search_mark.png"
+        />
+      </div>
+    </div>
+    <div class="tab_items">
+      <div class="tab_item current nav__link" @click="switchAll">すべて</div>
+      <div class="tab_item current nav__link" @click="switchRecipes">手作り</div>
+      <div class="tab_item current nav__link" @click="switchPurchases">市販</div>
+    </div>
+    <br>
+    <div v-if="allExpression" class="recom_items">
+      <div class="recom_item" v-for="(all, index) in allRecipe" :key="index" :style="{ backgroundImage: 'url(' + all.imageURL + ')', backgroundSize: 'cover'}">
+        <div class="recom_description">
+          <div class="recom_name">{{all.title}}</div>
+          <div class="recom_time">{{all.selected}}</div>
+        </div>
+      </div>   
+    </div>
+
+    <div v-if="RecipesExpression" class="recom_items">
+      <div class="recom_item" v-for="(recipe, index) in Recipes" :key="index" :style="{ backgroundImage: 'url(' + recipe.imageURL + ')', backgroundSize: 'cover'}">
+        <div class="recom_description">
+          <div class="recom_name">{{recipe.title}}</div>
+          <div class="recom_time">{{recipe.selected}}</div>
+        </div>
+      </div>   
+    </div>
+
+    <div v-if="PurchasesExpression" class="recom_items">
+      <div class="recom_item" v-for="(purchase, index) in Purchases" :key="index" :style="{ backgroundImage: 'url(' + purchase.imageURL + ')',            backgroundSize: 'cover'}">
+        <div class="recom_description">
+          <div class="recom_name">{{purchase.title}}</div>
+          <div class="recom_time">{{purchase.selected}}</div>
+        </div>
+      </div>   
+    </div>
   </div>
 </template>
 
 <script>
-import HomeBar from "@/components/HomeBar.vue";
+
+import firebase from "firebase"
+import "firebase/firestore"
 
 export default {
-  name: "Home",
-  components: {
-    HomeBar,
-  },
   data() {
     return {
       search_keyword: "",
       recipes: [{ title: "", image: "", rank: "", time: "" }],
+      allRecipe: [],
+      Recipes:[],
+      Purchases: [],
+      allExpression: true,
+      RecipesExpression: false,
+      PurchasesExpression: false,
     };
   },
   methods: {
     search() {
-      alert("検索機能の実装調べます～byさき");
+      // alert("検索機能の実装調べます～byさき");
+      
     },
+    switchAll(){
+      this.allExpression = true
+      this.RecipesExpression = false
+      this.PurchasesExpression = false
+    },
+    switchRecipes(){
+      this.allExpression = false
+      this.RecipesExpression = true
+      this.PurchasesExpression = false
+    },
+    switchPurchases(){
+      this.allExpression = false
+      this.RecipesExpression = false
+      this.PurchasesExpression = true
+    }
   },
+  mounted(){
+    firebase.firestore().collection("recipe").orderBy("createdAt", "desc").get()
+    .then(snapshot =>{
+      snapshot.docs.forEach(doc =>{
+        this.allRecipe.push({
+          ...doc.data()
+        })
+      })
+    }),
+    firebase.firestore().collection("recipe").orderBy("createdAt", "desc").get()
+    .then(snapshot =>{
+      snapshot.docs.forEach(doc =>{
+        if(doc.data().type === "手作り"){
+          this.Recipes.push({
+            ...doc.data()
+          })
+        }
+      })
+    }),
+    firebase.firestore().collection("recipe").orderBy("createdAt", "desc").get()
+    .then(snapshot =>{
+      snapshot.docs.forEach(doc =>{
+        if(doc.data().type === "市販"){
+          this.Purchases.push({
+            ...doc.data()
+          })
+        }
+      })
+    })
+
+  }
 };
 </script>
 
@@ -106,5 +204,39 @@ h2 {
 }
 .recom_description {
   margin: 175px 0 15px 15px;
+}
+.home__bar {
+  height: 50px;
+  justify-content: space-between;
+  align-items: stretch;
+  background-color: #fffacd;
+}
+.nav__link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #111;
+  text-decoration: none;
+}
+.nav__link:visited {
+  color: #111;
+}
+.nav__link:hover {
+  font-weight: bold;
+  color: #000;
+  background-color: #ffdb99;
+}
+.nav__logo {
+  font-size: 140%;
+  /*width: 15%;  横幅*/
+  margin-left: 3%;
+}
+.nav__items {
+  display: flex;
+}
+.nav__item {
+  width: 100px;
+  /*border-left: 1px solid #111;  nav要素間の敷居*/
 }
 </style>

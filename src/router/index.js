@@ -1,8 +1,10 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import MyPage from "../views/MyPage.vue";
 import PostForm from "../views/PostForm.vue";
+import MyPage from "../views/MyPage.vue";
+import firebase from "firebase"
+import "firebase/auth"
 
 Vue.use(VueRouter);
 
@@ -13,14 +15,32 @@ const routes = [
     component: Home,
   },
   {
-    path: "/MyPage",
-    name: "MyPage",
-    component: MyPage,
-  },
-  {
     path: "/PostForm",
     name: "PostForm",
     component: PostForm,
+    beforeEnter: (to, from, next) => {
+      firebase.auth().onAuthStateChanged(user => {
+        if(user) {
+          next()
+        } else {
+          window.alert("ログインが必要です");
+        }
+      });
+    }
+  },
+  {
+    path: "/MyPage",
+    name: "MyPage",
+    component: MyPage,
+    beforeEnter: (to, from, next) =>{
+      firebase.auth().onAuthStateChanged(user =>{
+        if(user){
+          next()
+        } else {
+          window.alert("ログインが必要です");
+        }
+      })
+    }
   },
 ];
 

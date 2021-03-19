@@ -1,17 +1,13 @@
 <template>
-  <div class="nav__bar">
-    <div class="nav__items">
-      <router-link to="/PostForm" class="nav__item nav__link">すべて</router-link>
-      <router-link to="/PostForm" class="nav__item nav__link">手作り</router-link>
-      <router-link to="/singUp" class="nav__item nav__link">市販</router-link>
-    </div>
-        <div class="search_bar">
+  <div class="home__bar">
+    <!-- 検索欄 -->
+    <div class="search_bar">
       <div class="search_box">
         <input
           id="search_input"
           type="text"
           placeholder="キーワードを入力"
-          v-model="search_keyword"
+          v-model="keyword"
           required
         />
         <img
@@ -21,42 +17,130 @@
         />
       </div>
     </div>
+    <!-- すべて／手作り／市販のnavbar(HomeBar) -->
+    <div class="tab_items">
+      <div class="tab_item current nav__link" @click="switchAll">すべて</div>
+      <div class="tab_item current nav__link" @click="switchRecipes">手作り</div>
+      <div class="tab_item current nav__link" @click="switchPurchases">市販</div>
+      
+    </div>
+    <!-- ランダムで投稿を表示 -->
     <div class="recipes">
-      <div class="tab_items">
-        <div class="tab_item current"><a>すべて</a></div>
-        <div class="tab_item"><a>手作り</a></div>
-        <div class="tab_item"><a>市販</a></div>
-      </div>
       <div class="recom">
         <h2>今日のおすすめ</h2>
         <div class="recom_items">
-          <div class="recom_item">
-            <div class="recom_description">
-              <div class="recom_name">卵焼き</div>
-              <div class="recom_easy">お手軽：★★★☆☆</div>
-              <div class="recom_time">時間：10分</div>
-            </div>
+          <!-- リアルタイム検索結果（タイトルにキーワードを含む投稿を表示） -->
+          <div
+            v-for="recipe in searchedRecipe"
+            :key="recipe.id"
+            class="recom_item"
+          >
+            <ul class="recom_description">
+              <li v-text="recipe.title" class="recom_name">
+                {{ recipe.title }}
+              </li>
+              <li v-text="recipe.introduce" class="recom_easy">
+                {{ recipe.introduce }}
+              </li>
+              <li v-text="recipe.createdAt" class="recom_time">
+                {{ recipe.createdAt }}
+              </li>
+            </ul>
           </div>
-          <div class="recom_item">
-            <div class="recom_description">
-              <div class="recom_name">カレーライス</div>
-            </div>
+          <!-- こんな感じに表示されたらいいな、のやつ -->
+          <div class="recom_item ideal">
+            <ul class="recom_description">
+              <li class="recom_name">卵焼き</li>
+              <li class="recom_easy">簡単：★★★☆☆</li>
+              <li class="recom_time">時間：10分</li>
+            </ul>
           </div>
-          <div class="recom_item">
-            <div class="recom_description">
-              <div class="recom_name">味の素「ザ★チャーハン」</div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
+    <br>
   </div>
 </template>
 
+<script>
+import firebase from "firebase";
+import "firebase/firestore";
+
+export default {
+  name: "searchTrial",
+  data() {
+    return {
+      text: "",
+      keyword: "",
+      db: null,
+      recipes: [],
+      recipe: {
+        title: "",
+        introduce: "",
+      },
+    };
+  },
+  created() {
+    firebase
+      .firestore()
+      .collection("recipe")
+      .orderBy("createdAt") //並べ替え
+      .get()
+      .then((snapshot) => {
+        snapshot.docs.forEach((doc) => {
+          this.recipes.push({
+            title: doc.data().title,
+            introduce: doc.data().introduce,
+            createdAt: doc.data().createdAt,
+          });
+        });
+      });
+  },
+  methods: {
+    search() {
+      alert("検索機能、実装途中byさき");
+    },
+    submit() {
+      //firebaseに投稿を登録
+      firebase
+        .firestore()
+        .collection("recipe")
+        .add({
+          title: this.recipe.title,
+          introduce: this.recipe.introduce,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        })
+        .then((docRef) => {
+          docRef.get().then((docRef) => {
+            this.recipe.push({
+              id: docRef.id,
+              title: docRef.data().title,
+              introduce: docRef.data().introduce,
+              createdAt: docRef.data().createdAt,
+            });
+          });
+        });
+      this.recipe.title = "";
+      this.recipe.introduce = "";
+    },
+  },
+  computed: {
+    searchedRecipe: function() {
+      // データを絞り込む
+      const recipes = [];
+      for (const i in this.recipes) {
+        const recipe = this.recipes[i];
+        if (recipe.title.indexOf(this.keyword) !== -1) {
+          recipes.push(recipe);
+        }
+      }
+      return recipes;
+    },
+  },
+};
+</script>
+
 <style scoped>
-.nav__bar {
+.home__bar {
   height: 50px;
-  display: flex;
   justify-content: space-between;
   align-items: stretch;
   background-color: #fffacd;
@@ -64,6 +148,7 @@
 .nav__link {
   display: flex;
   justify-content: center;
+  padding-top: 0;
   align-items: center;
   height: 100%;
   color: #111;
@@ -88,5 +173,15 @@
 .nav__item {
   width: 100px;
   /*border-left: 1px solid #111;  nav要素間の敷居*/
+}
+.ideal {
+  background-color: #fac73c;
+}
+.from-firebase {
+  background-color: #3164bb;
+}
+ul {
+  list-style: none;
+  padding-left: 0;
 }
 </style>
