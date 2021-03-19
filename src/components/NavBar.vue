@@ -2,11 +2,15 @@
   <div class="nav__bar">
     <router-link to="/" class="nav__logo nav__link">レシピサイト</router-link>
     <div class="nav__items">
-      <router-link to="/PostForm" class="nav__item nav__link">投稿</router-link>
+      <router-link to="/PostForm" class="nav__item nav__link nav__submit"
+        >投稿</router-link
+      >
       <router-link to="/MyPage" class="nav__item nav__link"
         >マイページ</router-link
       >
-      <button v-on:click="signIn" class="nav__item nav__link">ログイン</button>
+      <button v-on:click="signIn" class="nav__item nav__link login_button">
+        ログイン
+      </button>
     </div>
   </div>
 </template>
@@ -36,7 +40,6 @@ export default {
   justify-content: space-between;
   align-items: stretch;
   background-color: #fff;
-  border-bottom: 2px solid #fffacd;
 }
 .nav__link {
   display: flex;
@@ -45,6 +48,7 @@ export default {
   height: 100%;
   color: #3f1f1a;
   text-decoration: none;
+  font-size: 14px;
 }
 .nav__link:visited {
   color: #3f1f1a;
@@ -52,6 +56,10 @@ export default {
 .nav__link:hover {
   font-weight: bold;
   border-bottom: 2px solid #f90;
+  /* cursor: pointer; なぜbutton要素の「ログイン」にはcursor:pointer;が効かない？ */
+}
+.nav__submit {
+  font-size: 18px;
 }
 .nav__logo {
   font-size: 140%;
@@ -64,5 +72,9 @@ export default {
 .nav__item {
   width: 100px;
   /*border-left: 1px solid #3f1f1a;  nav要素間の敷居*/
+}
+.login_button {
+  border: none;
+  background-color: #fff;
 }
 </style>
