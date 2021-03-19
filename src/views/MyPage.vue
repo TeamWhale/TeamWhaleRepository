@@ -3,10 +3,13 @@
     <div>lllllllll</div>
     <button>なんでもない</button>
     <HomeBar />
+    <button v-on:click="getDoc">取得</button>
   </div>
 </template>
 
 <script>
+import firebase from "firebase"
+let db = firebase.firestore();
 import HomeBar from "@/components/HomeBar.vue";
 
 export default {
@@ -23,6 +26,21 @@ export default {
   methods: {
     search() {
       alert("検索機能の実装調べます～byさき");
+    },
+    getDoc() {
+      let docRef = db.collection("myCook").doc("phKIYghCYqryfVvjzl6c");
+      docRef
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            console.log(doc);
+          } else {
+            console.log("なかった");
+          }
+        })
+        .catch((error) => {
+          console.log(`データを取得できませんでした (${error})`);
+        });
     },
   },
 };
