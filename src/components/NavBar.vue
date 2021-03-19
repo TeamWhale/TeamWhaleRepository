@@ -8,15 +8,14 @@
       <router-link to="/MyPage" class="nav__item nav__link"
         >マイページ</router-link
       >
-      <button v-on:click="signIn" class="nav__item nav__link login_button">
-        ログイン
-      </button>
+      <div v-on:click="signIn" class="nav__item nav__link login_button">ログイン</div>
     </div>
   </div>
 </template>
 
 <script>
 import firebase from "firebase";
+import "firebase/auth"
 
 export default {
   data() {

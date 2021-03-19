@@ -19,15 +19,10 @@
     </div>
     <!-- すべて／手作り／市販のnavbar(HomeBar) -->
     <div class="tab_items">
-      <router-link to="/" class="tab_item current nav__link"
-        >すべて</router-link
-      >
-      <router-link to="/HomeRecipe" class="tab_item nav__link"
-        >手作り</router-link
-      >
-      <router-link to="/HomePurchase" class="tab_item nav__link"
-        >市販</router-link
-      >
+      <div class="tab_item current nav__link" @click="switchAll">すべて</div>
+      <div class="tab_item current nav__link" @click="switchRecipes">手作り</div>
+      <div class="tab_item current nav__link" @click="switchPurchases">市販</div>
+      
     </div>
     <!-- ランダムで投稿を表示 -->
     <div class="recipes">
@@ -60,52 +55,8 @@
               <li class="recom_time">時間：10分</li>
             </ul>
           </div>
-          <!-- firebaseにレシピを送る簡易版フォーム -->
-          <div class="test-form">
-            <!-- 料理名 -->
-            <div class="title">
-              <input
-                v-model="recipe.title"
-                type="text"
-                placeholder="料理タイトル"
-              />
-            </div>
-            <!-- 紹介文 -->
-            <div class="introduce">
-              <textarea
-                v-model="recipe.introduce"
-                id=""
-                cols="30"
-                rows="10"
-                placeholder="紹介文"
-              ></textarea>
-            </div>
-            <!-- 投稿ボタン -->
-            <div>
-              <button v-on:click="submit" class="make-button">投稿</button>
-            </div>
-          </div>
-          <!-- firebaseから受け取った投稿 簡易表示 -->
-          <div
-            v-for="recipe in recipes"
-            :key="recipe.id"
-            class="recom_item from-firebase"
-          >
-            <ul class="recom_description">
-              <li v-text="recipe.title" class="recom_name">
-                {{ recipe.title }}
-              </li>
-              <li v-text="recipe.introduce" class="recom_easy">
-                {{ recipe.introduce }}
-              </li>
-              <li v-text="recipe.createdAt" class="recom_time">
-                {{ recipe.createdAt }}
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
     </div>
+    <br>
   </div>
 </template>
 

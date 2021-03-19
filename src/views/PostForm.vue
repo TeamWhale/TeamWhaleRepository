@@ -10,37 +10,39 @@
       <h2>手作り</h2>
       <form @submit.prevent="makePostForm">
         <!-- 料理名 -->
-        <div class="title">
-          <input
-            v-model="recipe.title"
-            type="text"
-            placeholder="料理タイトル"
-            class="input-rec"
-          />
-        </div>
-        <!-- 調理時間 -->
+      <div class="title">
+        <input v-model="title" type="text" placeholder="料理タイトル" class="input-rec">
+      </div>
+      <!-- 調理時間 -->
+      <div>
+        <h2>調理時間</h2>
         <div>
-          <h2>調理時間</h2>
-          <div>
-            <select name="time" v-model="recipe.selected">
-              <option class="input-rec" disabled value=""
-                >選択してください</option
-              >
-              <option v-for="option in options" :key="option.id">
-                {{ option.name }}
-              </option>
-            </select>
-          </div>
+          <select name="time" v-model="selected">
+            <option disabled value="" class="input-rec">選択してください</option>
+            <option v-for="option in options" :key="option.id">
+             {{option.name}}
+            </option>
+          </select>
         </div>
-        <br />
-        <!-- 写真 -->
-        <div>
-          <input
-            type="file"
-            accept="image/*"
-            @change="onImageUploaded($event)"
-          />
-          <img :src="recipe.image" alt="料理の写真" width="300" height="200" />
+      </div>
+      <br>
+      <!-- 写真 -->
+      <div>
+        <input type="file" accept="image/*" @change="onImageUploadedMake($event)">
+        <img :src="imageURL" alt="料理の写真" width="300" height="200">
+      </div>
+      <!-- 紹介文 -->
+      <div class="introduce">
+        <textarea v-model="introduce" id="" cols="30" rows="10" placeholder="紹介文"></textarea>
+      </div>
+      <!-- 材料 -->
+      <div class="ingredients">
+
+        <h2>材料</h2> 
+        <div v-for="(newIngredient, index) in newIngredients" :key="index">
+          <input v-model="newIngredient.name" type="text" placeholder="玉ねぎ">
+          <input v-model="newIngredient.amount" type="text" placeholder="一個">
+          <button @click.prevent="removeIngredients(index)">削除</button>
         </div>
         <!-- 紹介文 -->
         <div class="introduce">
@@ -103,15 +105,16 @@
       <form @submit.prevent="madePostForm">
         <!-- タイトル -->
         <div class="title">
-          <input type="text" placeholder="料理タイトル" />
+          <input v-model="title" type="text" placeholder="料理タイトル">
         </div>
         <!-- 写真 -->
         <div>
-          <input type="file" />
+          <input type="file" accept="image/*" @change="onImageUploadedMade($event)">
+          <img :src="imageURL" alt="料理の写真" width="300" height="200">
         </div>
         <!-- 紹介文 -->
         <div class="introduce">
-          <textarea id="" cols="30" rows="10" placeholder="紹介文"></textarea>
+          <textarea v-model="introduce" cols="30" rows="10" placeholder="紹介文"></textarea>
         </div>
         <!-- 投稿ボタン -->
         <div>
@@ -126,28 +129,23 @@
 import firebase from "firebase"
 import "firebase/firestore"
 import "firebase/auth"
+import "firebase/storage"
 export default {
   data() {
     return {
       cook: false,
       cooked: false,
-      makeRecipe: {
-        title: "",
-        selected: "",
-        image: "",
-        introduce: "",
-        newIngredients: [
-          {name: "", amount: ""}
+      title: "",
+      selected: "",
+      imageName: "",
+      imageURL: "",
+      introduce: "",
+      newIngredients: [
+        {name: "", amount: ""}
         ],
-        newHowTos: [
-          {text: ""}
+      newHowTos: [
+        {text: ""}
         ],
-      },
-      madeRecipe: {
-        title: "",
-        image: "",
-        introduce: "",
-      },
       options: [
         { id: 1, name: "５分以内" },
         { id: 2, name: "約１０分" },
@@ -170,26 +168,49 @@ export default {
       this.cooked = true;
       this.cook = false;
     },
-    addIngredients() {
+    addIngredients(){
       this.newIngredients.push({
         name: "",
-        amount: "",
-      });
+        amount: ""
+      })
     },
-    removeIngredients(index) {
-      this.newIngredients.splice(index, 1);
+    removeIngredients(index){
+      this.newIngredients.splice(index, 1)
     },
-    addNewHowTos() {
+    addNewHowTos(){
       this.newHowTos.push({
-        text: "",
-      });
+        text: ""
+      })
+    },
+    removeNewHowTos(index){
+      this.newHowTos.splice(index, 1)
     },
     removeNewHowTos(index) {
       this.newHowTos.splice(index, 1);
     },
-    onImageUploaded(e) {
-      const image = e.target.files[0];
-      this.createImage(image);
+    createImageMake(image){
+      // const render = new FileReader()
+      // render.readAsDataURL(image)
+      // render.onload = () =>{
+      //   this.image = render.result
+      // }
+      //storage
+      const storageRef = firebase.storage().ref();
+      const createdAt = new Date();
+      const timestamp = createdAt.getTime();
+      const uniqueFileName = timestamp + "_" + image.name
+      const fileRef = storageRef.child("images/" + uniqueFileName)
+      fileRef.put(image)
+      .then(snapshot =>{
+        snapshot.ref.getDownloadURL()
+        .then(url =>{
+          console.log(url)
+          console.log(image.name)
+          this.imageURL = url
+          this.imageName = image.name
+        })
+      })
+
     },
     createImage(image) {
       const render = new FileReader();
@@ -198,8 +219,69 @@ export default {
         this.recipe.image = render.result;
       };
     },
-  },
-};
+    createImageMade(image){
+      // const render = new FileReader()
+      // render.readAsDataURL(image)
+      // render.onload = () =>{
+      //   this.image = render.result
+      // }
+      //storage
+      const storageRef = firebase.storage().ref();
+      const createdAt = new Date();
+      const timestamp = createdAt.getTime();
+      const uniqueFileName = timestamp + "_" + image.name
+      const fileRef = storageRef.child("images/" + uniqueFileName)
+      fileRef.put(image)
+      .then(snapshot =>{
+        snapshot.ref.getDownloadURL()
+        .then(url =>{
+          console.log(url)
+          console.log(image.name)
+          this.imageURL = url
+          this.imageName = image.name
+        })
+      })
+    },
+    // firebaseに保存
+    makePostForm(){
+      // ログインしているユーザーの uidを取得
+      firebase.auth().onAuthStateChanged(user =>{
+        if(user){
+          //firestoreのrecipeにdataと取得したuidを保存
+          firebase.firestore().collection("recipe").add({
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            type: "手作り",
+            title: this.title,
+            selected: this.selected,
+            imageName: this.imageName,
+            imageURL: this.imageURL,
+            introduce: this.introduce,
+            newIngredients: this.newIngredients,
+            newHowTo: this.newHowTos,
+            uid: user.uid
+          })
+        }
+      })
+    },
+    madePostForm(){
+      // ログインしているユーザーの uidを取得
+      firebase.auth().onAuthStateChanged(user =>{
+        if(user){
+          //firestoreのrecipeにdataと取得したuidを保存
+          firebase.firestore().collection("recipe").add({
+           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+           type: "市販",
+           title: this.title,
+           imageName: this.imageName,
+           imageURL: this.imageURL,
+           introduce: this.introduce,
+           uid: user.uid
+          })
+        }
+      })
+    },
+  }
+}
 </script>
 
 <style>

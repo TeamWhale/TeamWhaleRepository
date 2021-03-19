@@ -3,8 +3,8 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import PostForm from "../views/PostForm.vue";
 import MyPage from "../views/MyPage.vue";
-import HomeRecipe from "../views/HomeRecipe.vue";
-import HomePurchase from "../views/HomePurchase.vue";
+import firebase from "firebase"
+import "firebase/auth"
 
 Vue.use(VueRouter);
 
@@ -18,21 +18,29 @@ const routes = [
     path: "/PostForm",
     name: "PostForm",
     component: PostForm,
+    beforeEnter: (to, from, next) => {
+      firebase.auth().onAuthStateChanged(user => {
+        if(user) {
+          next()
+        } else {
+          window.alert("ログインが必要です");
+        }
+      });
+    }
   },
   {
     path: "/MyPage",
     name: "MyPage",
     component: MyPage,
-  },
-  {
-    path: "/HomeRecipe",
-    name: "HomeRecipe",
-    component: HomeRecipe,
-  },
-  {
-    path: "/HomePurchase",
-    name: "HomePurchase",
-    component: HomePurchase,
+    beforeEnter: (to, from, next) =>{
+      firebase.auth().onAuthStateChanged(user =>{
+        if(user){
+          next()
+        } else {
+          window.alert("ログインが必要です");
+        }
+      })
+    }
   },
 ];
 
