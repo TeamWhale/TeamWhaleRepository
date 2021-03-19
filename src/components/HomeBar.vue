@@ -19,9 +19,10 @@
     </div>
     <!-- すべて／手作り／市販のnavbar(HomeBar) -->
     <div class="tab_items">
-      <router-link to="/" class="tab_item current">すべて</router-link>
-      <router-link to="/HomeRecipe" class="tab_item">手作り</router-link>
-      <router-link to="/HomePurchase" class="tab_item">市販</router-link>
+      <div class="tab_item current nav__link" @click="switchAll">すべて</div>
+      <div class="tab_item current nav__link" @click="switchRecipes">手作り</div>
+      <div class="tab_item current nav__link" @click="switchPurchases">市販</div>
+      
     </div>
     <!-- すべて／手作り／市販の切り替えタブ.こっちの方がシンプルそう -->
     <div class="main__wrapper">
@@ -65,78 +66,21 @@
               <li v-text="recipe.introduce" class="pickup__easy">
                 {{ recipe.introduce }}
               </li>
-              <li v-text="recipe.type" class="pickup__type">
-                {{ recipe.type }}
+              <li v-text="recipe.createdAt" class="recom_time">
+                {{ recipe.createdAt }}
               </li>
-              <!-- <li v-text="recipe.createdAt" class="pickup__time">
-              {{ recipe.createdAt }}
-            </li> -->
             </ul>
           </div>
-        </div>
-        <div v-else-if="isActive === '2'">手作りの中から3つ</div>
-        <div v-else-if="isActive === '3'">市販の中から3つ</div>
-      </div>
+          <!-- こんな感じに表示されたらいいな、のやつ -->
+          <div class="recom_item ideal">
+            <ul class="recom_description">
+              <li class="recom_name">卵焼き</li>
+              <li class="recom_easy">簡単：★★★☆☆</li>
+              <li class="recom_time">時間：10分</li>
+            </ul>
+          </div>
     </div>
-    <!-- ランダムで投稿表示（ピックアップ） -->
-
-    <!-- リアルタイム検索結果（タイトルにキーワードを含む投稿を表示） -->
-    <div v-for="recipe in searchedRecipe" :key="recipe.id" class="pickup__item">
-      <ul class="pickup__description">
-        <li v-text="recipe.title" class="pickup__name">
-          {{ recipe.title }}
-        </li>
-        <li v-text="recipe.introduce" class="pickup__easy">
-          {{ recipe.introduce }}
-        </li>
-        <li v-text="recipe.type" class="pickup__type">
-          {{ recipe.type }}
-        </li>
-        <!-- <li v-text="recipe.createdAt" class="pickup__time">
-              {{ recipe.createdAt }}
-            </li> -->
-      </ul>
-    </div>
-    <!-- こんな感じに表示されたらいいな、のやつ -->
-    <div class="pickup__item ideal">
-      <ul class="pickup__description">
-        <li class="pickup__name">卵焼き</li>
-        <li class="pickup__easy">簡単：★★★☆☆</li>
-        <li class="pickup__time">時間：10分</li>
-      </ul>
-    </div>
-    <!-- firebaseにレシピを送る簡易版フォーム -->
-    <div class="test-form">
-      <!-- 料理名 -->
-      <div class="title">
-        <input v-model="recipe.title" type="text" placeholder="料理タイトル" />
-      </div>
-      <!-- 紹介文 -->
-      <div class="introduce">
-        <textarea
-          v-model="recipe.introduce"
-          id=""
-          cols="30"
-          rows="10"
-          placeholder="紹介文"
-        ></textarea>
-      </div>
-      <!-- 手作り or 市販 -->
-      <div class="type">
-        <input
-          v-model="recipe.type"
-          id=""
-          type="radio"
-          value="手作り"
-          checked
-        />手作り
-        <input v-model="recipe.type" id="" type="radio" value="市販" />市販
-      </div>
-      <!-- 投稿ボタン -->
-      <div>
-        <button v-on:click="submit" class="make-button-test">投稿</button>
-      </div>
-    </div>
+    <br>
   </div>
 </template>
 
