@@ -29,7 +29,7 @@
       <!-- 写真 -->
       <div>
         <input type="file" accept="image/*" @change="onImageUploadedMake($event)">
-        <img :src="image" alt="料理の写真" width="300" height="200">
+        <img :src="imageURL" alt="料理の写真" width="300" height="200">
       </div>
       <!-- 紹介文 -->
       <div class="introduce">
@@ -74,7 +74,7 @@
         <!-- 写真 -->
         <div>
           <input type="file" accept="image/*" @change="onImageUploadedMade($event)">
-          <img :src="image" alt="料理の写真" width="300" height="200">
+          <img :src="imageURL" alt="料理の写真" width="300" height="200">
         </div>
         <!-- 紹介文 -->
         <div class="introduce">
@@ -93,6 +93,7 @@
 import firebase from "firebase"
 import "firebase/firestore"
 import "firebase/auth"
+import "firebase/storage"
 export default {
   data(){
     return{
@@ -100,7 +101,8 @@ export default {
       cooked: false,
       title: "",
       selected: "",
-      image: "",
+      imageName: "",
+      imageURL: "",
       introduce: "",
       newIngredients: [
         {name: "", amount: ""}
@@ -150,11 +152,28 @@ export default {
       this.createImageMake(image)
     },
     createImageMake(image){
-      const render = new FileReader()
-      render.readAsDataURL(image)
-      render.onload = () =>{
-        this.image = render.result
-      }
+      // const render = new FileReader()
+      // render.readAsDataURL(image)
+      // render.onload = () =>{
+      //   this.image = render.result
+      // }
+      //storage
+      const storageRef = firebase.storage().ref();
+      const createdAt = new Date();
+      const timestamp = createdAt.getTime();
+      const uniqueFileName = timestamp + "_" + image.name
+      const fileRef = storageRef.child("images/" + uniqueFileName)
+      fileRef.put(image)
+      .then(snapshot =>{
+        snapshot.ref.getDownloadURL()
+        .then(url =>{
+          console.log(url)
+          console.log(image.name)
+          this.imageURL = url
+          this.imageName = image.name
+        })
+      })
+
     },
     // madeの写真投稿メソッド
     onImageUploadedMade(e){
@@ -162,11 +181,27 @@ export default {
       this.createImageMade(image)
     },
     createImageMade(image){
-      const render = new FileReader()
-      render.readAsDataURL(image)
-      render.onload = () =>{
-        this.image = render.result
-      }
+      // const render = new FileReader()
+      // render.readAsDataURL(image)
+      // render.onload = () =>{
+      //   this.image = render.result
+      // }
+      //storage
+      const storageRef = firebase.storage().ref();
+      const createdAt = new Date();
+      const timestamp = createdAt.getTime();
+      const uniqueFileName = timestamp + "_" + image.name
+      const fileRef = storageRef.child("images/" + uniqueFileName)
+      fileRef.put(image)
+      .then(snapshot =>{
+        snapshot.ref.getDownloadURL()
+        .then(url =>{
+          console.log(url)
+          console.log(image.name)
+          this.imageURL = url
+          this.imageName = image.name
+        })
+      })
     },
     // firebaseに保存
     makePostForm(){
@@ -179,7 +214,8 @@ export default {
             type: "手作り",
             title: this.title,
             selected: this.selected,
-            image: this.image,
+            imageName: this.imageName,
+            imageURL: this.imageURL,
             introduce: this.introduce,
             newIngredients: this.newIngredients,
             newHowTo: this.newHowTos,
@@ -197,7 +233,8 @@ export default {
            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
            type: "市販",
            title: this.title,
-           image: this.image,
+           imageName: this.imageName,
+           imageURL: this.imageURL,
            introduce: this.introduce,
            uid: user.uid
           })

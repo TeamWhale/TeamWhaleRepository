@@ -7,7 +7,6 @@
         >マイページ</router-link
       >
       <div v-on:click="signIn" class="nav__item nav__link">ログイン</div>
-      <div v-on:click="signOut" class="nav__item nav__link">ログアウト</div>
     </div>
   </div>
 </template>
@@ -28,10 +27,6 @@ export default {
       firebase.auth().signInWithRedirect(provider);
       // this.$router.push("/MyPage")
     },
-    signOut(){
-      firebase.auth().signOut()
-      this.$router.push("/")
-    }
   },
 };
 </script>

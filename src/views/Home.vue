@@ -23,7 +23,7 @@
     </div>
     <br>
     <div v-if="allExpression" class="recom_items">
-      <div class="recom_item" v-for="(all, index) in allRecipe" :key="index" :style="{ backgroundImgage: all.image}">
+      <div class="recom_item" v-for="(all, index) in allRecipe" :key="index" :style="{ backgroundImage: 'url(' + all.imageURL + ')', backgroundSize: 'cover'}">
         <div class="recom_description">
           <div class="recom_name">{{all.title}}</div>
           <div class="recom_time">{{all.selected}}</div>
@@ -32,7 +32,7 @@
     </div>
 
     <div v-if="RecipesExpression" class="recom_items">
-      <div class="recom_item" v-for="(recipe, index) in Recipes" :key="index" :style="{ backgroundImgage: recipe.image}">
+      <div class="recom_item" v-for="(recipe, index) in Recipes" :key="index" :style="{ backgroundImage: 'url(' + recipe.imageURL + ')', backgroundSize: 'cover'}">
         <div class="recom_description">
           <div class="recom_name">{{recipe.title}}</div>
           <div class="recom_time">{{recipe.selected}}</div>
@@ -41,7 +41,7 @@
     </div>
 
     <div v-if="PurchasesExpression" class="recom_items">
-      <div class="recom_item" v-for="(purchase, index) in Purchases" :key="index" :style="{ backgroundImgage: purchase.image}">
+      <div class="recom_item" v-for="(purchase, index) in Purchases" :key="index" :style="{ backgroundImage: 'url(' + purchase.imageURL + ')',            backgroundSize: 'cover'}">
         <div class="recom_description">
           <div class="recom_name">{{purchase.title}}</div>
           <div class="recom_time">{{purchase.selected}}</div>

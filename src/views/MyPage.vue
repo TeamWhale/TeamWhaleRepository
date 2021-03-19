@@ -10,6 +10,7 @@
 <template>
   <div class="home__bar">
     <div class="search_bar">
+        <div>{{user}}さんでログイン済み</div>
       <div class="search_box">
         <input
           id="search_input"
@@ -24,7 +25,7 @@
           src="../assets/search_mark.png"
         />
       </div>
-        <div>マイページ</div>
+        <div v-on:click="signOut" class="nav__item nav__link">ログアウト</div>
     </div>
     <div class="tab_items">
       <div class="tab_item current nav__link" @click="switchAll">すべて</div>
@@ -33,7 +34,7 @@
     </div>
     <br>
     <div v-if="allExpression" class="recom_items">
-      <div class="recom_item" v-for="(all, index) in allRecipe" :key="index" :style="{ backgroundImgage: all.image}">
+      <div class="recom_item" v-for="(all, index) in allRecipe" :key="index" :style="{ backgroundImage: 'url(' + all.imageURL + ')', backgroundSize: 'cover'}">
         <div class="recom_description">
           <div class="recom_name">{{all.title}}</div>
           <div class="recom_time">{{all.selected}}</div>
@@ -42,7 +43,7 @@
     </div>
 
     <div v-if="RecipesExpression" class="recom_items">
-      <div class="recom_item" v-for="(recipe, index) in Recipes" :key="index" :style="{ backgroundImgage: recipe.image}">
+      <div class="recom_item" v-for="(recipe, index) in Recipes" :key="index" :style="{ backgroundImage: 'url(' + recipe.imageURL + ')', backgroundSize: 'cover'}">
         <div class="recom_description">
           <div class="recom_name">{{recipe.title}}</div>
           <div class="recom_time">{{recipe.selected}}</div>
@@ -51,7 +52,7 @@
     </div>
 
     <div v-if="PurchasesExpression" class="recom_items">
-      <div class="recom_item" v-for="(purchase, index) in Purchases" :key="index" :style="{ backgroundImgage: purchase.image}">
+      <div class="recom_item" v-for="(purchase, index) in Purchases" :key="index" :style="{ backgroundImage: 'url(' + purchase.imageURL + ')',            backgroundSize: 'cover'}">
         <div class="recom_description">
           <div class="recom_name">{{purchase.title}}</div>
           <div class="recom_time">{{purchase.selected}}</div>
@@ -77,6 +78,7 @@ export default {
       allExpression: true,
       RecipesExpression: false,
       PurchasesExpression: false,
+      user: "",
     };
   },
   methods: {
@@ -98,7 +100,11 @@ export default {
       this.allExpression = false
       this.RecipesExpression = false
       this.PurchasesExpression = true
-    }
+    },
+    signOut(){
+      firebase.auth().signOut()
+      this.$router.push("/")
+    },
   },
   mounted(){
     firebase.auth().onAuthStateChanged(user =>{
@@ -140,6 +146,7 @@ export default {
             }
           })
         })
+        this.user = user.displayName
       }
     })
   },
