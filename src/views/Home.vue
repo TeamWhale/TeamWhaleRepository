@@ -3,7 +3,13 @@
     <Search />
     <!-- すべて／手作り／市販 切り替えタブ -->
     <div class="tab_items">
-      <div @click="switchAll" class="tab_item current">すべて</div>
+      <div
+        @click="switchAll"
+        class="tab_item"
+        v-bind:class="{ active: isActive }"
+      >
+        すべて
+      </div>
       <div @click="switchRecipes" class="tab_item">
         手作り
       </div>
@@ -12,7 +18,9 @@
       </div>
     </div>
     <br />
+    <!-- ピックアップ表示 -->
     <h2>ピックアップ</h2>
+    <!-- 「すべて」タブが押されているとき -->
     <div v-if="allExpression" class="pickup_items">
       <div
         class="pickup_item"
@@ -29,7 +37,7 @@
         </div>
       </div>
     </div>
-
+    <!-- 「手作り」タブが押されているとき -->
     <div v-if="RecipesExpression" class="pickup_items">
       <div
         class="pickup_item"
@@ -46,7 +54,7 @@
         </div>
       </div>
     </div>
-
+    <!-- 「市販」タブが押されているとき -->
     <div v-if="PurchasesExpression" class="pickup_items">
       <div
         class="pickup_item"
@@ -80,6 +88,12 @@ export default {
       allExpression: true,
       RecipesExpression: false,
       PurchasesExpression: false,
+      tablist: [
+        { id: 1, tab__label: "すべて" },
+        { id: 2, tab__label: "手作り" },
+        { id: 3, tab__label: "市販" },
+      ],
+      isActive: true,
     };
   },
   components: {
@@ -89,8 +103,8 @@ export default {
     search() {
       // alert("検索機能の実装調べます～byさき");
     },
-    tabSelect(index) {
-      this.current = index;
+    tabChange: function(num) {
+      this.isActive = num;
     },
     switchAll() {
       this.allExpression = true;
@@ -211,7 +225,7 @@ export default {
   background-color: #ffdb99;
   cursor: pointer;
 }
-.current {
+.isActive {
   background-color: #fce7c7;
 }
 h2 {

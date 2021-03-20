@@ -7,6 +7,7 @@
         placeholder="キーワードを入力"
         v-model="keyword"
         v-on:click="searchRecipe"
+        v-on:keyup.enter="searchRecipe"
         required
       />
       <img
