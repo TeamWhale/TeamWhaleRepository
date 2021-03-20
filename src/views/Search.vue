@@ -32,7 +32,7 @@ export default {
     };
   },
   methods: {
-    search() {
+    searchRecipe() {
       alert("検索機能、実装途中byさき");
       // 押したら検索画面に移動する
     },

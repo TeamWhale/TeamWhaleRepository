@@ -6,14 +6,22 @@
       <div
         @click="switchAll"
         class="tab_item"
-        v-bind:class="{ active: isActive }"
+        v-bind:class="{ active: isActive1 }"
       >
         すべて
       </div>
-      <div @click="switchRecipes" class="tab_item">
+      <div
+        @click="switchRecipes"
+        class="tab_item"
+        v-bind:class="{ active: isActive2 }"
+      >
         手作り
       </div>
-      <div @click="switchPurchases" class="tab_item">
+      <div
+        @click="switchPurchases"
+        class="tab_item"
+        v-bind:class="{ active: isActive3 }"
+      >
         市販
       </div>
     </div>
@@ -88,12 +96,9 @@ export default {
       allExpression: true,
       RecipesExpression: false,
       PurchasesExpression: false,
-      tablist: [
-        { id: 1, tab__label: "すべて" },
-        { id: 2, tab__label: "手作り" },
-        { id: 3, tab__label: "市販" },
-      ],
-      isActive: true,
+      isActive1: true,
+      isActive2: false,
+      isActive3: false,
     };
   },
   components: {
@@ -110,16 +115,25 @@ export default {
       this.allExpression = true;
       this.RecipesExpression = false;
       this.PurchasesExpression = false;
+      this.isActive1 = true;
+      this.isActive2 = false;
+      this.isActive3 = false;
     },
     switchRecipes() {
       this.allExpression = false;
       this.RecipesExpression = true;
       this.PurchasesExpression = false;
+      this.isActive1 = false;
+      this.isActive2 = true;
+      this.isActive3 = false;
     },
     switchPurchases() {
       this.allExpression = false;
       this.RecipesExpression = false;
       this.PurchasesExpression = true;
+      this.isActive1 = false;
+      this.isActive2 = false;
+      this.isActive3 = true;
     },
   },
   mounted() {
@@ -222,11 +236,12 @@ export default {
 }
 .tab_item:hover {
   font-weight: bold;
-  background-color: #ffdb99;
+  background-color: #fce7c7;
   cursor: pointer;
 }
-.isActive {
+.active {
   background-color: #fce7c7;
+  font-weight: bold;
 }
 h2 {
   margin-left: 3%;
