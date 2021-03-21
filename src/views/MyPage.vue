@@ -1,7 +1,6 @@
 <template>
   <div class="home__bar">
     <div class="search_bar">
-        <div>{{user}}さんでログイン済み</div>
       <div class="search_box">
         <input
           id="search_input"
@@ -16,12 +15,12 @@
           src="../assets/search_mark.png"
         />
       </div>
-        <div v-on:click="signOut" class="nav__item nav__link">ログアウト</div>
     </div>
     <div class="tab_items">
       <div class="tab_item current nav__link" @click="switchAll">すべて</div>
       <div class="tab_item current nav__link" @click="switchRecipes">手作り</div>
       <div class="tab_item current nav__link" @click="switchPurchases">市販</div>
+      <div class=" current tab_user">{{user}}さんでログイン済み</div>
     </div>
     <br>
     <div v-if="allExpression" class="recom_items">
@@ -91,10 +90,6 @@ export default {
       this.allExpression = false
       this.RecipesExpression = false
       this.PurchasesExpression = true
-    },
-    signOut(){
-      firebase.auth().signOut()
-      this.$router.push("/")
     },
   },
   mounted(){
@@ -198,6 +193,18 @@ export default {
   text-align: center;
   font-size: 16px;
   padding-top: 13px;
+}
+.tab_user {
+  width: auto;
+  height: 100%;
+  text-align: center;
+  font-size: 16px;
+  padding-top: 13px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-left: auto;
+  color: #111;
+  text-decoration: none;
 }
 .current {
   background-color: #fce7c7;
