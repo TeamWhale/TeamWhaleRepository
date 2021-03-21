@@ -157,7 +157,6 @@ export default {
     // Search,
   },
   methods: {
-    // アイコンクリックで検索表示する関数
     searchTabchange() {
       // alert("検索機能、実装途中byさき");
       this.allExpression = false;
@@ -201,7 +200,7 @@ export default {
     },
   },
   mounted() {
-    // 「すべて」を受け取る
+    // 「すべて」を受け取る（検索用）
     firebase
       .firestore()
       .collection("recipe")
@@ -274,7 +273,7 @@ export default {
     },
   },
   created() {
-    // 検索のやつページが読み込まれたらすぐにfirebaseに登録されているレシピを表示
+    // 検索ぺージでfirebaseに登録されているレシピを表示
     firebase
       .firestore()
       .collection("recipe")
@@ -282,11 +281,9 @@ export default {
       .get()
       .then((snapshot) => {
         snapshot.docs.forEach((doc) => {
-          if (doc.data().title !== "手作り") {
-            this.recipes.push({
-              ...doc.data(),
-            });
-          }
+          this.recipes.push({
+            ...doc.data(),
+          });
         });
       });
   },
@@ -301,8 +298,11 @@ export default {
   background-color: #fffacd;
 }
 .tab_items {
+  width: 1000px;
   align-items: center;
   color: #3f1f1a;
+  margin-right: auto;
+  margin-left: auto;
 }
 .tab_item {
   display: flex;
@@ -319,6 +319,11 @@ export default {
   background-color: #fce7c7;
   font-weight: bold;
 }
+.body_wrapper {
+  width: 1000px;
+  margin-right: auto;
+  margin-left: auto;
+}
 h2 {
   margin-left: 3%;
   font-weight: normal;
@@ -326,13 +331,11 @@ h2 {
 .pickup_items {
   display: flex;
   flex-wrap: wrap;
-  margin-left: 3%;
-  margin-right: 3%;
   margin-bottom: 25px;
 }
 .pickup_item {
-  width: 250px;
-  height: 250px;
+  width: 300px;
+  height: 300px;
   border-radius: 8px;
   margin-left: 3%;
   margin-bottom: 20px;

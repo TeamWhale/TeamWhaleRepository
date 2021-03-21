@@ -34,11 +34,14 @@ export default {
 
 <style scoped>
 .nav__bar {
+  width: 1000px;
   height: 60px;
   display: flex;
   justify-content: space-between;
   align-items: stretch;
   background-color: #fff;
+  margin-right: auto;
+  margin-left: auto;
 }
 .nav__items {
   height: 100%;
