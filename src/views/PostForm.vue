@@ -30,6 +30,7 @@
               type="text"
               placeholder="料理タイトル"
               class="input_rec"
+              required
             />
           </div>
           <!-- 2nd block -->
@@ -55,6 +56,7 @@
                     name="time"
                     v-model="selected"
                     class="form_time_choice"
+                    required
                   >
                     <option disabled value="">選択してください</option>
                     <option v-for="option in options" :key="option.id">
@@ -87,12 +89,14 @@
                   type="text"
                   placeholder="（例）玉ねぎ"
                   class="input_rec input_zairyo"
+                  required
                 />
                 <input
                   v-model="newIngredient.amount"
                   type="text"
                   placeholder="（例）一個"
                   class="input_rec input_amount"
+                  required
                 />
                 <img
                   src="../assets/delete-button.png"
@@ -121,6 +125,7 @@
                 rows="2"
                 placeholder="作り方を入力"
                 class="input_rec"
+                required
               ></textarea>
               <img
                 src="../assets/delete-button.png"
@@ -151,6 +156,7 @@
               type="text"
               placeholder="料理タイトル"
               class="input_rec"
+              required
             />
           </div>
           <!-- 写真 -->
@@ -172,6 +178,7 @@
               rows="10"
               placeholder="紹介文"
               class="input_rec"
+              required
             ></textarea>
           </div>
           <!-- 投稿ボタン -->
@@ -354,6 +361,9 @@ export default {
   text-align: center;
   background-color: #f6f6f6;
 }
+h1 {
+  padding-top: 45px;
+}
 .post__box {
   width: 700px;
   height: 1000px;
@@ -447,7 +457,7 @@ h3 {
   width: 280px;
 }
 .howto_num {
-  font-size: 24px;
+  font-size: 20px;
   margin-right: 10px;
 }
 .form_delete {

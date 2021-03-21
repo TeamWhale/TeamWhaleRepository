@@ -55,6 +55,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  color: #3f1f1a;
   text-decoration: none;
   font-size: 14px;
 }
@@ -71,6 +72,7 @@ export default {
   font-size: 140%;
   align-items: center;
   margin-left: 3%;
+  color: #3f1f1a;
   text-decoration: none;
 }
 .nav__submit {

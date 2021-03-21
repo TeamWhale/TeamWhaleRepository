@@ -1,43 +1,47 @@
-<template>
-  <div class="search_bar">
-    <div class="search_box">
-      <input
-        id="search_input"
-        type="text"
-        placeholder="キーワードを入力"
-        v-model="keyword"
-        v-on:click="searchRecipe"
-        v-on:keyup.enter="searchRecipe"
-        required
-      />
-      <img
-        v-on:click="searchRecipe"
-        id="search_icon"
-        src="../assets/search_mark.png"
-      />
-    </div>
-  </div>
-</template>
+<template> <div></div></template>
 
 <script>
-// import firebase from "firebase";
-import "firebase/firestore";
-
 export default {
-  data() {
-    return {
-      text: "",
-      keyword: "",
-      recipes: [],
-    };
-  },
-  methods: {
-    searchRecipe() {
-      alert("検索機能、実装途中byさき");
-      // 押したら検索画面に移動する
-    },
-  },
+  data() {},
 };
 </script>
 
-<style></style>
+<style>
+.search_wrapper {
+  display: flex;
+  width: 100%;
+  height: 54px;
+  background-color: #ff9900;
+  justify-content: center;
+}
+.search_box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 500px;
+  background-color: #f8f5f4;
+  border-radius: 4px;
+  margin-top: 7px;
+  padding: 5px;
+}
+#search_input {
+  font-size: 16px;
+  width: 100%;
+  background-color: #f8f5f4;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+#searchInput:focus {
+  border: #f8f5f4;
+}
+#search_icon {
+  height: 30px;
+  width: 30px;
+  padding: 5px 5px;
+}
+#search_icon:hover {
+  cursor: pointer;
+}
+</style>
