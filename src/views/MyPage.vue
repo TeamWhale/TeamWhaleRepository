@@ -70,9 +70,10 @@
               {{ recipe.selected }}
             </div>
             <div class="star">
-            お手軽さ
-          <star-rating :item-size="15" :read-only="true" :show-rating="false" v-model="recipe.rating"></star-rating>
-          </div>
+              お手軽さ
+              <star-rating :item-size="15" :read-only="true" :show-rating="false" v-model="recipe.rating"></star-rating>
+            </div>
+            </div>
         </div>
       </div>
     </div>
@@ -94,9 +95,9 @@
             <div class="pickup_name">{{ all.title }}</div>
             <div class="pickup_time">{{ all.selected }}</div>
             <div class="star">
-            お手軽さ
-          <star-rating :item-size="15" :read-only="true" :show-rating="false" v-model="all.rating"></star-rating>
-          </div>
+              お手軽さ
+              <star-rating :item-size="15" :read-only="true" :show-rating="false" v-model="all.rating"></star-rating>
+            </div></div>
         </div>
       </div>
     </div>
@@ -116,11 +117,11 @@
           <div class="pickup_description">
             <div class="pickup_name">{{ recipe.title }}</div>
             <div class="pickup_time">{{ recipe.selected }}</div>
-          <div class="star">
-            お手軽さ
-          <star-rating :item-size="15" :read-only="true" :show-rating="false" v-model="recipe.rating"></star-rating>
-          </div>
-        </div>
+            <div class="star">
+              お手軽さ
+              <star-rating :item-size="15" :read-only="true" :show-rating="false" v-model="recipe.rating"></star-rating>
+            </div>
+        </div></div>
       </div>
     </div>
     <!-- 「市販」タブが押されているとき -->
@@ -151,16 +152,17 @@
 </template>
 
 <script>
-import firebase from "firebase"
-import "firebase/firestore"
+import firebase from "firebase";
+import "firebase/firestore";
 import Detail from "@/components/Detail.vue";
-import {StarRating} from 'vue-rate-it'
+import {StarRating} from "vue-rate-it";
 import Footer from "../components/Footer.vue";
 
 export default {
   components: {
     Detail,
-    StarRating
+    StarRating,
+    Footer,
   },
   data() {
     return {
@@ -180,9 +182,6 @@ export default {
       detailFlg: false,
       keyword: "",
     };
-  },
-  components: {
-    Footer,
   },
   methods: {
     searchTabchange() {
