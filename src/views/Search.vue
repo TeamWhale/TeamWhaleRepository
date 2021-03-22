@@ -10,6 +10,7 @@ export default {
 .search_wrapper {
   display: flex;
   width: 100%;
+  min-width: 950px;
   height: 54px;
   background-color: #ff9900;
   justify-content: center;
@@ -22,7 +23,7 @@ export default {
   width: 500px;
   background-color: #f8f5f4;
   border-radius: 4px;
-  margin-top: 7px;
+  margin: 7px auto 7px auto;
   padding: 5px;
 }
 #search_input {

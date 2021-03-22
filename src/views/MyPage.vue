@@ -1,49 +1,51 @@
 <template>
-  <div class="home__bar">
-    <div class="search_bar">
+  <div class="home_wrapper">
+    <div class="search_wrapper">
       <div>{{ user }}さんでログイン済み</div>
       <!-- 検索欄（アイコンクリックで結果表示） -->
-      <div class="search_wrapper">
-        <div class="search_box">
-          <input
-            id="search_input"
-            type="text"
-            placeholder="キーワードを入力"
-            v-model="keyword"
-            v-on:keyup.enter="searchTabchange"
-            required
-          />
-          <img
-            v-on:click="searchTabchange"
-            id="search_icon"
-            src="../assets/search_mark.png"
-          />
-        </div>
-        <div v-on:click="signOut" class="nav__item nav__link">ログアウト</div>
+      <div class="search_box">
+        <input
+          id="search_input"
+          type="text"
+          placeholder="キーワードを入力"
+          v-model="keyword"
+          v-on:keyup.enter="searchTabchange"
+          required
+        />
+        <img
+          v-on:click="searchTabchange"
+          id="search_icon"
+          src="../assets/search_mark.png"
+        />
       </div>
+      <div v-on:click="signOut" class="nav__item nav__link">ログアウト</div>
     </div>
     <!-- すべて／手作り／市販 切り替えタブ -->
-    <div class="tab_items">
-      <div
-        @click="switchAll"
-        class="tab_item"
-        v-bind:class="{ active: isActive1 }"
-      >
-        すべて
-      </div>
-      <div
-        @click="switchRecipes"
-        class="tab_item"
-        v-bind:class="{ active: isActive2 }"
-      >
-        手作り
-      </div>
-      <div
-        @click="switchPurchases"
-        class="tab_item"
-        v-bind:class="{ active: isActive3 }"
-      >
-        市販
+    <div class="tab_wrapper">
+      <div class="tab_mini-wrapper">
+        <div class="tab_items">
+          <div
+            @click="switchAll"
+            class="tab_item"
+            v-bind:class="{ active: isActive1 }"
+          >
+            すべて
+          </div>
+          <div
+            @click="switchRecipes"
+            class="tab_item"
+            v-bind:class="{ active: isActive2 }"
+          >
+            手作り
+          </div>
+          <div
+            @click="switchPurchases"
+            class="tab_item"
+            v-bind:class="{ active: isActive3 }"
+          >
+            市販
+          </div>
+        </div>
       </div>
     </div>
     <!-- 検索結果表示 -->
@@ -71,55 +73,63 @@
       </div>
     </div>
     <!-- 自分の投稿 -->
-    <h2>{{ user }}さんの投稿</h2>
     <!-- 「すべて」タブが押されているとき -->
-    <div v-if="allExpression" class="pickup_items">
-      <div
-        class="pickup_item"
-        v-for="(all, index) in allRecipe"
-        :key="index"
-        :style="{
-          backgroundImage: 'url(' + all.imageURL + ')',
-          backgroundSize: 'cover',
-        }"
-      >
-        <div class="pickup_description">
-          <div class="pickup_name">{{ all.title }}</div>
-          <div class="pickup_time">{{ all.selected }}</div>
+    <div class="body_wrapper" v-if="allExpression">
+      <h2>{{ user }}さんの投稿</h2>
+      <div class="pickup_items">
+        <div
+          class="pickup_item"
+          v-for="(all, index) in allRecipe"
+          :key="index"
+          :style="{
+            backgroundImage: 'url(' + all.imageURL + ')',
+            backgroundSize: 'cover',
+          }"
+        >
+          <div class="pickup_description">
+            <div class="pickup_name">{{ all.title }}</div>
+            <div class="pickup_time">{{ all.selected }}</div>
+          </div>
         </div>
       </div>
     </div>
     <!-- 「手作り」タブが押されているとき -->
-    <div v-if="RecipesExpression" class="pickup_items">
-      <div
-        class="pickup_item"
-        v-for="(recipe, index) in Recipes"
-        :key="index"
-        :style="{
-          backgroundImage: 'url(' + recipe.imageURL + ')',
-          backgroundSize: 'cover',
-        }"
-      >
-        <div class="pickup_description">
-          <div class="pickup_name">{{ recipe.title }}</div>
-          <div class="pickup_time">{{ recipe.selected }}</div>
+    <div class="body_wrapper" v-if="RecipesExpression">
+      <h2>{{ user }}さんの投稿</h2>
+      <div class="pickup_items">
+        <div
+          class="pickup_item"
+          v-for="(recipe, index) in Recipes"
+          :key="index"
+          :style="{
+            backgroundImage: 'url(' + recipe.imageURL + ')',
+            backgroundSize: 'cover',
+          }"
+        >
+          <div class="pickup_description">
+            <div class="pickup_name">{{ recipe.title }}</div>
+            <div class="pickup_time">{{ recipe.selected }}</div>
+          </div>
         </div>
       </div>
     </div>
     <!-- 「市販」タブが押されているとき -->
-    <div v-if="PurchasesExpression" class="pickup_items">
-      <div
-        class="pickup_item"
-        v-for="(purchase, index) in Purchases"
-        :key="index"
-        :style="{
-          backgroundImage: 'url(' + purchase.imageURL + ')',
-          backgroundSize: 'cover',
-        }"
-      >
-        <div class="pickup_description">
-          <div class="pickup_name">{{ purchase.title }}</div>
-          <div class="pickup_time">{{ purchase.selected }}</div>
+    <div class="body_wrapper" v-if="RecipesExpression">
+      <h2>{{ user }}さんの投稿</h2>
+      <div class="pickup_items">
+        <div
+          class="pickup_item"
+          v-for="(purchase, index) in Purchases"
+          :key="index"
+          :style="{
+            backgroundImage: 'url(' + purchase.imageURL + ')',
+            backgroundSize: 'cover',
+          }"
+        >
+          <div class="pickup_description">
+            <div class="pickup_name">{{ purchase.title }}</div>
+            <div class="pickup_time">{{ purchase.selected }}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -300,65 +310,80 @@ export default {
 </script>
 
 <style>
-.search_bar {
-  display: flex;
-  width: 100%;
-  height: 54px;
-  background-color: #ff9900;
-  justify-content: center;
-}
-.search_box {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 40px;
-  width: 500px;
-  background-color: #f8f5f4;
-  border-radius: 4px;
-  margin-top: 7px;
-  padding: 5px;
-}
-#search_input {
-  font-size: 16px;
-  width: 100%;
-  background-color: #f8f5f4;
-  border: none;
-  outline: none;
-  box-sizing: border-box;
-}
-#searchInput:focus {
-  border: #f8f5f4;
-}
-#search_icon {
-  height: 30px;
-  width: 30px;
-  padding: 5px 5px;
-}
-#search_icon:hover {
-  cursor: pointer;
-}
-.tab_items {
-  width: 100%;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  background-color: #fcf5ea;
-  color: #3f1f1a;
-}
-.tab_item {
-  width: 130px;
-  height: 100%;
-  text-align: center;
-  font-size: 16px;
-  padding-top: 13px;
-}
-.current {
-  background-color: #fce7c7;
-}
-.home__bar {
+.home__wrapper {
   height: 50px;
   justify-content: space-between;
   align-items: stretch;
   background-color: #fffacd;
+}
+.tab_wrapper {
+  width: 100%;
+  min-width: 950px;
+  background-color: #fcf5ea;
+}
+.tab_mini-wrapper {
+  margin-left: 4%;
+}
+.tab_items {
+  display: flex;
+  width: 950px;
+  height: 55px;
+  color: #3f1f1a;
+  margin-right: auto;
+  margin-left: auto;
+}
+.tab_item {
+  /* justify-content: center; */
+  width: 140px;
+  height: 100%;
+  text-align: center;
+  text-decoration: none;
+  padding-top: 15px;
+}
+.tab_item:hover {
+  font-weight: bold;
+  background-color: #fce7c7;
+  cursor: pointer;
+}
+.active {
+  background-color: #fce7c7;
+  font-weight: bold;
+}
+.body_wrapper {
+  width: 950px;
+  margin-right: auto;
+  margin-left: auto;
+}
+h2 {
+  margin-left: 3%;
+  font-weight: normal;
+}
+.pickup_items {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+.pickup_item {
+  width: calc((950px - 3 * 3%) / 3);
+  height: 250px;
+  border-radius: 8px;
+  margin-left: 3%;
+  margin-bottom: 20px;
+  background-color: #c4c4c4;
+}
+.pickup_description {
+  display: inline-block;
+  font-size: 15px;
+  /* font-weight: bold; */
+  /* 白文字黒シャドー */
+  /* color: #fff;
+  text-shadow: 2px 2px 10px #777, -2px 2px 10px #777, 2px -2px 10px #777,
+    -2px -2px 10px #777; */
+  /* 白文字黒シャドー */
+  color: #3f1f1a;
+  font-weight: bold;
+  text-shadow: 2px 2px 10px #f8f3f1, -2px 2px 10px #f8f3f1,
+    2px -2px 10px #f8f3f1, -2px -2px 10px #f8f3f1;
+  margin: 175px 0 15px 15px;
 }
 </style>

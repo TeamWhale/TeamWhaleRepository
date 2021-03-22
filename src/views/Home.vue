@@ -19,27 +19,31 @@
       </div>
     </div>
     <!-- すべて／手作り／市販 切り替えタブ -->
-    <div class="tab_items">
-      <div
-        @click="switchAll"
-        class="tab_item"
-        v-bind:class="{ active: isActive1 }"
-      >
-        すべて
-      </div>
-      <div
-        @click="switchRecipes"
-        class="tab_item"
-        v-bind:class="{ active: isActive2 }"
-      >
-        手作り
-      </div>
-      <div
-        @click="switchPurchases"
-        class="tab_item"
-        v-bind:class="{ active: isActive3 }"
-      >
-        市販
+    <div class="tab_wrapper">
+      <div class="tab_mini-wrapper">
+        <div class="tab_items">
+          <div
+            @click="switchAll"
+            class="tab_item"
+            v-bind:class="{ active: isActive1 }"
+          >
+            すべて
+          </div>
+          <div
+            @click="switchRecipes"
+            class="tab_item"
+            v-bind:class="{ active: isActive2 }"
+          >
+            手作り
+          </div>
+          <div
+            @click="switchPurchases"
+            class="tab_item"
+            v-bind:class="{ active: isActive3 }"
+          >
+            市販
+          </div>
+        </div>
       </div>
     </div>
     <!-- 検索結果表示 -->
@@ -297,18 +301,29 @@ export default {
   align-items: stretch;
   background-color: #fffacd;
 }
+.tab_wrapper {
+  width: 100%;
+  min-width: 950px;
+  background-color: #fcf5ea;
+}
+.tab_mini-wrapper {
+  margin-left: 4%;
+}
 .tab_items {
-  width: 1000px;
-  align-items: center;
+  display: flex;
+  width: 950px;
+  height: 55px;
   color: #3f1f1a;
   margin-right: auto;
   margin-left: auto;
 }
 .tab_item {
-  display: flex;
-  justify-content: center;
+  /* justify-content: center; */
+  width: 140px;
   height: 100%;
+  text-align: center;
   text-decoration: none;
+  padding-top: 15px;
 }
 .tab_item:hover {
   font-weight: bold;
@@ -320,7 +335,7 @@ export default {
   font-weight: bold;
 }
 .body_wrapper {
-  width: 1000px;
+  width: 950px;
   margin-right: auto;
   margin-left: auto;
 }
@@ -334,8 +349,8 @@ h2 {
   margin-bottom: 25px;
 }
 .pickup_item {
-  width: 300px;
-  height: 300px;
+  width: calc((950px - 3 * 3%) / 3);
+  height: 250px;
   border-radius: 8px;
   margin-left: 3%;
   margin-bottom: 20px;

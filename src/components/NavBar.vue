@@ -34,7 +34,7 @@ export default {
 
 <style scoped>
 .nav__bar {
-  width: 1000px;
+  width: 950px;
   height: 60px;
   display: flex;
   justify-content: space-between;
