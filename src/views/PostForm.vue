@@ -366,7 +366,7 @@ h1 {
 }
 .post__box {
   width: 700px;
-  height: 1000px;
+  height: auto;
   background-color: #fff;
   margin-right: auto;
   margin-left: auto;
