@@ -519,6 +519,8 @@ h3 {
 }
 .form_delete:hover {
   cursor: pointer;
+  opacity: 0.6;
+  transition-duration: 0.3s;
 }
 .add_input {
   width: 150px;
@@ -531,6 +533,10 @@ h3 {
   border-width: 1px;
   margin-top: 5px;
 }
+.add-input:hover {
+  opacity: 0.3;
+  transition-duration: 0.3s;
+}
 .make-button {
   width: 400px;
   height: 48px;
@@ -541,5 +547,9 @@ h3 {
   background-color: #ff9900;
   border: none;
   border-radius: 4px;
+}
+.make-button:hover {
+  opacity: 0.8;
+  transition-duration: 0.3s;
 }
 </style>

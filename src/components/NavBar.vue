@@ -107,5 +107,7 @@ export default {
 }
 .nav__submit:hover {
   cursor: pointer;
+  opacity: 0.8;
+  transition-duration: 0.3s;
 }
 </style>
