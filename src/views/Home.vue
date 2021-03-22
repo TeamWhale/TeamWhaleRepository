@@ -67,6 +67,9 @@
             <div v-text="recipe.selected" class="pickup_time">
               {{ recipe.selected }}
             </div>
+            <div class="star">
+            お手軽さ
+          <star-rating :item-size="15" :read-only="true" :show-rating="false" v-model="recipe.rating"></star-rating>
           </div>
         </div>
       </div>
@@ -89,6 +92,9 @@
           <div class="pickup_description">
             <div class="pickup_name">{{ all.title }}</div>
             <div class="pickup_time">{{ all.selected }}</div>
+            <div class="star">
+            お手軽さ
+          <star-rating :item-size="15" :read-only="true" :show-rating="false" v-model="all.rating"></star-rating>
           </div>
         </div>
       </div>
@@ -110,6 +116,10 @@
           <div class="pickup_description">
             <div class="pickup_name">{{ recipe.title }}</div>
             <div class="pickup_time">{{ recipe.selected }}</div>
+             <div class="star">
+            お手軽さ
+          <star-rating :item-size="15" :read-only="true" :show-rating="false" v-model="recipe.rating"></star-rating>
+          </div>     
           </div>
         </div>
       </div>
@@ -130,7 +140,9 @@
         >
           <div class="pickup_description">
             <div class="pickup_name">{{ purchase.title }}</div>
-            <div class="pickup_time">{{ purchase.selected }}</div>
+            <div class="pickup_time">{{ purchase.selected }}</div>     <div class="star">
+            お手軽さ
+          <star-rating :item-size="15" :read-only="true" :show-rating="false" v-model="purchase.rating"></star-rating>
           </div>
         </div>
       </div>
@@ -144,10 +156,12 @@ import firebase from "firebase";
 import "firebase/firestore";
 import Footer from "../components/Footer.vue";
 import Detail from "@/components/Detail.vue";
+import {StarRating} from 'vue-rate-it'
 
 export default {
   components: {
     Detail,
+    StarRating,
     Footer,
   },
   data() {
@@ -427,5 +441,8 @@ h2 {
   text-shadow: 2px 2px 10px #f8f3f1, -2px 2px 10px #f8f3f1,
     2px -2px 10px #f8f3f1, -2px -2px 10px #f8f3f1;
   margin: 175px 0 15px 15px;
+}
+.star{
+  display: flex;
 }
 </style>

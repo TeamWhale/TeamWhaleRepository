@@ -71,6 +71,9 @@
                     </select>
                   </div>
                 </div>
+      <!-- 星レビュー -->
+      <star-rating :item-size="20" :show-rating="false" v-model="rating"></star-rating>
+      <div>お手軽さ星{{rating}}</div>
                 <!-- 紹介文 -->
                 <div class="introduce">
                   <h3>紹介文</h3>
@@ -164,6 +167,9 @@
                 required
               />
             </div>
+        <!-- 星レビュー -->
+      <star-rating :item-size="20" :show-rating="false" v-model="rating"></star-rating>
+      <div>お手軽さ星{{rating}}</div>
             <!-- 写真 -->
             <div class="form_pic">
               <input
@@ -199,13 +205,17 @@
 </template>
 
 <script>
-import firebase from "firebase";
-import "firebase/firestore";
-import "firebase/auth";
-import "firebase/storage";
+import firebase from "firebase"
+import "firebase/firestore"
+import "firebase/auth"
+import "firebase/storage"
+import {StarRating} from 'vue-rate-it'
 import Footer from "../components/Footer.vue";
 
 export default {
+  components:{
+    StarRating
+  },
   data() {
     return {
       cook: true,
@@ -217,6 +227,7 @@ export default {
       introduce: "",
       newIngredients: [{ name: "", amount: "" }],
       newHowTos: [{ text: "" }],
+      rating: 0,
       options: [
         { id: 1, name: "５分以内" },
         { id: 2, name: "約１０分" },
@@ -330,7 +341,8 @@ export default {
             introduce: this.introduce,
             newIngredients: this.newIngredients,
             newHowTo: this.newHowTos,
-            uid: user.uid
+            uid: user.uid,
+            rating: this.rating
           }).then(()=>{
             window.alert("投稿完了")
             this.$router.push("/MyPage")
@@ -352,7 +364,8 @@ export default {
            imageName: this.imageName,
            imageURL: this.imageURL,
            introduce: this.introduce,
-           uid: user.uid
+           uid: user.uid,
+           rating: this.rating
           }).then(()=>{
             window.alert("投稿完了")
             this.$router.push("/MyPage")
