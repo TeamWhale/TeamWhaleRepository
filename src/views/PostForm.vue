@@ -1,6 +1,5 @@
 <template>
   <div class="body__wrapper">
-    <Search />
     <div class="post__wrapper">
       <h1>投稿</h1>
       <div class="post__box">
@@ -207,7 +206,6 @@ import firebase from "firebase";
 import "firebase/firestore";
 import "firebase/auth";
 import "firebase/storage";
-import Search from "../views/Search.vue";
 import Footer from "../components/Footer.vue";
 
 export default {
@@ -235,7 +233,6 @@ export default {
     };
   },
   components: {
-    Search,
     Footer,
   },
   methods: {
@@ -379,20 +376,21 @@ export default {
 }
 h1 {
   padding-top: 45px;
+  margin-top: 0;
+  margin-bottom: 30px;
 }
 .post__box {
-  width: 700px;
+  width: 850px;
   height: auto;
   background-color: #fff;
   margin-right: auto;
   margin-left: auto;
-  /* margin-bottom: 100px; */
 }
 .form-switchtabs {
   display: flex;
 }
 .form-switchtab {
-  width: 350px;
+  width: 425px;
   height: 50px;
   padding-top: 13px;
   border: none;
@@ -466,11 +464,11 @@ h3 {
   margin-left: 20px;
 }
 .input_zairyo {
-  width: 400px;
+  width: 500px;
   margin-right: 5px;
 }
 .input_amount {
-  width: 280px;
+  width: 310px;
 }
 .howto_num {
   font-size: 20px;
