@@ -71,9 +71,15 @@
                     </select>
                   </div>
                 </div>
-      <!-- 星レビュー -->
-      <star-rating :item-size="20" :show-rating="false" v-model="rating"></star-rating>
-      <div>お手軽さ星{{rating}}</div>
+                <!-- 星レビュー -->
+                <div class="star">
+                  お手軽さ 星{{ rating }}
+                  <star-rating
+                    :item-size="20"
+                    :show-rating="false"
+                    v-model="rating"
+                  ></star-rating>
+                </div>
                 <!-- 紹介文 -->
                 <div class="introduce">
                   <h3>紹介文</h3>
@@ -147,7 +153,8 @@
               <button @click.prevent="addNewHowTos" class="add_input">
                 作り方を追加する
               </button>
-            </div><!-- 投稿ボタン -->
+            </div>
+            <!-- 投稿ボタン -->
             <div>
               <button type="submit" class="make-button">投稿</button>
             </div>
@@ -167,9 +174,15 @@
                 required
               />
             </div>
-        <!-- 星レビュー -->
-      <star-rating :item-size="20" :show-rating="false" v-model="rating"></star-rating>
-      <div>お手軽さ星{{rating}}</div>
+            <!-- 星レビュー -->
+            <div class="star form_item">
+              お手軽さ 星{{ rating }}
+              <star-rating
+                :item-size="20"
+                :show-rating="false"
+                v-model="rating"
+              ></star-rating>
+            </div>
             <!-- 写真 -->
             <div class="form_pic">
               <input
@@ -205,16 +218,17 @@
 </template>
 
 <script>
-import firebase from "firebase"
-import "firebase/firestore"
-import "firebase/auth"
-import "firebase/storage"
-import {StarRating} from 'vue-rate-it'
+import firebase from "firebase";
+import "firebase/firestore";
+import "firebase/auth";
+import "firebase/storage";
+import { StarRating } from "vue-rate-it";
 import Footer from "../components/Footer.vue";
 
 export default {
-  components:{
-    StarRating
+  components: {
+    StarRating,
+    Footer,
   },
   data() {
     return {
@@ -239,9 +253,6 @@ export default {
       isActiveA: true,
       isActiveB: false,
     };
-  },
-  components: {
-    Footer,
   },
   methods: {
     make() {
@@ -331,24 +342,29 @@ export default {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           //firestoreのrecipeにdataと取得したuidを保存
-          firebase.firestore().collection("recipe").add({
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            type: "手作り",
-            title: this.title,
-            selected: this.selected,
-            imageName: this.imageName,
-            imageURL: this.imageURL,
-            introduce: this.introduce,
-            newIngredients: this.newIngredients,
-            newHowTo: this.newHowTos,
-            uid: user.uid,
-            rating: this.rating
-          }).then(()=>{
-            window.alert("投稿完了")
-            this.$router.push("/MyPage")
-          }).catch(()=>{
-            window.alert("投稿できませんでした")
-          })
+          firebase
+            .firestore()
+            .collection("recipe")
+            .add({
+              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+              type: "手作り",
+              title: this.title,
+              selected: this.selected,
+              imageName: this.imageName,
+              imageURL: this.imageURL,
+              introduce: this.introduce,
+              newIngredients: this.newIngredients,
+              newHowTo: this.newHowTos,
+              uid: user.uid,
+              rating: this.rating,
+            })
+            .then(() => {
+              window.alert("投稿完了");
+              this.$router.push("/MyPage");
+            })
+            .catch(() => {
+              window.alert("投稿できませんでした");
+            });
         }
       });
     },
@@ -357,21 +373,26 @@ export default {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           //firestoreのrecipeにdataと取得したuidを保存
-          firebase.firestore().collection("recipe").add({
-           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-           type: "市販",
-           title: this.title,
-           imageName: this.imageName,
-           imageURL: this.imageURL,
-           introduce: this.introduce,
-           uid: user.uid,
-           rating: this.rating
-          }).then(()=>{
-            window.alert("投稿完了")
-            this.$router.push("/MyPage")
-          }).catch(()=>{
-            window.alert("投稿できませんでした")
-          })
+          firebase
+            .firestore()
+            .collection("recipe")
+            .add({
+              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+              type: "市販",
+              title: this.title,
+              imageName: this.imageName,
+              imageURL: this.imageURL,
+              introduce: this.introduce,
+              uid: user.uid,
+              rating: this.rating,
+            })
+            .then(() => {
+              window.alert("投稿完了");
+              this.$router.push("/MyPage");
+            })
+            .catch(() => {
+              window.alert("投稿できませんでした");
+            });
         }
       });
     },
@@ -463,7 +484,7 @@ h3 {
   width: 270px;
 }
 .form_2right {
-  /* margin-right: 45px; */
+  margin-right: 45px;
 }
 .form_time {
   display: flex;
