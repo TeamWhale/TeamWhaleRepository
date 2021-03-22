@@ -11,13 +11,13 @@
       <form @submit.prevent="makePostForm">
         <!-- 料理名 -->
       <div class="title">
-        <input v-model="title" type="text" placeholder="料理タイトル" class="input-rec">
+        <input v-model="title" type="text" placeholder="料理タイトル" class="input-rec" required>
       </div>
       <!-- 調理時間 -->
       <div>
         <h2>調理時間</h2>
         <div>
-          <select name="time" v-model="selected">
+          <select name="time" v-model="selected" required>
             <option disabled value="" class="input-rec">選択してください</option>
             <option v-for="option in options" :key="option.id">
              {{option.name}}
@@ -28,12 +28,12 @@
       <br>
       <!-- 写真 -->
       <div>
-        <input type="file" accept="image/*" @change="onImageUploadedMake($event)">
+        <input type="file" accept="image/*" @change="onImageUploadedMake($event)" required>
         <img :src="imageURL" alt="料理の写真" width="300" height="200">
       </div>
       <!-- 紹介文 -->
       <div class="introduce">
-        <textarea v-model="introduce" id="" cols="30" rows="10" placeholder="紹介文"></textarea>
+        <textarea v-model="introduce" id="" cols="30" rows="10" placeholder="紹介文" required></textarea>
       </div>
         <!-- 材料 -->
         <div class="ingredients">
@@ -85,16 +85,16 @@
       <form @submit.prevent="madePostForm">
         <!-- タイトル -->
         <div class="title">
-          <input v-model="title" type="text" placeholder="料理タイトル">
+          <input v-model="title" type="text" placeholder="料理タイトル" required>
         </div>
         <!-- 写真 -->
         <div>
-          <input type="file" accept="image/*" @change="onImageUploadedMade($event)">
+          <input type="file" accept="image/*" @change="onImageUploadedMade($event)" required>
           <img :src="imageURL" alt="料理の写真" width="300" height="200">
         </div>
         <!-- 紹介文 -->
         <div class="introduce">
-          <textarea v-model="introduce" cols="30" rows="10" placeholder="紹介文"></textarea>
+          <textarea v-model="introduce" cols="30" rows="10" placeholder="紹介文" required></textarea>
         </div>
         <!-- 投稿ボタン -->
         <div>
@@ -134,9 +134,6 @@ export default {
         { id: 5, name: "約１時間" },
         { id: 6, name: "1時間以上" },
       ],
-      
-
-      
     };
   },
   methods: {
@@ -239,6 +236,11 @@ export default {
             newIngredients: this.newIngredients,
             newHowTo: this.newHowTos,
             uid: user.uid
+          }).then(()=>{
+            window.alert("投稿完了")
+            this.$router.push("/MyPage")
+          }).catch(()=>{
+            window.alert("投稿できませんでした")
           })
         }
       })
@@ -256,6 +258,11 @@ export default {
            imageURL: this.imageURL,
            introduce: this.introduce,
            uid: user.uid
+          }).then(()=>{
+            window.alert("投稿完了")
+            this.$router.push("/MyPage")
+          }).catch(()=>{
+            window.alert("投稿できませんでした")
           })
         }
       })
