@@ -1,8 +1,6 @@
 <template>
   <div class="ViewModal">
-    <div
-      id="modal"
-    >
+    <div id="modal">
       <!-- タイトル -->
       <h1>{{ detail.title }}</h1>
       <!-- 手作りか市販か， -->
@@ -70,6 +68,7 @@ export default {
 }
 #modal {
   position: fixed;
+  /* position: absolute; */
   left: 50%;
   top: 50%;
   z-index: 2;
