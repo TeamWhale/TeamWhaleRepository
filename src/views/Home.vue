@@ -105,7 +105,8 @@ export default {
     .then(snapshot =>{
       snapshot.docs.forEach(doc =>{
         this.allRecipe.push({
-          ...doc.data()
+          ...doc.data(),
+          id: doc.id
         })
       })
     }),
@@ -114,7 +115,8 @@ export default {
       snapshot.docs.forEach(doc =>{
         if(doc.data().type === "手作り"){
           this.Recipes.push({
-            ...doc.data()
+            ...doc.data(),
+            id: doc.id
           })
         }
       })
@@ -124,7 +126,8 @@ export default {
       snapshot.docs.forEach(doc =>{
         if(doc.data().type === "市販"){
           this.Purchases.push({
-            ...doc.data()
+            ...doc.data(),
+            id: doc.id
           })
         }
       })

@@ -23,8 +23,9 @@
       <div class=" current tab_user">{{user}}さんでログイン済み</div>
     </div>
     <br>
+    <Detail v-if="detailFlg" v-bind:detail="Contents" />
     <div v-if="allExpression" class="recom_items">
-      <div class="recom_item" v-for="(all, index) in allRecipe" :key="index" :style="{ backgroundImage: 'url(' + all.imageURL + ')', backgroundSize: 'cover'}">
+      <div class="recom_item" @click="detailWindow(all)" v-for="(all, index) in allRecipe" :key="index" :style="{ backgroundImage: 'url(' + all.imageURL + ')', backgroundSize: 'cover'}">
         <div class="recom_description">
           <div class="recom_name">{{all.title}}</div>
           <div class="recom_time">{{all.selected}}</div>
@@ -33,7 +34,7 @@
     </div>
 
     <div v-if="RecipesExpression" class="recom_items">
-      <div class="recom_item" v-for="(recipe, index) in Recipes" :key="index" :style="{ backgroundImage: 'url(' + recipe.imageURL + ')', backgroundSize: 'cover'}">
+      <div class="recom_item" @click="detailWindow(recipe)" v-for="(recipe, index) in Recipes" :key="index" :style="{ backgroundImage: 'url(' + recipe.imageURL + ')', backgroundSize: 'cover'}">
         <div class="recom_description">
           <div class="recom_name">{{recipe.title}}</div>
           <div class="recom_time">{{recipe.selected}}</div>
@@ -42,7 +43,7 @@
     </div>
 
     <div v-if="PurchasesExpression" class="recom_items">
-      <div class="recom_item" v-for="(purchase, index) in Purchases" :key="index" :style="{ backgroundImage: 'url(' + purchase.imageURL + ')',            backgroundSize: 'cover'}">
+      <div class="recom_item" @click="detailWindow(purchase)" v-for="(purchase, index) in Purchases" :key="index" :style="{ backgroundImage: 'url(' + purchase.imageURL + ')',            backgroundSize: 'cover'}">
         <div class="recom_description">
           <div class="recom_name">{{purchase.title}}</div>
           <div class="recom_time">{{purchase.selected}}</div>
@@ -53,11 +54,14 @@
 </template>
 
 <script>
-
 import firebase from "firebase"
 import "firebase/firestore"
+import Detail from "@/components/Detail.vue";
 
 export default {
+  components: {
+    Detail,
+  },
   data() {
     return {
       search_keyword: "",
@@ -69,6 +73,7 @@ export default {
       RecipesExpression: false,
       PurchasesExpression: false,
       user: "",
+      detailFlg: false,
     };
   },
   methods: {
@@ -90,6 +95,10 @@ export default {
       this.allExpression = false
       this.RecipesExpression = false
       this.PurchasesExpression = true
+    },
+      detailWindow(Cont){
+      this.Contents = Cont
+      this.detailFlg = true
     },
   },
   mounted(){

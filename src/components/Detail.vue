@@ -1,8 +1,7 @@
 <template>
   <div class="ViewModal">
-    <div
-      id="modal"
-    >
+    <div id="modal">
+        {{detail.id}}
       <!-- タイトル -->
       <h1>{{ detail.title }}</h1>
       <!-- 手作りか市販か， -->
@@ -13,10 +12,10 @@
       <!-- 詳細，手作りの場合のみ表示 -->
       <div id="detail">
         <!-- 調理時間 -->
-        <div>時間：{{ detail.selected }}</div>
+        <div v-if="detail.selected">時間：{{ detail.selected }}</div>
         <br />
         <!-- 材料 -->
-        <div class="ingredient">
+        <div v-if="detail.newIngredients" class="ingredient">
           <h3>材料(1人分)</h3>
           <div
             v-for="(newIngredient, index) in detail.newIngredients"
@@ -30,13 +29,20 @@
         </div>
         <br />
         <!-- 作り方 -->
-        <div class="howTo">
+        <div v-if="detail.newHoTo" class="howTo">
           <h3>作り方</h3>
           <div v-for="(newHoTo, index) in detail.newHoTo" :key="index">
             <div>{{ index + 1 }}. {{ newHoTo.text }}</div>
           </div>
         </div>
       </div>
+
+      <!-- My投稿の編集と削除 -->
+      <div v-if="user">
+        <button v-on:click="editPost">編集</button>
+        <button v-on:click="deletePost">削除</button>
+      </div>
+
       <div>
         <button @click="close">閉じる</button>
       </div>
@@ -46,14 +52,47 @@
 </template>
 
 <script>
+import firebase from "firebase";
+import "firebase/auth";
+import "firebase/firestore";
+
 export default {
   props: {
     detail: [],
   },
+  data() {
+    return {
+      user: false,
+    };
+  },
   methods: {
+    editPost() {
+      firebase
+        .firestore()
+        .collection("recipe")
+        .doc(this.detail.id)
+        .update({title: this.detail.title})
+    },
+    deletePost() {
+      firebase
+        .firestore()
+        .collection("recipe")
+        .doc(this.detail.id)
+        .delete()
+    },
     close() {
       this.$parent.$data["detailFlg"] = false;
     },
+  },
+  mounted() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user.uid === this.detail.uid) {
+        this.user = true;
+      } else {
+        this.user = false;
+      }
+    });
+    console.log(this.detail);
   },
 };
 </script>
@@ -77,10 +116,14 @@ export default {
   width: 750px;
   height: 550px;
   max-width: 80%;
-  max-height: 80%;
+  max-height: 120%;
   box-sizing: border-box;
   padding: 32px;
   border-radius: 8px;
   background-color: #fff;
 }
+/* #modal {
+  display: flex;
+  flex-wrap: wrap;
+} */
 </style>
