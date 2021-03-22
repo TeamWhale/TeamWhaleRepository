@@ -3,11 +3,16 @@
     <router-link to="/" class="nav__logo">レシピサイト</router-link>
     <a>一人暮らしの食事を共有するサイト</a>
     <div class="nav__items">
-      <router-link to="/PostForm" class="nav__item nav__submit"
+      <router-link to="/PostForm" v-if="user" class="nav__item nav__submit"
         >投稿</router-link
       >
-      <router-link to="/MyPage" class="nav__item ">マイページ</router-link>
-      <div v-on:click="signIn" class="nav__item login_button">
+      <router-link to="/MyPage" v-if="user" class="nav__item "
+        >マイページ</router-link
+      >
+      <div v-on:click="signOut" v-if="user" class="nav__item login_button">
+        ログアウト
+      </div>
+      <div v-on:click="signIn" v-else class="nav__item login_button">
         ログイン
       </div>
     </div>
@@ -27,22 +32,22 @@ export default {
   methods: {
     signIn() {
       const provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithRedirect(provider)
+      firebase.auth().signInWithRedirect(provider);
     },
-    signOut(){
-      firebase.auth().signOut()
-      this.$router.push("/")
+    signOut() {
+      firebase.auth().signOut();
+      this.$router.push("/");
     },
   },
-  mounted(){
-    firebase.auth().onAuthStateChanged(user =>{
-      if(user){
-        this.user = true
-      } else{
-        this.user = false
+  mounted() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.user = true;
+      } else {
+        this.user = false;
       }
-    })
-  }
+    });
+  },
 };
 </script>
 

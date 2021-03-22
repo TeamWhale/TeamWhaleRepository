@@ -46,6 +46,7 @@
         </div>
       </div>
     </div>
+    <Detail v-if="detailFlg" v-bind:detail="Contents" />
     <!-- 検索結果表示 -->
     <div v-if="SearchCondition" class="body_wrapper">
       <h2>検索結果</h2>
@@ -142,11 +143,11 @@
 import firebase from "firebase";
 import "firebase/firestore";
 import Footer from "../components/Footer.vue";
-// import Detail from "@/components/Detail.vue";
+import Detail from "@/components/Detail.vue";
 
 export default {
   components: {
-    // Detail,
+    Detail,
     Footer,
   },
   data() {
@@ -408,6 +409,9 @@ h2 {
   margin-left: 3%;
   margin-bottom: 20px;
   background-color: #c4c4c4;
+}
+.pickup_item:hover {
+  cursor: pointer;
 }
 .pickup_description {
   display: inline-block;
