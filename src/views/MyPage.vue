@@ -17,7 +17,6 @@
           src="../assets/search_mark.png"
         />
       </div>
-      <div v-on:click="signOut" class="nav__item nav__link">ログアウト</div>
     </div>
     <!-- すべて／手作り／市販 切り替えタブ -->
     <div class="tab_wrapper">
@@ -264,7 +263,7 @@ export default {
           .then((snapshot) => {
             snapshot.docs.forEach((doc) => {
               if (doc.data().uid === user.uid) {
-                this.recipe.push({
+                this.recipes.push({
                   ...doc.data(),
                 });
               }

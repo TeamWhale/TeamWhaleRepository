@@ -194,7 +194,7 @@ export default {
       allRecipe: [],
       Recipes: [],
       Purchases: [],
-      Contents: [],
+      Contents: "",
       allExpression: true,
       RecipesExpression: false,
       PurchasesExpression: false,
@@ -266,7 +266,7 @@ export default {
       .get()
       .then((snapshot) => {
         snapshot.docs.forEach((doc) => {
-          this.recipe.push({
+          this.recipes.push({
             ...doc.data(),
           id: doc.id
           });
