@@ -23,7 +23,8 @@
     </div>
     <br>
     <div v-if="allExpression" class="recom_items">
-      <div class="recom_item" v-for="(all, index) in allRecipe" :key="index" :style="{ backgroundImage: 'url(' + all.imageURL + ')', backgroundSize: 'cover'}">
+      <div class="recom_item" v-for="(all, index) in allRecipe" :key="index" :style="{ backgroundImage: 'url(' + all.imageURL + ')',
+      backgroundSize: 'cover'}">
         <div class="recom_description">
           <div class="recom_name">{{all.title}}</div>
           <div class="recom_time">{{all.selected}}</div>

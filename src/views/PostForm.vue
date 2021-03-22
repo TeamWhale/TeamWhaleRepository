@@ -27,9 +27,9 @@
       </div>
       <br>
       <!-- 写真 -->
-      <div>
+      <div class="image_wrapper">
         <input type="file" accept="image/*" @change="onImageUploadedMake($event)" required>
-        <img :src="imageURL" alt="料理の写真" width="300" height="200">
+        <img :src="imageURL" alt="料理の写真" width="322px" height="322px">
       </div>
       <!-- 紹介文 -->
       <div class="introduce">
@@ -198,6 +198,7 @@ export default {
     onImageUploadedMade(e){
       const image = e.target.files[0]
       this.createImageMade(image)
+      console.log(image)
     },
     createImageMade(image){
       // const render = new FileReader()
@@ -216,7 +217,6 @@ export default {
         snapshot.ref.getDownloadURL()
         .then(url =>{
           console.log(url)
-          console.log(image.name)
           this.imageURL = url
           this.imageName = image.name
         })
@@ -302,5 +302,11 @@ button:hover {
   background-color: #ff9900;
   border: none;
   border-radius: 4px;
+}
+.image_wrapper{
+  height: 360px;
+  width: 360px;
+  background-color: #ff9900;
+  text-align: center;
 }
 </style>
