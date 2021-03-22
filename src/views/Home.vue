@@ -184,6 +184,7 @@ export default {
       this.isActive1 = true;
       this.isActive2 = false;
       this.isActive3 = false;
+      this.keyword = "";
     },
     switchRecipes() {
       this.allExpression = false;
@@ -193,6 +194,7 @@ export default {
       this.isActive1 = false;
       this.isActive2 = true;
       this.isActive3 = false;
+      this.keyword = "";
     },
     switchPurchases() {
       this.allExpression = false;
@@ -202,6 +204,7 @@ export default {
       this.isActive1 = false;
       this.isActive2 = false;
       this.isActive3 = true;
+      this.keyword = "";
     },
   },
   mounted() {

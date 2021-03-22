@@ -75,7 +75,7 @@
     <!-- 自分の投稿 -->
     <!-- 「すべて」タブが押されているとき -->
     <div class="body_wrapper" v-if="allExpression">
-      <h2>{{ user }}さんの投稿</h2>
+      <h2>自分の投稿</h2>
       <div class="pickup_items">
         <div
           class="pickup_item"
@@ -95,7 +95,7 @@
     </div>
     <!-- 「手作り」タブが押されているとき -->
     <div class="body_wrapper" v-if="RecipesExpression">
-      <h2>{{ user }}さんの投稿</h2>
+      <h2>自分の投稿</h2>
       <div class="pickup_items">
         <div
           class="pickup_item"
@@ -114,8 +114,8 @@
       </div>
     </div>
     <!-- 「市販」タブが押されているとき -->
-    <div class="body_wrapper" v-if="RecipesExpression">
-      <h2>{{ user }}さんの投稿</h2>
+    <div class="body_wrapper" v-if="PurchasesExpression">
+      <h2>自分の投稿</h2>
       <div class="pickup_items">
         <div
           class="pickup_item"
@@ -327,7 +327,7 @@ export default {
   background-color: #fcf5ea;
 }
 .tab_mini-wrapper {
-  margin-left: 4%;
+  margin-left: 3%;
 }
 .tab_items {
   display: flex;

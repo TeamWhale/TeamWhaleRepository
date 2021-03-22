@@ -1,6 +1,7 @@
 <template>
   <div class="nav__bar">
     <router-link to="/" class="nav__logo">レシピサイト</router-link>
+    <a>一人暮らしの食事を共有するサイト</a>
     <div class="nav__items">
       <router-link to="/PostForm" class="nav__item nav__submit"
         >投稿</router-link
@@ -80,5 +81,8 @@ export default {
 }
 .nav__submit {
   font-size: 18px;
+}
+a {
+  margin-top: 1px;
 }
 </style>
