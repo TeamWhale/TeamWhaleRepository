@@ -1,7 +1,6 @@
 <template>
   <div class="home_wrapper">
     <div class="search_wrapper">
-      <div>{{ user }}さんでログイン済み</div>
       <!-- 検索欄（アイコンクリックで結果表示） -->
       <div class="search_box">
         <input
@@ -45,6 +44,7 @@
           >
             市販
           </div>
+      <div class=" current tab_user">{{user}}さんでログイン済み</div>
         </div>
       </div>
     </div>
@@ -205,10 +205,6 @@ export default {
       this.isActive2 = false;
       this.isActive3 = true;
     },
-    signOut() {
-      firebase.auth().signOut();
-      this.$router.push("/");
-    },
   },
   mounted() {
     firebase.auth().onAuthStateChanged((user) => {
@@ -349,6 +345,18 @@ export default {
   font-weight: bold;
   background-color: #fce7c7;
   cursor: pointer;
+}
+.tab_user {
+  width: auto;
+  height: 100%;
+  text-align: center;
+  font-size: 16px;
+  padding-top: 13px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-left: auto;
+  color: #111;
+  text-decoration: none;
 }
 .active {
   background-color: #fce7c7;

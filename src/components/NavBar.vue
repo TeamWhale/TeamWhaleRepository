@@ -21,15 +21,28 @@ import "firebase/auth";
 export default {
   data() {
     return {
-      user: null,
+      user: false,
     };
   },
   methods: {
     signIn() {
       const provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithRedirect(provider);
+      firebase.auth().signInWithRedirect(provider)
+    },
+    signOut(){
+      firebase.auth().signOut()
+      this.$router.push("/")
     },
   },
+  mounted(){
+    firebase.auth().onAuthStateChanged(user =>{
+      if(user){
+        this.user = true
+      } else{
+        this.user = false
+      }
+    })
+  }
 };
 </script>
 

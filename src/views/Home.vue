@@ -76,13 +76,7 @@
       <h2>ピックアップ</h2>
       <div class="pickup_items">
         <div
-          class="pickup_item"
-          v-for="(all, index) in allRecipe"
-          :key="index"
-          :style="{
-            backgroundImage: 'url(' + all.imageURL + ')',
-            backgroundSize: 'cover',
-          }"
+          class="pickup_item"@click="detailWindow(all)" v-for="(all, index) in allRecipe" :key="index" :style="{ backgroundImage: 'url(' + all.imageURL + ')', backgroundSize: 'cover'}"
         >
           <div class="pickup_description">
             <div class="pickup_name">{{ all.title }}</div>
@@ -97,12 +91,7 @@
       <div class="pickup_items">
         <div
           class="pickup_item"
-          v-for="(recipe, index) in Recipes"
-          :key="index"
-          :style="{
-            backgroundImage: 'url(' + recipe.imageURL + ')',
-            backgroundSize: 'cover',
-          }"
+          @click="detailWindow(recipe)" v-for="(recipe, index) in Recipes" :key="index" :style="{ backgroundImage: 'url(' + recipe.imageURL + ')', backgroundSize: 'cover'}"
         >
           <div class="pickup_description">
             <div class="pickup_name">{{ recipe.title }}</div>
@@ -117,12 +106,10 @@
       <div class="pickup_items">
         <div
           class="pickup_item"
+          @click="detailWindow(purchase)"
           v-for="(purchase, index) in Purchases"
           :key="index"
-          :style="{
-            backgroundImage: 'url(' + purchase.imageURL + ')',
-            backgroundSize: 'cover',
-          }"
+          :style="{ backgroundImage: 'url(' + purchase.imageURL + ')', backgroundSize: 'cover'}"
         >
           <div class="pickup_description">
             <div class="pickup_name">{{ purchase.title }}</div>
@@ -139,14 +126,19 @@
 import firebase from "firebase";
 import "firebase/firestore";
 import Footer from "../components/Footer.vue";
+import Detail from "@/components/Detail.vue";
 
 export default {
+  components: {
+    Detail,
+  },
   data() {
     return {
       recipes: [],
       allRecipe: [],
       Recipes: [],
       Purchases: [],
+      Contents: [],
       allExpression: true,
       RecipesExpression: false,
       PurchasesExpression: false,
@@ -156,6 +148,7 @@ export default {
       isActive3: false,
       text: "",
       keyword: "",
+      detailFlg: false,
     };
   },
   components: {
@@ -205,6 +198,10 @@ export default {
       this.isActive2 = false;
       this.isActive3 = true;
       this.keyword = "";
+    },
+    detailWindow(Cont){
+      this.Contents = Cont
+      this.detailFlg = true
     },
   },
   mounted() {

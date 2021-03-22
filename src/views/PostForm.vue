@@ -43,6 +43,7 @@
                   accept="image/*"
                   @change="onImageUploadedMake($event)"
                   class="pic__upload"
+                  required
                 />
                 <img
                   :src="imageURL"
@@ -80,6 +81,7 @@
                     rows="5"
                     placeholder="キャッチコピーや料理の際のコツ・ポイントを入力"
                     class="input_rec"
+                    required
                   ></textarea>
                 </div>
               </div>
@@ -97,14 +99,12 @@
                     type="text"
                     placeholder="（例）玉ねぎ"
                     class="input_rec input_zairyo"
-                    required
                   />
                   <input
                     v-model="newIngredient.amount"
                     type="text"
                     placeholder="（例）一個"
                     class="input_rec input_amount"
-                    required
                   />
                   <img
                     src="../assets/delete-button.png"
@@ -144,15 +144,12 @@
               <button @click.prevent="addNewHowTos" class="add_input">
                 作り方を追加する
               </button>
-            </div>
-
-            <!-- 投稿ボタン -->
+            </div><!-- 投稿ボタン -->
             <div>
               <button type="submit" class="make-button">投稿</button>
             </div>
           </form>
         </div>
-
         <!-- 市販投稿 -->
         <div v-if="cooked">
           <form @submit.prevent="madePostForm" class="form_wrapper">
@@ -323,21 +320,23 @@ export default {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           //firestoreのrecipeにdataと取得したuidを保存
-          firebase
-            .firestore()
-            .collection("recipe")
-            .add({
-              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-              type: "手作り",
-              title: this.title,
-              selected: this.selected,
-              imageName: this.imageName,
-              imageURL: this.imageURL,
-              introduce: this.introduce,
-              newIngredients: this.newIngredients,
-              newHowTo: this.newHowTos,
-              uid: user.uid,
-            });
+          firebase.firestore().collection("recipe").add({
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            type: "手作り",
+            title: this.title,
+            selected: this.selected,
+            imageName: this.imageName,
+            imageURL: this.imageURL,
+            introduce: this.introduce,
+            newIngredients: this.newIngredients,
+            newHowTo: this.newHowTos,
+            uid: user.uid
+          }).then(()=>{
+            window.alert("投稿完了")
+            this.$router.push("/MyPage")
+          }).catch(()=>{
+            window.alert("投稿できませんでした")
+          })
         }
       });
     },
@@ -346,18 +345,20 @@ export default {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           //firestoreのrecipeにdataと取得したuidを保存
-          firebase
-            .firestore()
-            .collection("recipe")
-            .add({
-              createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-              type: "市販",
-              title: this.title,
-              imageName: this.imageName,
-              imageURL: this.imageURL,
-              introduce: this.introduce,
-              uid: user.uid,
-            });
+          firebase.firestore().collection("recipe").add({
+           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+           type: "市販",
+           title: this.title,
+           imageName: this.imageName,
+           imageURL: this.imageURL,
+           introduce: this.introduce,
+           uid: user.uid
+          }).then(()=>{
+            window.alert("投稿完了")
+            this.$router.push("/MyPage")
+          }).catch(()=>{
+            window.alert("投稿できませんでした")
+          })
         }
       });
     },
