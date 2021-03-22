@@ -133,12 +133,14 @@
         </div>
       </div>
     </div>
+    <Footer />
   </div>
 </template>
 
 <script>
 import firebase from "firebase";
 import "firebase/firestore";
+import Footer from "../components/Footer.vue";
 
 export default {
   data() {
@@ -158,6 +160,9 @@ export default {
       user: "",
       keyword: "",
     };
+  },
+  components: {
+    Footer,
   },
   methods: {
     searchTabchange() {

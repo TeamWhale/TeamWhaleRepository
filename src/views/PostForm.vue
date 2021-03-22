@@ -1,193 +1,204 @@
 <template>
-  <div class="post__wrapper">
+  <div class="body__wrapper">
     <Search />
-    <h1>投稿</h1>
-    <div class="post__box">
-      <div class="form-switchtabs">
-        <div
-          @click="make"
-          class="form-switchtab"
-          v-bind:class="{ form_active: isActiveA }"
-        >
-          手作り
-        </div>
-        <div
-          @click="made"
-          class="form-switchtab"
-          v-bind:class="{ form_active: isActiveB }"
-        >
-          市販
-        </div>
-      </div>
-      <!-- 手作り投稿 -->
-      <div v-if="cook">
-        <form @submit.prevent="makePostForm">
-          <!-- 料理名 -->
-          <div class="form_title form_item">
-            <h3>レシピのタイトル</h3>
-            <input
-              v-model="title"
-              type="text"
-              placeholder="料理タイトル"
-              class="input_rec"
-              required
-            />
+    <div class="post__wrapper">
+      <h1>投稿</h1>
+      <div class="post__box">
+        <div class="form-switchtabs">
+          <div
+            @click="make"
+            class="form-switchtab"
+            v-bind:class="{ form_active: isActiveA }"
+          >
+            手作り
           </div>
-          <!-- 2nd block -->
-          <div class="form_2 form_item">
-            <!-- 2nd block left -->
+          <div
+            @click="made"
+            class="form-switchtab"
+            v-bind:class="{ form_active: isActiveB }"
+          >
+            市販
+          </div>
+        </div>
+        <!-- 手作り投稿 -->
+        <div v-if="cook">
+          <form @submit.prevent="makePostForm">
+            <!-- 料理名 -->
+            <div class="form_title form_item">
+              <h3>レシピのタイトル</h3>
+              <input
+                v-model="title"
+                type="text"
+                placeholder="料理タイトル"
+                class="input_rec"
+                required
+              />
+            </div>
+            <!-- 2nd block -->
+            <div class="form_2 form_item">
+              <!-- 2nd block left -->
+              <!-- 写真 -->
+              <div class="form__pic">
+                <input
+                  type="file"
+                  accept="image/*"
+                  @change="onImageUploadedMake($event)"
+                  class="pic__upload"
+                />
+                <img
+                  :src="imageURL"
+                  alt="料理の写真"
+                  width="300"
+                  height="200"
+                />
+              </div>
+              <!-- 2nd block right -->
+              <div class="form_2right">
+                <!-- 調理時間 -->
+                <div class="form_time">
+                  <h3>調理時間</h3>
+                  <div>
+                    <select
+                      name="time"
+                      v-model="selected"
+                      class="form_time_choice"
+                      required
+                    >
+                      <option disabled value="">選択してください</option>
+                      <option v-for="option in options" :key="option.id">
+                        {{ option.name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <!-- 紹介文 -->
+                <div class="introduce">
+                  <h3>紹介文</h3>
+                  <textarea
+                    v-model="introduce"
+                    id=""
+                    cols="30"
+                    rows="5"
+                    placeholder="キャッチコピーや料理の際のコツ・ポイントを入力"
+                    class="input_rec"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+            <!-- 材料 -->
+            <div class="ingredients form_item">
+              <h3>材料</h3>
+              <div
+                v-for="(newIngredient, index) in newIngredients"
+                :key="index"
+              >
+                <div class="form_horizontal">
+                  <input
+                    v-model="newIngredient.name"
+                    type="text"
+                    placeholder="（例）玉ねぎ"
+                    class="input_rec input_zairyo"
+                    required
+                  />
+                  <input
+                    v-model="newIngredient.amount"
+                    type="text"
+                    placeholder="（例）一個"
+                    class="input_rec input_amount"
+                    required
+                  />
+                  <img
+                    src="../assets/delete-button.png"
+                    @click.prevent="removeIngredients(index)"
+                    class="form_delete"
+                  />
+                </div>
+              </div>
+              <button @click.prevent="addIngredients" class="add_input">
+                材料を追加する
+              </button>
+            </div>
+            <!-- 作り方 -->
+            <div class="form_item">
+              <h3>作り方</h3>
+
+              <div
+                v-for="(newHowTo, index) in newHowTos"
+                :key="index"
+                class="form_horizontal"
+              >
+                <div class="howto_num">{{ index + 1 }}</div>
+                <textarea
+                  v-model="newHowTo.text"
+                  cols="25"
+                  rows="2"
+                  placeholder="作り方を入力"
+                  class="input_rec"
+                  required
+                ></textarea>
+                <img
+                  src="../assets/delete-button.png"
+                  @click.prevent="removeNewHowTos(index)"
+                  class="form_delete"
+                />
+              </div>
+              <button @click.prevent="addNewHowTos" class="add_input">
+                作り方を追加する
+              </button>
+            </div>
+
+            <!-- 投稿ボタン -->
+            <div>
+              <button type="submit" class="make-button">投稿</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- 市販投稿 -->
+        <div v-if="cooked">
+          <form @submit.prevent="madePostForm" class="form_wrapper">
+            <!-- タイトル -->
+            <div class="form_title form_item">
+              <h3>レシピのタイトル</h3>
+              <input
+                v-model="title"
+                type="text"
+                placeholder="料理タイトル"
+                class="input_rec"
+                required
+              />
+            </div>
             <!-- 写真 -->
-            <div class="form__pic">
+            <div class="form_pic">
               <input
                 type="file"
                 accept="image/*"
-                @change="onImageUploadedMake($event)"
+                @change="onImageUploadedMade($event)"
                 class="pic__upload"
               />
               <img :src="imageURL" alt="料理の写真" width="300" height="200" />
             </div>
-            <!-- 2nd block right -->
-            <div class="form_2right">
-              <!-- 調理時間 -->
-              <div class="form_time">
-                <h3>調理時間</h3>
-                <div>
-                  <select
-                    name="time"
-                    v-model="selected"
-                    class="form_time_choice"
-                    required
-                  >
-                    <option disabled value="">選択してください</option>
-                    <option v-for="option in options" :key="option.id">
-                      {{ option.name }}
-                    </option>
-                  </select>
-                </div>
-              </div>
-              <!-- 紹介文 -->
-              <div class="introduce">
-                <h3>紹介文</h3>
-                <textarea
-                  v-model="introduce"
-                  id=""
-                  cols="30"
-                  rows="5"
-                  placeholder="キャッチコピーや料理の際のコツ・ポイントを入力"
-                  class="input_rec"
-                ></textarea>
-              </div>
-            </div>
-          </div>
-          <!-- 材料 -->
-          <div class="ingredients form_item">
-            <h3>材料</h3>
-            <div v-for="(newIngredient, index) in newIngredients" :key="index">
-              <div class="form_horizontal">
-                <input
-                  v-model="newIngredient.name"
-                  type="text"
-                  placeholder="（例）玉ねぎ"
-                  class="input_rec input_zairyo"
-                  required
-                />
-                <input
-                  v-model="newIngredient.amount"
-                  type="text"
-                  placeholder="（例）一個"
-                  class="input_rec input_amount"
-                  required
-                />
-                <img
-                  src="../assets/delete-button.png"
-                  @click.prevent="removeIngredients(index)"
-                  class="form_delete"
-                />
-              </div>
-            </div>
-            <button @click.prevent="addIngredients" class="add_input">
-              材料を追加する
-            </button>
-          </div>
-          <!-- 作り方 -->
-          <div class="form_item">
-            <h3>作り方</h3>
-
-            <div
-              v-for="(newHowTo, index) in newHowTos"
-              :key="index"
-              class="form_horizontal"
-            >
-              <div class="howto_num">{{ index + 1 }}</div>
+            <!-- 紹介文 -->
+            <div class="introduce form_item">
+              <h3>紹介文</h3>
               <textarea
-                v-model="newHowTo.text"
-                cols="25"
-                rows="2"
-                placeholder="作り方を入力"
+                v-model="introduce"
+                cols="30"
+                rows="10"
+                placeholder="紹介文"
                 class="input_rec"
                 required
               ></textarea>
-              <img
-                src="../assets/delete-button.png"
-                @click.prevent="removeNewHowTos(index)"
-                class="form_delete"
-              />
             </div>
-            <button @click.prevent="addNewHowTos" class="add_input">
-              作り方を追加する
-            </button>
-          </div>
-
-          <!-- 投稿ボタン -->
-          <div>
-            <button type="submit" class="make-button">投稿</button>
-          </div>
-        </form>
-      </div>
-
-      <!-- 市販投稿 -->
-      <div v-if="cooked">
-        <form @submit.prevent="madePostForm" class="form_wrapper">
-          <!-- タイトル -->
-          <div class="form_title form_item">
-            <h3>レシピのタイトル</h3>
-            <input
-              v-model="title"
-              type="text"
-              placeholder="料理タイトル"
-              class="input_rec"
-              required
-            />
-          </div>
-          <!-- 写真 -->
-          <div class="form_pic">
-            <input
-              type="file"
-              accept="image/*"
-              @change="onImageUploadedMade($event)"
-              class="pic__upload"
-            />
-            <img :src="imageURL" alt="料理の写真" width="300" height="200" />
-          </div>
-          <!-- 紹介文 -->
-          <div class="introduce form_item">
-            <h3>紹介文</h3>
-            <textarea
-              v-model="introduce"
-              cols="30"
-              rows="10"
-              placeholder="紹介文"
-              class="input_rec"
-              required
-            ></textarea>
-          </div>
-          <!-- 投稿ボタン -->
-          <div>
-            <button type="submit" class="make-button">投稿</button>
-          </div>
-        </form>
+            <!-- 投稿ボタン -->
+            <div>
+              <button type="submit" class="make-button">投稿</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
+    <Footer />
   </div>
 </template>
 
@@ -197,6 +208,7 @@ import "firebase/firestore";
 import "firebase/auth";
 import "firebase/storage";
 import Search from "../views/Search.vue";
+import Footer from "../components/Footer.vue";
 
 export default {
   data() {
@@ -224,6 +236,7 @@ export default {
   },
   components: {
     Search,
+    Footer,
   },
   methods: {
     make() {
@@ -356,10 +369,13 @@ export default {
 </script>
 
 <style>
-.post__wrapper {
-  height: 1500px;
+.body__wrapper {
+  height: auto;
   text-align: center;
   background-color: #f6f6f6;
+}
+.post__wrapper {
+  padding-bottom: 100px;
 }
 h1 {
   padding-top: 45px;
@@ -370,7 +386,7 @@ h1 {
   background-color: #fff;
   margin-right: auto;
   margin-left: auto;
-  margin-bottom: 100px;
+  /* margin-bottom: 100px; */
 }
 .form-switchtabs {
   display: flex;
