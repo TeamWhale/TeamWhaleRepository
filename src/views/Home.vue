@@ -47,11 +47,61 @@
       </div>
     </div>
     <Detail v-if="detailFlg" v-bind:detail="Contents" />
+    <!-- おすすめ表示 -->
+    <div class="recom_wrapper">
+      <h2>ピックアップ</h2>
+      <carousel
+        :autoplay="true"
+        :autoplayTimeout="1000"
+        :loop="true"
+        :speed="500"
+        class="recom_items"
+      >
+        <slide
+          v-for="recomPost in recomPosts.slice(0, 5)"
+          @click="detailWindow(all)"
+          :key="recomPost.id"
+          :style="{
+            backgroundImage: 'url(' + recomPost.imageURL + ')',
+            backgroundSize: 'cover',
+          }"
+          class="recom_item"
+        >
+          <div class="pickup_description">
+            <div v-text="recomPost.title" class="pickup_name">
+              {{ recomPost.title }}
+            </div>
+            <div v-text="recomPost.selected" class="pickup_time">
+              {{ recomPost.selected }}
+            </div>
+            <div class="star">
+              お手軽さ
+              <star-rating
+                :item-size="15"
+                :read-only="true"
+                :show-rating="false"
+                v-model="recomPost.rating"
+              ></star-rating>
+            </div>
+          </div>
+        </slide>
+      </carousel>
+      <div class="carousel_arrows">
+        <img src="../assets/arrow-left.png" class="arrow" />
+        <img src="../assets/carousel-light.png" class="carousel_dot" />
+        <img src="../assets/carousel-dark.png" class="carousel_dot" />
+        <img src="../assets/carousel-light.png" class="carousel_dot" />
+        <img src="../assets/carousel-light.png" class="carousel_dot" />
+        <img src="../assets/carousel-light.png" class="carousel_dot" />
+        <img src="../assets/arrow-right.png" class="arrow" />
+      </div>
+    </div>
     <!-- 検索結果表示 -->
     <div v-if="SearchCondition" class="body_wrapper">
       <h2>検索結果</h2>
       <div class="pickup_items">
         <div
+          @click="detailWindow(all)"
           v-for="recipe in searchFunction"
           :key="recipe.id"
           :style="{
@@ -80,10 +130,10 @@
         </div>
       </div>
     </div>
-    <!-- ピックアップ表示 -->
+    <!-- 新着投稿表示 -->
     <!-- 「すべて」タブが押されているとき -->
     <div class="body_wrapper" v-if="allExpression">
-      <h2>ピックアップ</h2>
+      <h2>新着投稿</h2>
       <div class="pickup_items">
         <div
           class="pickup_item"
@@ -113,7 +163,7 @@
     </div>
     <!-- 「手作り」タブが押されているとき -->
     <div class="body_wrapper" v-if="RecipesExpression">
-      <h2>ピックアップ</h2>
+      <h2>新着投稿</h2>
       <div class="pickup_items">
         <div
           class="pickup_item"
@@ -143,7 +193,7 @@
     </div>
     <!-- 「市販」タブが押されているとき -->
     <div class="body_wrapper" v-if="PurchasesExpression">
-      <h2>ピックアップ</h2>
+      <h2>新着投稿</h2>
       <div class="pickup_items">
         <div
           class="pickup_item"
@@ -190,6 +240,7 @@ export default {
   },
   data() {
     return {
+      recomPosts: [],
       recipes: [],
       allRecipe: [],
       Recipes: [],
@@ -258,7 +309,7 @@ export default {
     },
   },
   mounted() {
-    // 「すべて」を受け取る（検索用）
+    // 「おすすめ」を受け取る
     firebase
       .firestore()
       .collection("recipe")
@@ -266,12 +317,26 @@ export default {
       .get()
       .then((snapshot) => {
         snapshot.docs.forEach((doc) => {
-          this.recipe.push({
+          this.recomPosts.push({
             ...doc.data(),
             id: doc.id,
           });
         });
       }),
+      // 「すべて」を受け取る（検索用）
+      firebase
+        .firestore()
+        .collection("recipe")
+        .orderBy("createdAt", "desc")
+        .get()
+        .then((snapshot) => {
+          snapshot.docs.forEach((doc) => {
+            this.recipes.push({
+              ...doc.data(),
+              id: doc.id,
+            });
+          });
+        }),
       // 「すべて」を受け取る
       firebase
         .firestore()
@@ -328,7 +393,7 @@ export default {
         if (recipe.title.indexOf(this.keyword) !== -1) {
           // !== ～ →「～と異なる」、-1は
           recipes.push(recipe);
-          // return this.recipe.slice(0, 3); //3つだけ表示
+          // return this.recipes.slice(0, 12); //12こだけ表示
         }
       }
       return recipes;
@@ -429,6 +494,36 @@ export default {
 .active {
   background-color: #fce7c7;
   font-weight: bold;
+}
+.recom_wrapper {
+  margin-top: 50px;
+}
+.recom_items {
+  display: flex;
+  overflow: hidden;
+}
+.recom_item {
+  width: 288px;
+  height: 250px;
+  margin-left: 30px;
+}
+.carousel_arrows {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 27px;
+}
+.arrow {
+  width: 26px;
+  height: 33px;
+  margin-left: 90px;
+  margin-right: 90px;
+}
+.carousel_dot {
+  width: 10px;
+  height: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 .body_wrapper {
   width: 1000px;

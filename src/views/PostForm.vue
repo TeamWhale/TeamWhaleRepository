@@ -72,13 +72,16 @@
                   </div>
                 </div>
                 <!-- 星レビュー -->
-                <div class="star">
-                  お手軽さ 星{{ rating }}
-                  <star-rating
-                    :item-size="20"
-                    :show-rating="false"
-                    v-model="rating"
-                  ></star-rating>
+                <div class="star_wrapper">
+                  <h3>お手軽さ</h3>
+                  <div class="star">
+                    <p>星{{ rating }}</p>
+                    <star-rating
+                      :item-size="20"
+                      :show-rating="false"
+                      v-model="rating"
+                    ></star-rating>
+                  </div>
                 </div>
                 <!-- 紹介文 -->
                 <div class="introduce">
@@ -175,13 +178,16 @@
               />
             </div>
             <!-- 星レビュー -->
-            <div class="star form_item">
-              お手軽さ 星{{ rating }}
-              <star-rating
-                :item-size="20"
-                :show-rating="false"
-                v-model="rating"
-              ></star-rating>
+            <div class="star_wrapper form_item">
+              <h3>お手軽さ</h3>
+              <div class="star">
+                <p>星{{ rating }}</p>
+                <star-rating
+                  :item-size="20"
+                  :show-rating="false"
+                  v-model="rating"
+                ></star-rating>
+              </div>
             </div>
             <!-- 写真 -->
             <div class="form_pic">
@@ -493,6 +499,13 @@ h3 {
 }
 .form_horizontal {
   display: flex;
+}
+.star_wrapper {
+  align-items: center;
+  display: flex;
+}
+.star {
+  margin-left: 8px;
 }
 .form_time_choice {
   margin-top: 12px;
