@@ -48,6 +48,7 @@
         </div>
       </div>
     </div>
+    <Detail v-if="detailFlg" v-bind:detail="Contents" />
     <!-- 検索結果表示 -->
     <div v-if="SearchCondition" class="body_wrapper">
       <h2>検索結果</h2>
@@ -152,11 +153,13 @@
 <script>
 import firebase from "firebase"
 import "firebase/firestore"
+import Detail from "@/components/Detail.vue";
 import {StarRating} from 'vue-rate-it'
 import Footer from "../components/Footer.vue";
 
 export default {
-  components:{
+  components: {
+    Detail,
     StarRating
   },
   data() {
@@ -174,6 +177,7 @@ export default {
       isActive2: false,
       isActive3: false,
       user: "",
+      detailFlg: false,
       keyword: "",
     };
   },
@@ -220,6 +224,10 @@ export default {
       this.isActive1 = false;
       this.isActive2 = false;
       this.isActive3 = true;
+    },
+      detailWindow(Cont){
+      this.Contents = Cont
+      this.detailFlg = true
     },
   },
   mounted() {
