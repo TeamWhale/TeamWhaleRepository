@@ -109,6 +109,7 @@ export default {
 }
 #modal {
   position: fixed;
+  /* position: absolute; */
   left: 50%;
   top: 50%;
   z-index: 2;
