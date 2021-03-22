@@ -134,9 +134,6 @@ export default {
         { id: 5, name: "約１時間" },
         { id: 6, name: "1時間以上" },
       ],
-      
-
-      
     };
   },
   methods: {
