@@ -533,10 +533,6 @@ h3 {
   border-width: 1px;
   margin-top: 5px;
 }
-.add-input:hover {
-  opacity: 0.3;
-  transition-duration: 0.3s;
-}
 .make-button {
   width: 400px;
   height: 48px;
