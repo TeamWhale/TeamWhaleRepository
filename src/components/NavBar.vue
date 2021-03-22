@@ -1,11 +1,12 @@
 <template>
   <div class="nav__bar">
-    <router-link to="/" class="nav__logo">レシピサイト</router-link>
-    <a>一人暮らしの食事を共有するサイト</a>
+    <router-link to="/" class="nav__logo"
+      ><img src="../assets/service-name.png" width="500px" height="38px"
+    /></router-link>
     <div class="nav__items">
-      <router-link to="/PostForm" v-if="user" class="nav__item nav__submit"
-        >投稿</router-link
-      >
+      <router-link to="/PostForm" v-if="user" class="nav__submit"
+        ><img src="../assets/post-button.png" width="160px" height="48px"
+      /></router-link>
       <router-link to="/MyPage" v-if="user" class="nav__item "
         >マイページ</router-link
       >
@@ -53,8 +54,8 @@ export default {
 
 <style scoped>
 .nav__bar {
-  width: 950px;
-  height: 60px;
+  width: 1000px;
+  height: 70px;
   display: flex;
   justify-content: space-between;
   align-items: stretch;
@@ -98,9 +99,13 @@ export default {
   text-decoration: none;
 }
 .nav__submit {
+  justify-content: center;
+  align-items: center;
   font-size: 18px;
+  margin-right: 10px;
+  padding-top: 9px;
 }
-a {
-  margin-top: 1px;
+.nav__submit:hover {
+  cursor: pointer;
 }
 </style>

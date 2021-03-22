@@ -268,7 +268,7 @@ export default {
         snapshot.docs.forEach((doc) => {
           this.recipe.push({
             ...doc.data(),
-          id: doc.id
+            id: doc.id,
           });
         });
       }),
@@ -282,7 +282,7 @@ export default {
           snapshot.docs.forEach((doc) => {
             this.allRecipe.push({
               ...doc.data(),
-          id: doc.id
+              id: doc.id,
             });
           });
         }),
@@ -297,7 +297,7 @@ export default {
             if (doc.data().type === "手作り") {
               this.Recipes.push({
                 ...doc.data(),
-          id: doc.id
+                id: doc.id,
               });
             }
           });
@@ -313,7 +313,7 @@ export default {
             if (doc.data().type === "市販") {
               this.Purchases.push({
                 ...doc.data(),
-          id: doc.id
+                id: doc.id,
               });
             }
           });
@@ -362,7 +362,7 @@ export default {
 .search_wrapper {
   display: flex;
   width: 100%;
-  min-width: 950px;
+  min-width: 1000px;
   height: 54px;
   background-color: #ff9900;
   justify-content: center;
@@ -399,7 +399,7 @@ export default {
 }
 .tab_wrapper {
   width: 100%;
-  min-width: 950px;
+  min-width: 1000px;
   background-color: #fcf5ea;
 }
 .tab_mini-wrapper {
@@ -407,7 +407,7 @@ export default {
 }
 .tab_items {
   display: flex;
-  width: 950px;
+  width: 1000px;
   height: 55px;
   color: #3f1f1a;
   margin-right: auto;
@@ -431,7 +431,7 @@ export default {
   font-weight: bold;
 }
 .body_wrapper {
-  width: 950px;
+  width: 1000px;
   margin-right: auto;
   margin-left: auto;
 }
@@ -445,7 +445,7 @@ h2 {
   margin-bottom: 25px;
 }
 .pickup_item {
-  width: calc((950px - 3 * 3%) / 3);
+  width: calc((1000px - 3 * 3%) / 3);
   height: 250px;
   border-radius: 8px;
   margin-left: 3%;
