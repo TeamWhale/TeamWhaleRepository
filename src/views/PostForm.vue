@@ -26,6 +26,9 @@
         </div>
       </div>
       <br>
+      <!-- 星レビュー -->
+      <star-rating :item-size="20" :show-rating="false" v-model="rating"></star-rating>
+      <div>お手軽さ星{{rating}}</div>
       <!-- 写真 -->
       <div>
         <input type="file" accept="image/*" @change="onImageUploadedMake($event)" required>
@@ -87,6 +90,9 @@
         <div class="title">
           <input v-model="title" type="text" placeholder="料理タイトル" required>
         </div>
+        <!-- 星レビュー -->
+      <star-rating :item-size="20" :show-rating="false" v-model="rating"></star-rating>
+      <div>お手軽さ星{{rating}}</div>
         <!-- 写真 -->
         <div>
           <input type="file" accept="image/*" @change="onImageUploadedMade($event)" required>
@@ -110,7 +116,11 @@ import firebase from "firebase"
 import "firebase/firestore"
 import "firebase/auth"
 import "firebase/storage"
+import {StarRating} from 'vue-rate-it'
 export default {
+  components:{
+    StarRating
+  },
   data() {
     return {
       cook: false,
@@ -126,6 +136,7 @@ export default {
       newHowTos: [
         {text: ""}
         ],
+      rating: 0,
       options: [
         { id: 1, name: "５分以内" },
         { id: 2, name: "約１０分" },
@@ -235,7 +246,8 @@ export default {
             introduce: this.introduce,
             newIngredients: this.newIngredients,
             newHowTo: this.newHowTos,
-            uid: user.uid
+            uid: user.uid,
+            rating: this.rating
           }).then(()=>{
             window.alert("投稿完了")
             this.$router.push("/MyPage")
@@ -257,7 +269,8 @@ export default {
            imageName: this.imageName,
            imageURL: this.imageURL,
            introduce: this.introduce,
-           uid: user.uid
+           uid: user.uid,
+           rating: this.rating
           }).then(()=>{
             window.alert("投稿完了")
             this.$router.push("/MyPage")

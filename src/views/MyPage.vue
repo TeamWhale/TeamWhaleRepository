@@ -28,6 +28,10 @@
         <div class="recom_description">
           <div class="recom_name">{{all.title}}</div>
           <div class="recom_time">{{all.selected}}</div>
+          <div class="star">
+            お手軽さ
+          <star-rating :item-size="15" :read-only="true" :show-rating="false" v-model="all.rating"></star-rating>
+          </div>
         </div>
       </div>   
     </div>
@@ -37,6 +41,10 @@
         <div class="recom_description">
           <div class="recom_name">{{recipe.title}}</div>
           <div class="recom_time">{{recipe.selected}}</div>
+          <div class="star">
+            お手軽さ
+          <star-rating :item-size="15" :read-only="true" :show-rating="false" v-model="recipe.rating"></star-rating>
+          </div>
         </div>
       </div>   
     </div>
@@ -46,6 +54,10 @@
         <div class="recom_description">
           <div class="recom_name">{{purchase.title}}</div>
           <div class="recom_time">{{purchase.selected}}</div>
+          <div class="star">
+            お手軽さ
+          <star-rating :item-size="15" :read-only="true" :show-rating="false" v-model="purchase.rating"></star-rating>
+          </div>
         </div>
       </div>   
     </div>
@@ -56,8 +68,11 @@
 
 import firebase from "firebase"
 import "firebase/firestore"
-
+import {StarRating} from 'vue-rate-it'
 export default {
+  components:{
+    StarRating
+  },
   data() {
     return {
       search_keyword: "",
