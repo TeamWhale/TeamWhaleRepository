@@ -44,7 +44,7 @@
           >
             市販
           </div>
-      <div class=" current tab_user">{{user}}さんでログイン済み</div>
+          <div class=" current tab_user">{{ user }}さんでログイン済み</div>
         </div>
       </div>
     </div>
@@ -71,9 +71,14 @@
             </div>
             <div class="star">
               お手軽さ
-              <star-rating :item-size="15" :read-only="true" :show-rating="false" v-model="recipe.rating"></star-rating>
+              <star-rating
+                :item-size="15"
+                :read-only="true"
+                :show-rating="false"
+                v-model="recipe.rating"
+              ></star-rating>
             </div>
-            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -96,8 +101,14 @@
             <div class="pickup_time">{{ all.selected }}</div>
             <div class="star">
               お手軽さ
-              <star-rating :item-size="15" :read-only="true" :show-rating="false" v-model="all.rating"></star-rating>
-            </div></div>
+              <star-rating
+                :item-size="15"
+                :read-only="true"
+                :show-rating="false"
+                v-model="all.rating"
+              ></star-rating>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -119,9 +130,15 @@
             <div class="pickup_time">{{ recipe.selected }}</div>
             <div class="star">
               お手軽さ
-              <star-rating :item-size="15" :read-only="true" :show-rating="false" v-model="recipe.rating"></star-rating>
+              <star-rating
+                :item-size="15"
+                :read-only="true"
+                :show-rating="false"
+                v-model="recipe.rating"
+              ></star-rating>
             </div>
-        </div></div>
+          </div>
+        </div>
       </div>
     </div>
     <!-- 「市販」タブが押されているとき -->
@@ -140,9 +157,15 @@
           <div class="pickup_description">
             <div class="pickup_name">{{ purchase.title }}</div>
             <div class="pickup_time">{{ purchase.selected }}</div>
-          <div class="star">
-            お手軽さ
-          <star-rating :item-size="15" :read-only="true" :show-rating="false" v-model="purchase.rating"></star-rating>
+            <div class="star">
+              お手軽さ
+              <star-rating
+                :item-size="15"
+                :read-only="true"
+                :show-rating="false"
+                v-model="purchase.rating"
+              ></star-rating>
+            </div>
           </div>
         </div>
       </div>
@@ -155,7 +178,7 @@
 import firebase from "firebase";
 import "firebase/firestore";
 import Detail from "@/components/Detail.vue";
-import {StarRating} from "vue-rate-it";
+import { StarRating } from "vue-rate-it";
 import Footer from "../components/Footer.vue";
 
 export default {
@@ -224,9 +247,9 @@ export default {
       this.isActive2 = false;
       this.isActive3 = true;
     },
-      detailWindow(Cont){
-      this.Contents = Cont
-      this.detailFlg = true
+    detailWindow(Cont) {
+      this.Contents = Cont;
+      this.detailFlg = true;
     },
   },
   mounted() {
