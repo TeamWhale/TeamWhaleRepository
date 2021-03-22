@@ -76,7 +76,14 @@
       <h2>ピックアップ</h2>
       <div class="pickup_items">
         <div
-          class="pickup_item"@click="detailWindow(all)" v-for="(all, index) in allRecipe" :key="index" :style="{ backgroundImage: 'url(' + all.imageURL + ')', backgroundSize: 'cover'}"
+          class="pickup_item"
+          @click="detailWindow(all)"
+          v-for="(all, index) in allRecipe"
+          :key="index"
+          :style="{
+            backgroundImage: 'url(' + all.imageURL + ')',
+            backgroundSize: 'cover',
+          }"
         >
           <div class="pickup_description">
             <div class="pickup_name">{{ all.title }}</div>
@@ -91,7 +98,13 @@
       <div class="pickup_items">
         <div
           class="pickup_item"
-          @click="detailWindow(recipe)" v-for="(recipe, index) in Recipes" :key="index" :style="{ backgroundImage: 'url(' + recipe.imageURL + ')', backgroundSize: 'cover'}"
+          @click="detailWindow(recipe)"
+          v-for="(recipe, index) in Recipes"
+          :key="index"
+          :style="{
+            backgroundImage: 'url(' + recipe.imageURL + ')',
+            backgroundSize: 'cover',
+          }"
         >
           <div class="pickup_description">
             <div class="pickup_name">{{ recipe.title }}</div>
@@ -109,7 +122,10 @@
           @click="detailWindow(purchase)"
           v-for="(purchase, index) in Purchases"
           :key="index"
-          :style="{ backgroundImage: 'url(' + purchase.imageURL + ')', backgroundSize: 'cover'}"
+          :style="{
+            backgroundImage: 'url(' + purchase.imageURL + ')',
+            backgroundSize: 'cover',
+          }"
         >
           <div class="pickup_description">
             <div class="pickup_name">{{ purchase.title }}</div>
@@ -126,11 +142,12 @@
 import firebase from "firebase";
 import "firebase/firestore";
 import Footer from "../components/Footer.vue";
-import Detail from "@/components/Detail.vue";
+// import Detail from "@/components/Detail.vue";
 
 export default {
   components: {
-    Detail,
+    // Detail,
+    Footer,
   },
   data() {
     return {
@@ -150,9 +167,6 @@ export default {
       keyword: "",
       detailFlg: false,
     };
-  },
-  components: {
-    Footer,
   },
   methods: {
     searchTabchange() {
@@ -199,9 +213,9 @@ export default {
       this.isActive3 = true;
       this.keyword = "";
     },
-    detailWindow(Cont){
-      this.Contents = Cont
-      this.detailFlg = true
+    detailWindow(Cont) {
+      this.Contents = Cont;
+      this.detailFlg = true;
     },
   },
   mounted() {
