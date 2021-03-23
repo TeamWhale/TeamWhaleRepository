@@ -503,9 +503,10 @@ h3 {
 .star_wrapper {
   align-items: center;
   display: flex;
+  justify-content: space-between;
 }
 .star {
-  margin-left: 8px;
+  display: flex;
 }
 .form_time_choice {
   margin-top: 12px;
