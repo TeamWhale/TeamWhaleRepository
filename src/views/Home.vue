@@ -50,14 +50,14 @@
     <!-- おすすめ表示 -->
     <div class="recom_wrapper">
       <h2>ピックアップ</h2>
-      <carousel
+      <div
         :autoplay="true"
         :autoplayTimeout="1000"
         :loop="true"
         :speed="500"
         class="recom_items"
       >
-        <slide
+        <div
           v-for="recomPost in recomPosts.slice(0, 5)"
           @click="detailWindow(all)"
           :key="recomPost.id"
@@ -84,8 +84,8 @@
               ></star-rating>
             </div>
           </div>
-        </slide>
-      </carousel>
+        </div>
+      </div>
       <div class="carousel_arrows">
         <img src="../assets/arrow-left.png" class="arrow" />
         <div class="carousel_dots">
@@ -262,7 +262,6 @@ export default {
   },
   methods: {
     searchTabchange() {
-      // alert("検索機能、実装途中byさき");
       this.allExpression = false;
       this.RecipesExpression = false;
       this.PurchasesExpression = false;
@@ -393,9 +392,7 @@ export default {
       for (const i in this.recipes) {
         const recipe = this.recipes[i];
         if (recipe.title.indexOf(this.keyword) !== -1) {
-          // !== ～ →「～と異なる」、-1は
           recipes.push(recipe);
-          // return this.recipes.slice(0, 12); //12こだけ表示
         }
       }
       return recipes;
