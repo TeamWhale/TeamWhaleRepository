@@ -88,11 +88,13 @@
       </carousel>
       <div class="carousel_arrows">
         <img src="../assets/arrow-left.png" class="arrow" />
-        <img src="../assets/carousel-light.png" class="carousel_dot" />
-        <img src="../assets/carousel-dark.png" class="carousel_dot" />
-        <img src="../assets/carousel-light.png" class="carousel_dot" />
-        <img src="../assets/carousel-light.png" class="carousel_dot" />
-        <img src="../assets/carousel-light.png" class="carousel_dot" />
+        <div class="carousel_dots">
+          <div class="carousel_dot"></div>
+          <div class="carousel_dot"></div>
+          <div class="carousel_dot"></div>
+          <div class="carousel_dot"></div>
+          <div class="carousel_dot"></div>
+        </div>
         <img src="../assets/arrow-right.png" class="arrow" />
       </div>
     </div>
@@ -519,11 +521,25 @@ export default {
   margin-left: 90px;
   margin-right: 90px;
 }
+.arrow:hover {
+  cursor: pointer;
+  opacity: 0.6;
+  transition-duration: 0.3s;
+}
+.carousel_dots {
+  display: flex;
+}
 .carousel_dot {
   width: 10px;
   height: 10px;
+  border-radius: 5px;
+  background-color: #d1c9c8;
   margin-left: 5px;
   margin-right: 5px;
+}
+.carousel_dot:hover {
+  cursor: pointer;
+  background-color: #a9a4a4;
 }
 .body_wrapper {
   width: 1000px;
