@@ -296,11 +296,6 @@ export default {
       this.createImageMake(image);
     },
     createImageMake(image) {
-      // const render = new FileReader()
-      // render.readAsDataURL(image)
-      // render.onload = () =>{
-      //   this.image = render.result
-      // }
       //storage
       const storageRef = firebase.storage().ref();
       const createdAt = new Date();
@@ -309,8 +304,6 @@ export default {
       const fileRef = storageRef.child("images/" + uniqueFileName);
       fileRef.put(image).then((snapshot) => {
         snapshot.ref.getDownloadURL().then((url) => {
-          console.log(url);
-          console.log(image.name);
           this.imageURL = url;
           this.imageName = image.name;
         });
@@ -322,11 +315,6 @@ export default {
       this.createImageMade(image);
     },
     createImageMade(image) {
-      // const render = new FileReader()
-      // render.readAsDataURL(image)
-      // render.onload = () =>{
-      //   this.image = render.result
-      // }
       //storage
       const storageRef = firebase.storage().ref();
       const createdAt = new Date();
@@ -561,5 +549,11 @@ h3 {
 .make-button:hover {
   opacity: 0.8;
   transition-duration: 0.3s;
+}
+.image_wrapper{
+  height: 360px;
+  width: 360px;
+  background-color: #ff9900;
+  text-align: center;
 }
 </style>

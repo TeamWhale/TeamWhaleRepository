@@ -247,7 +247,7 @@ export default {
       allRecipe: [],
       Recipes: [],
       Purchases: [],
-      Contents: [],
+      Contents: "",
       allExpression: true,
       RecipesExpression: false,
       PurchasesExpression: false,

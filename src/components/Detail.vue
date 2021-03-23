@@ -1,7 +1,6 @@
 <template>
   <div class="ViewModal">
     <div id="modal">
-        {{detail.id}}
       <!-- タイトル -->
       <h1>{{ detail.title }}</h1>
       <!-- 手作りか市販か， -->
@@ -57,9 +56,7 @@ import "firebase/auth";
 import "firebase/firestore";
 
 export default {
-  props: {
-    detail: [],
-  },
+  props:['detail'],
   data() {
     return {
       user: false,
@@ -92,7 +89,6 @@ export default {
         this.user = false;
       }
     });
-    console.log(this.detail);
   },
 };
 </script>
