@@ -59,7 +59,7 @@
       >
         <div
           v-for="recomPost in recomPosts.slice(0, 5)"
-          @click="detailWindow(all)"
+          @click="detailWindow(recomPost)"
           :key="recomPost.id"
           :style="{
             backgroundImage: 'url(' + recomPost.imageURL + ')',
@@ -103,7 +103,7 @@
       <h2>検索結果</h2>
       <div class="pickup_items">
         <div
-          @click="detailWindow(all)"
+          @click="detailWindow(recipe)"
           v-for="recipe in searchFunction"
           :key="recipe.id"
           :style="{
@@ -506,6 +506,11 @@ export default {
   height: 250px;
   margin-left: 30px;
 }
+.recom_item:hover {
+  cursor: pointer;
+  opacity: 0.7;
+  transition-duration: 0.3s;
+}
 .carousel_arrows {
   display: flex;
   align-items: center;
@@ -562,6 +567,8 @@ h2 {
 }
 .pickup_item:hover {
   cursor: pointer;
+  opacity: 0.7;
+  transition-duration: 0.3s;
 }
 .pickup_description {
   display: inline-block;
