@@ -24,7 +24,7 @@
       <div id="detail">
         <!-- 調理時間 -->
         <div v-if="detail.selected">時間：{{ detail.selected }}</div>
-        <br />
+        <hr />
         <!-- 材料 -->
         <div v-if="detail.newIngredients" class="ingredient">
           <h3>材料(1人分)</h3>
@@ -38,7 +38,7 @@
             </div>
           </div>
         </div>
-        <br />
+        <hr />
         <!-- 作り方 -->
         <div v-if="detail.newHoTo" class="howTo">
           <h3>作り方</h3>
@@ -133,6 +133,12 @@ export default {
   display: flex;
   flex-wrap: wrap;
 } */
+hr {
+  border-width: 1px 0 0 0;
+  border-style: solid;
+  border-color: #ececec;
+  margin: 20px 5px;
+}
 .modal-head {
   display: flex;
 }

@@ -49,16 +49,22 @@
     <Detail v-if="detailFlg" v-bind:detail="Contents" />
     <!-- おすすめ表示 -->
     <div class="recom_wrapper">
-      <div class="recom_title_center">
-        <h2 class="recom_title">ピックアップ</h2>
+      <div class="recom_title_left">
+        <h2 class="recom_title">Abcde とは</h2>
+        <div class="recom_title_description">
+          「自炊をしてみたいけどハードルが高い...」<br />「自炊のレパートリーを増やしたい！」<br />「今夜何を食べよう？」
+          <br />という一人暮らしさんのために<br />一人暮らしさんのリアルな食事を共有し合うサイトです
+        </div>
       </div>
       <carousel
         :autoplay="true"
         :loop="true"
         :speed="2000"
+        :autoplayTimeout="5000"
         paginationColor="#d1c9c8"
         paginationActiveColor="#a9a4a4"
-        :perPage="4"
+        :perPage="1"
+        :centerMode="true"
         :scrollPerPage="false"
       >
         <slide
@@ -491,33 +497,41 @@ export default {
   font-weight: bold;
 }
 .recom_wrapper {
-  margin-top: 50px;
-}
-.recom_title_center {
   width: 1000px;
-  margin-right: auto;
-  margin-left: auto;
+  display: flex;
+  margin: 50px auto 0 auto;
+  color: #3f1f1a;
+}
+.recom_title_left {
+  width: 550px;
+  margin-left: 3%;
 }
 .recom_title {
   margin-left: 3%;
 }
+.recom_title_description {
+  line-height: 28px;
+  margin-left: 10%;
+  font-size: 13px;
+}
 .VueCarousel {
+  width: calc((1000px - 3 * 3%) / 3);
   height: 320px;
 }
 .VueCarousel-wrapper,
 .VueCarousel-inner,
 .VueCarousel-slide {
+  width: 100%;
   height: 100% !important;
+  border-radius: 8px;
 }
 .VueCarousel-slide .slider-inner {
-  /* width: 300px; */
   height: 100%;
   display: flex;
 }
 .recom_item {
-  width: 288px;
+  width: 100%;
   height: 250px;
-  margin-left: 30px;
 }
 .recom_item:hover {
   cursor: pointer;
