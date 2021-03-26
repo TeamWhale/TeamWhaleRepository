@@ -1,21 +1,8 @@
 <template>
-<!-- 
-・detail.idを消去
-・detail.fromMyPageの追加，
-    myPageからアクセスした場合のみ，編集と削除が可能
-・detail.fromMyPage の追加により，data の user を消去，mounted を消去
-・モーダルウィンドウの見た目を変更
-・編集，削除機能
--->
-<!-- 
-サイト名候補
-・
- -->
-
   <div class="ViewModal">
     <div id="modal" class="border-color">
       <!-- 写真 -->
-      <div class="det_picDeco">
+      <div>
         <img
           :src="detail.imageURL"
           alt="料理の写真"
@@ -106,23 +93,12 @@ export default {
     return {
       imageURL: "",
       imageName: "",
-      editFlg: false,
     };
   },
   methods: {
     editPost() {
-      firebase
-        .firestore()
-        .collection("recipe")
-        .doc(this.detail.id)
-        .update({title: this.detail.title})
-        .then(() => {
-          window.alert("編集完了");
-          this.$router.go({path: this.$router.currentRoute.path, force: true})
-        })
-        .catch(() => {
-          window.alert("変更されませんでした");
-        });
+      this.$parent.$data["editFlg"] = true;
+      this.$parent.$data["detailFlg"] = false;
     },
     deletePost() {
       firebase
@@ -140,7 +116,6 @@ export default {
     },
     close() {
       this.$parent.$data["detailFlg"] = false;
-      this.user = false;
     },
   },
 };
@@ -179,15 +154,6 @@ export default {
   background-image: repeating-linear-gradient(45deg, #fcf5ea 25%, transparent 25%, transparent 75%, #fcf5ea 75%, #fcf5ea), repeating-linear-gradient(45deg, #fcf5ea 25%, #ffffff 25%, #ffffff 75%, #fcf5ea 75%, #fcf5ea);
   background-position: 0 0, 20px 20px;
   background-size: 40px 40px;
-}
-#modal::-webkit-scrollbar-track {
-  border-radius: 10px;
-  box-shadow: 0 0 4px #aaa inset;
-}
-/* スクロールのつまみ部分の設定 */
-#modal::-webkit-scrollbar-thumb {
-  border-radius: 5px;
-  background: #1959A8;
 }
 .border-color {
   border-top: solid 3px #ff9900;
@@ -306,7 +272,7 @@ export default {
   display: flex;
   position:fixed;
   z-index: 2;
-  bottom: 10%;
+  top: 8%;
   right: 25%;
 }
 .det__button{
