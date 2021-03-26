@@ -48,6 +48,7 @@
       </div>
     </div>
     <Detail v-if="detailFlg" v-bind:detail="Contents" />
+    <Edit v-if="editFlg" v-bind:editDet="Contents" />
     <!-- 検索結果表示 -->
     <div v-if="SearchCondition" class="body_wrapper">
       <h2>検索結果</h2>
@@ -88,6 +89,7 @@
       <div class="pickup_items">
         <div
           class="pickup_item"
+          @click="detailWindow(all)"
           v-for="(all, index) in allRecipe"
           :key="index"
           :style="{
@@ -117,6 +119,7 @@
       <div class="pickup_items">
         <div
           class="pickup_item"
+          @click="detailWindow(recipe)"
           v-for="(recipe, index) in Recipes"
           :key="index"
           :style="{
@@ -146,6 +149,7 @@
       <div class="pickup_items">
         <div
           class="pickup_item"
+          @click="detailWindow(purchase)"
           v-for="(purchase, index) in Purchases"
           :key="index"
           :style="{
@@ -177,18 +181,19 @@
 import firebase from "firebase";
 import "firebase/firestore";
 import Detail from "@/components/Detail.vue";
+import Edit from "@/components/Edit.vue";
 import { StarRating } from "vue-rate-it";
 import Footer from "../components/Footer.vue";
-
 export default {
   components: {
     Detail,
+    Edit,
     StarRating,
     Footer,
   },
   data() {
     return {
-      search_keyword: "",
+      keyword: "",
       recipes: [],
       allRecipe: [],
       Recipes: [],
@@ -202,19 +207,18 @@ export default {
       isActive3: false,
       user: "",
       detailFlg: false,
-      keyword: "",
+      editFlg: false,
     };
   },
   methods: {
     searchTabchange() {
-      // alert("検索機能、実装途中byさき");
       this.allExpression = false;
       this.RecipesExpression = false;
       this.PurchasesExpression = false;
-      this.SearchCondition = true;
       this.isActive1 = false;
       this.isActive2 = false;
       this.isActive3 = false;
+      this.SearchCondition = true;
     },
     // すべて／手作り／市販のスタイルを変える関数
     tabChange: function(num) {
@@ -242,12 +246,14 @@ export default {
       this.allExpression = false;
       this.RecipesExpression = false;
       this.PurchasesExpression = true;
+      this.SearchCondition = false;
       this.isActive1 = false;
       this.isActive2 = false;
       this.isActive3 = true;
     },
     detailWindow(Cont) {
       this.Contents = Cont;
+      this.Contents.fromMyPage = true;
       this.detailFlg = true;
     },
   },
@@ -265,6 +271,7 @@ export default {
               if (doc.data().uid === user.uid) {
                 this.recipes.push({
                   ...doc.data(),
+                  id: doc.id,
                 });
               }
             });
@@ -280,6 +287,7 @@ export default {
                 if (doc.data().uid === user.uid) {
                   this.allRecipe.push({
                     ...doc.data(),
+                    id: doc.id,
                   });
                 }
               });
@@ -296,6 +304,7 @@ export default {
                 if (doc.data().type === "手作り") {
                   this.Recipes.push({
                     ...doc.data(),
+                    id: doc.id,
                   });
                 }
               }
@@ -313,6 +322,7 @@ export default {
                 if (doc.data().type === "市販") {
                   this.Purchases.push({
                     ...doc.data(),
+                    id: doc.id,
                   });
                 }
               }
@@ -329,9 +339,7 @@ export default {
       for (const i in this.recipes) {
         const recipe = this.recipes[i];
         if (recipe.title.indexOf(this.keyword) !== -1) {
-          // !== ～ →「～と異なる」、-1は
           recipes.push(recipe);
-          // return this.recipe.slice(0, 3); //3つだけ表示
         }
       }
       return recipes;
