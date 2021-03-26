@@ -63,10 +63,10 @@
           class="pickup_item"
         >
           <div class="pickup_description">
-            <div class="pickup_name">
+            <div v-text="recipe.title" class="pickup_name">
               {{ recipe.title }}
             </div>
-            <div class="pickup_time">
+            <div v-text="recipe.selected" class="pickup_time">
               {{ recipe.selected }}
             </div>
             <div class="star">
@@ -184,7 +184,6 @@ import Detail from "@/components/Detail.vue";
 import Edit from "@/components/Edit.vue";
 import { StarRating } from "vue-rate-it";
 import Footer from "../components/Footer.vue";
-
 export default {
   components: {
     Detail,
@@ -209,7 +208,6 @@ export default {
       user: "",
       detailFlg: false,
       editFlg: false,
-      keyword: "",
     };
   },
   methods: {
