@@ -49,16 +49,26 @@
     <Detail v-if="detailFlg" v-bind:detail="Contents" />
     <!-- おすすめ表示 -->
     <div class="recom_wrapper">
-      <h2>ピックアップ</h2>
-      <div
+      <div class="recom_title_left">
+        <h2 class="recom_title">Abcde とは</h2>
+        <div class="recom_title_description">
+          「自炊をしてみたいけどハードルが高い...」<br />「自炊のレパートリーを増やしたい！」<br />「今夜何を食べよう？」
+          <br />という一人暮らしさんのために<br />一人暮らしさんのリアルな食事を共有し合うサイトです
+        </div>
+      </div>
+      <carousel
         :autoplay="true"
-        :autoplayTimeout="1000"
         :loop="true"
-        :speed="500"
-        class="recom_items"
+        :speed="2000"
+        :autoplayTimeout="5000"
+        paginationColor="#d1c9c8"
+        paginationActiveColor="#a9a4a4"
+        :perPage="1"
+        :centerMode="true"
+        :scrollPerPage="false"
       >
-        <div
-          v-for="recomPost in recomPosts.slice(0, 5)"
+        <slide
+          v-for="recomPost in recomPosts.slice(0, 6)"
           @click="detailWindow(recomPost)"
           :key="recomPost.id"
           :style="{
@@ -68,10 +78,10 @@
           class="recom_item"
         >
           <div class="pickup_description">
-            <div v-text="recomPost.title" class="pickup_name">
+            <div class="pickup_name">
               {{ recomPost.title }}
             </div>
-            <div v-text="recomPost.selected" class="pickup_time">
+            <div class="pickup_time">
               {{ recomPost.selected }}
             </div>
             <div class="star">
@@ -84,19 +94,8 @@
               ></star-rating>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="carousel_arrows">
-        <img src="../assets/arrow-left.png" class="arrow" />
-        <div class="carousel_dots">
-          <div class="carousel_dot"></div>
-          <div class="carousel_dot"></div>
-          <div class="carousel_dot"></div>
-          <div class="carousel_dot"></div>
-          <div class="carousel_dot"></div>
-        </div>
-        <img src="../assets/arrow-right.png" class="arrow" />
-      </div>
+        </slide>
+      </carousel>
     </div>
     <!-- 検索結果表示 -->
     <div v-if="SearchCondition" class="body_wrapper">
@@ -113,10 +112,10 @@
           class="pickup_item"
         >
           <div class="pickup_description">
-            <div v-text="recipe.title" class="pickup_name">
+            <div class="pickup_name">
               {{ recipe.title }}
             </div>
-            <div v-text="recipe.selected" class="pickup_time">
+            <div class="pickup_time">
               {{ recipe.selected }}
             </div>
             <div class="star">
@@ -233,12 +232,15 @@ import "firebase/firestore";
 import Footer from "../components/Footer.vue";
 import Detail from "@/components/Detail.vue";
 import { StarRating } from "vue-rate-it";
+import { Carousel, Slide } from "vue-carousel";
 
 export default {
   components: {
     Detail,
     StarRating,
     Footer,
+    Carousel,
+    Slide,
   },
   data() {
     return {
@@ -496,53 +498,46 @@ export default {
   font-weight: bold;
 }
 .recom_wrapper {
-  margin-top: 50px;
-}
-.recom_items {
+  width: 1000px;
   display: flex;
-  overflow: hidden;
+  margin: 50px auto 0 auto;
+  color: #3f1f1a;
+}
+.recom_title_left {
+  width: 550px;
+  margin-left: 3%;
+}
+.recom_title {
+  margin-left: 3%;
+}
+.recom_title_description {
+  line-height: 28px;
+  margin-left: 10%;
+  font-size: 13px;
+}
+.VueCarousel {
+  width: calc((1000px - 3 * 3%) / 3);
+  height: 320px;
+}
+.VueCarousel-wrapper,
+.VueCarousel-inner,
+.VueCarousel-slide {
+  width: 100%;
+  height: 100% !important;
+  border-radius: 8px;
+}
+.VueCarousel-slide .slider-inner {
+  height: 100%;
+  display: flex;
 }
 .recom_item {
-  width: 288px;
+  width: 100%;
   height: 250px;
-  margin-left: 30px;
 }
 .recom_item:hover {
   cursor: pointer;
   opacity: 0.7;
   transition-duration: 0.3s;
-}
-.carousel_arrows {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 27px;
-}
-.arrow {
-  width: 26px;
-  height: 33px;
-  margin-left: 90px;
-  margin-right: 90px;
-}
-.arrow:hover {
-  cursor: pointer;
-  opacity: 0.6;
-  transition-duration: 0.3s;
-}
-.carousel_dots {
-  display: flex;
-}
-.carousel_dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 5px;
-  background-color: #d1c9c8;
-  margin-left: 5px;
-  margin-right: 5px;
-}
-.carousel_dot:hover {
-  cursor: pointer;
-  background-color: #a9a4a4;
 }
 .body_wrapper {
   width: 1000px;

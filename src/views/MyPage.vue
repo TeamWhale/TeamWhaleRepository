@@ -63,10 +63,10 @@
           class="pickup_item"
         >
           <div class="pickup_description">
-            <div v-text="recipe.title" class="pickup_name">
+            <div class="pickup_name">
               {{ recipe.title }}
             </div>
-            <div v-text="recipe.selected" class="pickup_time">
+            <div class="pickup_time">
               {{ recipe.selected }}
             </div>
             <div class="star">
