@@ -306,6 +306,7 @@ export default {
     },
     detailWindow(Cont) {
       this.Contents = Cont;
+      this.Contents.fromMyPage = false;
       this.detailFlg = true;
     },
   },
