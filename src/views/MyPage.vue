@@ -88,6 +88,7 @@
       <div class="pickup_items">
         <div
           class="pickup_item"
+          @click="detailWindow(all)"
           v-for="(all, index) in allRecipe"
           :key="index"
           :style="{
@@ -117,6 +118,7 @@
       <div class="pickup_items">
         <div
           class="pickup_item"
+          @click="detailWindow(recipe)"
           v-for="(recipe, index) in Recipes"
           :key="index"
           :style="{
@@ -146,6 +148,7 @@
       <div class="pickup_items">
         <div
           class="pickup_item"
+          @click="detailWindow(purchase)"
           v-for="(purchase, index) in Purchases"
           :key="index"
           :style="{
@@ -248,6 +251,7 @@ export default {
     },
     detailWindow(Cont) {
       this.Contents = Cont;
+      this.Contents.fromMyPage = true;
       this.detailFlg = true;
     },
   },
@@ -265,6 +269,7 @@ export default {
               if (doc.data().uid === user.uid) {
                 this.recipes.push({
                   ...doc.data(),
+                  id: doc.id,
                 });
               }
             });
@@ -280,6 +285,7 @@ export default {
                 if (doc.data().uid === user.uid) {
                   this.allRecipe.push({
                     ...doc.data(),
+                    id: doc.id,
                   });
                 }
               });
@@ -296,6 +302,7 @@ export default {
                 if (doc.data().type === "手作り") {
                   this.Recipes.push({
                     ...doc.data(),
+                    id: doc.id,
                   });
                 }
               }
@@ -313,6 +320,7 @@ export default {
                 if (doc.data().type === "市販") {
                   this.Purchases.push({
                     ...doc.data(),
+                    id: doc.id,
                   });
                 }
               }
