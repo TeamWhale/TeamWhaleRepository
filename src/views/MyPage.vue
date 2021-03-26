@@ -194,7 +194,7 @@ export default {
   },
   data() {
     return {
-      search_keyword: "",
+      keyword: "",
       recipes: [],
       allRecipe: [],
       Recipes: [],
@@ -214,14 +214,13 @@ export default {
   },
   methods: {
     searchTabchange() {
-      // alert("検索機能、実装途中byさき");
       this.allExpression = false;
       this.RecipesExpression = false;
       this.PurchasesExpression = false;
-      this.SearchCondition = true;
       this.isActive1 = false;
       this.isActive2 = false;
       this.isActive3 = false;
+      this.SearchCondition = true;
     },
     // すべて／手作り／市販のスタイルを変える関数
     tabChange: function(num) {
@@ -249,6 +248,7 @@ export default {
       this.allExpression = false;
       this.RecipesExpression = false;
       this.PurchasesExpression = true;
+      this.SearchCondition = false;
       this.isActive1 = false;
       this.isActive2 = false;
       this.isActive3 = true;
@@ -341,9 +341,7 @@ export default {
       for (const i in this.recipes) {
         const recipe = this.recipes[i];
         if (recipe.title.indexOf(this.keyword) !== -1) {
-          // !== ～ →「～と異なる」、-1は
           recipes.push(recipe);
-          // return this.recipe.slice(0, 3); //3つだけ表示
         }
       }
       return recipes;
