@@ -1,8 +1,7 @@
 <template>
   <div class="nav__bar">
-    <router-link to="/" class="nav__logo"
-      >レシピサイト
-      <!-- <img src="../assets/service-name.png" width="500px" height="38px"/> -->
+    <router-link to="/" class="nav__logo">
+      <img src="../assets/service-name.png" width="500px" height="38px" />
     </router-link>
     <div class="nav__items">
       <router-link to="/PostForm" v-if="user" class="nav__submit"
