@@ -47,8 +47,10 @@
         </div>
       </div>
     </div>
+    
     <Detail v-if="detailFlg" v-bind:detail="Contents" />
     <Edit v-if="editFlg" v-bind:editDet="Contents" />
+    <EditCooked v-if="editCookedFlg" v-bind:editDet="Contents" />
     <!-- 検索結果表示 -->
     <div v-if="SearchCondition" class="body_wrapper">
       <h2>検索結果</h2>
@@ -182,12 +184,14 @@ import firebase from "firebase";
 import "firebase/firestore";
 import Detail from "@/components/Detail.vue";
 import Edit from "@/components/Edit.vue";
+import EditCooked from "@/components/EditCooked.vue"
 import { StarRating } from "vue-rate-it";
 import Footer from "../components/Footer.vue";
 export default {
   components: {
     Detail,
     Edit,
+    EditCooked,
     StarRating,
     Footer,
   },
@@ -208,6 +212,7 @@ export default {
       user: "",
       detailFlg: false,
       editFlg: false,
+      editCookedFlg: false,
     };
   },
   methods: {

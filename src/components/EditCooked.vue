@@ -245,10 +245,7 @@ export default {
               imageName: this.imageName,
               imageURL: this.imageURL,
               title: this.title,
-              selected: this.selected,
               introduce: this.introduce,
-              newIngredients: this.newIngredients,
-              newHowTo: this.newHowTos,
               rating: this.rating,
             })
             .then(() => {
@@ -264,6 +261,7 @@ export default {
     discard() {
       this.$parent.$data["detailFlg"] = true;
       this.$parent.$data["editFlg"] = false;
+      this.$parent.$data["editCookedFlg"] = false;
       window.alert("変更を破棄しました");
     },
   },
