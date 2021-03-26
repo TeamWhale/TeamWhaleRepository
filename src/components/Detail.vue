@@ -1,74 +1,81 @@
 <template>
   <div class="ViewModal">
-    <div id="modal" class="border-color">
-      <!-- 写真 -->
-      <div>
-        <img :src="detail.imageURL" alt="料理の写真" class="det__pic" />
+    <div id="modal">
+      <div class="det__buttons">
+        <!-- My投稿の編集と削除 -->
+        <div v-if="detail.fromMyPage">
+          <button class="edit-button" v-on:click="editPost">編集</button>
+          <button class="delete-button" v-on:click="deletePost">削除</button>
+        </div>
+        <!-- 閉じるボタン -->
+        <img
+          src="../assets/close-button.png"
+          @click="close"
+          class="close-button hover"
+        />
       </div>
       <!-- 手作りか市販か， -->
       <div class="det__type">{{ detail.type }}</div>
-      <!-- タイトル -->
-      <h1 class="det__title">{{ detail.title }}</h1>
-      <!-- お手軽さ，時間 -->
-      <div class="det__star">
-        <!-- ☆ほし☆ -->
-        お手軽さ
-        <star-rating
-          :item-size="15"
-          :read-only="true"
-          :show-rating="false"
-          v-model="detail.rating"
-        ></star-rating>
-        <!-- 調理時間 -->
-        <div class="det__time" v-if="detail.selected">
-          ⏰{{ detail.selected }}
+      <div class="det__head">
+        <div class="det__head-left">
+          <!-- タイトル -->
+          <div class="det__title">{{ detail.title }}</div>
+          <hr />
+          <!-- お手軽さ，時間 -->
+          <div class="det__star">
+            <!-- ☆ほし☆ -->
+            お手軽さ
+            <star-rating
+              :item-size="15"
+              :read-only="true"
+              :show-rating="false"
+              v-model="detail.rating"
+            ></star-rating>
+          </div>
+          <!-- 調理時間 -->
+          <div class="det__time" v-if="detail.selected">
+            <img src="../assets/clock-icon.png" class="icon" />
+            <div>{{ detail.selected }}</div>
+          </div>
+          <!-- 紹介 -->
+          <div class="detail-introduce det__intro">
+            <img src="../assets/point-icon.png" class="icon" />
+            <div>{{ detail.introduce }}</div>
+          </div>
+        </div>
+        <!-- 写真 -->
+        <div>
+          <img :src="detail.imageURL" alt="料理の写真" class="det__pic" />
         </div>
       </div>
-
-      <!-- 紹介 -->
-      <div class="det__intro">
-        <h3 class="intro__top">
-          紹介
-        </h3>
-        {{ detail.introduce }}
-      </div>
-      <!-- 材料 -->
-      <div v-if="detail.newIngredients" class="ingredient">
-        <h3 class="ingred__top">材料(1人分)</h3>
-        <div class="ingred__conts">
-          <div
-            v-for="(newIngredient, index) in detail.newIngredients"
-            :key="index"
-          >
-            <div>
-              {{ index + 1 }}. {{ newIngredient.name }} ・・・
-              {{ newIngredient.amount }}
+      <div class="det__bottom">
+        <!-- 材料 -->
+        <div v-if="detail.newIngredients">
+          <h3 class="ingred__top">材料(1人分)</h3>
+          <div class="ingred__conts">
+            <div
+              v-for="(newIngredient, index) in detail.newIngredients"
+              :key="index"
+            >
+              <div>
+                {{ newIngredient.name }} ・・・
+                {{ newIngredient.amount }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 作り方 -->
+        <div v-if="detail.newHowTo">
+          <h3 class="howTo__top">作り方</h3>
+          <div class="howTo__conts">
+            <div v-for="(howTo, index) in detail.newHowTo" :key="index">
+              <div>{{ index + 1 }}. {{ howTo.text }}</div>
             </div>
           </div>
         </div>
       </div>
-      <!-- 作り方 -->
-      <div v-if="detail.newHowTo" class="howTo">
-        <h3 class="howTo__top">作り方</h3>
-        <div class="howTo__conts">
-          <div v-for="(howTo, index) in detail.newHowTo" :key="index">
-            <div>{{ index + 1 }}. {{ howTo.text }}</div>
-          </div>
-        </div>
-      </div>
     </div>
 
-    <div class="det__cont">
-      <!-- My投稿の編集と削除 -->
-      <div v-if="detail.fromMyPage">
-        <button class="det__button" v-on:click="editPost">編集</button>
-        <button class="det__button" v-on:click="deletePost">削除</button>
-      </div>
-      <!-- 閉じる -->
-      <div>
-        <button class="det__button" @click="close">閉じる</button>
-      </div>
-    </div>
     <!-- モーダルウィンドウ用 -->
     <div id="overlay"></div>
   </div>
@@ -121,177 +128,130 @@ export default {
 
 <style>
 #overlay {
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
   z-index: 1;
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0.65);
 }
 #modal {
   position: fixed;
-  /* position: absolute; */
   left: 50%;
   top: 50%;
-  z-index: 2;
-  transform: translate(-50%, -50%);
   width: 740px;
-  height: 545px;
-  max-width: 80%;
-  max-height: 120%;
-  box-sizing: border-box;
-  padding: 32px;
+  height: auto;
+  z-index: 2;
   border-radius: 8px;
-  overflow-y: scroll;
-  min-height: 10%;
-}
-#modal {
-  background-color: #f3fcfa;
-  background-image: repeating-linear-gradient(
-      45deg,
-      #fcf5ea 25%,
-      transparent 25%,
-      transparent 75%,
-      #fcf5ea 75%,
-      #fcf5ea
-    ),
-    repeating-linear-gradient(
-      45deg,
-      #fcf5ea 25%,
-      #ffffff 25%,
-      #ffffff 75%,
-      #fcf5ea 75%,
-      #fcf5ea
-    );
-  background-position: 0 0, 20px 20px;
-  background-size: 40px 40px;
-}
-.border-color {
-  border-top: solid 3px #ff9900;
-  border-right: solid 3px #ff9900;
-  border-bottom: solid 3px #ff9900;
-  border-left: solid 3px #ff9900;
-}
-/* 写真 */
-.det__pic {
-  position: fixed;
-  right: 4%;
-  top: 12%;
-  width: 300px;
-  height: 200px;
-  margin-top: 15px;
-  border-radius: 10px;
-  object-fit: cover;
-}
-.det__pic {
-  /* フレームと影 */
-  display: inline-block;
-  padding: 5px;
-  box-shadow: 4px 4px 10px #777;
-  background-color: #fff;
+  color: #3f1f1a;
 }
 .det__type {
-  position: fixed;
-  top: 9%;
-  left: 2%;
-  -webkit-transform: rotate(-10deg);
-  -moz-transform: rotate(-10deg);
-  transform: rotate(-10deg);
-  -o-transform: rotate(-10deg);
-  -ms-transform: rotate(-10deg);
   color: #cd8c5c;
-  font-size: 16pt;
+  font-size: 11pt;
+}
+.det__head {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.det__head-left {
 }
 /* 料理名 */
 .det__title {
-  position: fixed;
-  top: 7%;
+  font-weight: bold;
+  font-size: 25px;
 }
-.det__title:after {
-  content: "";
-  display: block;
-  height: 4px;
-  background: -webkit-linear-gradient(to right, rgb(255, 186, 115), #ffb2b2);
-  background: linear-gradient(to right, rgb(255, 186, 115), #ffb2b2);
+hr {
+  border-width: 5px 0 0 0;
+  border-style: solid;
+  border-color: rgb(255, 186, 115);
+  margin: 0 5px 30px 0;
 }
 .det__star {
   display: flex;
-  position: fixed;
-  top: 26%;
+  font-size: 13px;
 }
 .det__time {
-  position: fixed;
-  left: 30%;
+  display: flex;
+  font-size: 13px;
+  align-items: center;
 }
 /* 紹介 */
+.detail-introduce {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+.icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 20px;
+}
 .det__intro {
-  position: fixed;
-  top: 31%;
-  left: 5%;
-  width: 45%;
+  font-size: 13px;
 }
 .intro__top {
-  padding: 0.5em 0.75em;
   width: 80px;
   color: #3f1f1a;
-  background-color: #fce7c7;
-  box-shadow: 0 2px 6px #777;
+}
+/* 写真 */
+.det__pic {
+  width: 300px;
+  height: 200px;
+  border-radius: 10px;
+  object-fit: cover;
+  /* フレームと影 */
+  padding: 5px;
+  background-color: #fff;
+  box-shadow: 4px 4px 10px #777;
+}
+.det__bottom {
+  display: flex;
+  justify-content: space-between;
 }
 /* 材料 */
-.ingredient {
-  position: fixed;
-  top: 53%;
-  left: 5%;
-  width: 40%;
-}
 .ingred__top {
-  padding: 0.5em 0.75em;
-  width: 144px;
   color: #3f1f1a;
-  background-color: #fce7c7;
-  box-shadow: 0 2px 6px #777;
 }
 .ingred__conts {
-  margin-bottom: 70px;
+  font-size: 13px;
 }
 /* 作り方 */
-.howTo {
-  position: fixed;
-  top: 53%;
-  left: 50%;
-  width: 45%;
-}
 .howTo__top {
-  padding: 0.5em 0.75em;
   width: 100px;
   color: #3f1f1a;
-  background-color: #fce7c7;
-  box-shadow: 0 2px 6px #777;
 }
 .howTo__conts {
-  margin-bottom: 70px;
+  font-size: 13px;
 }
 /* 編集，消去，閉じる */
-.det__cont {
+.det__buttons {
+  position: absolute;
+  top: 20px;
+  right: 20px;
   display: flex;
-  position: fixed;
-  z-index: 2;
-  top: 8%;
-  right: 25%;
 }
-.det__button {
-  width: 80px;
-  height: 48px;
-  margin-top: 20px;
-  margin-bottom: 0px;
-  margin-left: 10px;
-  border-left: 0px;
-  font-size: 16px;
-  color: #ffffff;
-  background-color: #ff9900;
+.edit-button {
+  width: 70px;
+  height: 35px;
+  background-color: #fff;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: #3f1f1a;
+  color: #3f1f1a;
+}
+.delete-button {
+  width: 70px;
+  height: 35px;
+  border-radius: 5px;
+  background-color: #f03618;
   border: none;
-  border-radius: 4px;
+  color: #fff;
+  margin-left: 5px;
+  margin-right: 15px;
+}
+.close-button {
+  width: 20px;
+  height: 20px;
+}
+.hover:hover {
+  cursor: pointer;
 }
 </style>
