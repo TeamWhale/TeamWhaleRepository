@@ -111,12 +111,14 @@
                     type="text"
                     placeholder="（例）玉ねぎ"
                     class="input_rec input_zairyo"
+                    required
                   />
                   <input
                     v-model="newIngredient.amount"
                     type="text"
                     placeholder="（例）一個"
                     class="input_rec input_amount"
+                    required
                   />
                   <img
                     src="../assets/delete-button.png"
@@ -186,6 +188,7 @@
                   :item-size="20"
                   :show-rating="false"
                   v-model="rating"
+                  required
                 ></star-rating>
               </div>
             </div>
@@ -196,6 +199,7 @@
                 accept="image/*"
                 @change="onImageUploadedMade($event)"
                 class="pic__upload"
+                required
               />
               <img :src="imageURL" alt="料理の写真" width="300" height="200" />
             </div>

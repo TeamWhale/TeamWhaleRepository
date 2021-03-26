@@ -99,8 +99,15 @@ export default {
   },
   methods: {
     editPost() {
-      this.$parent.$data["editFlg"] = true;
-      this.$parent.$data["detailFlg"] = false;
+      if(this.detail.type === "手作り"){
+        this.$parent.$data["editFlg"] = true;
+        this.$parent.$data["editCookedFlg"] = false;
+        this.$parent.$data["detailFlg"] = false;
+      } else {
+        this.$parent.$data["editFlg"] = false;
+        this.$parent.$data["editCookedFlg"] = true;
+        this.$parent.$data["detailFlg"] = false;
+      }
     },
     deletePost() {
       firebase

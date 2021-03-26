@@ -50,7 +50,7 @@
     <!-- おすすめ表示 -->
     <div class="recom_wrapper">
       <div class="recom_title_left">
-        <h2 class="recom_title">Abcde とは</h2>
+        <h2 class="recom_title">Meal for One とは</h2>
         <div class="recom_title_description">
           「自炊をしてみたいけどハードルが高い...」<br />「自炊のレパートリーを増やしたい！」<br />「今夜何を食べよう？」
           <br />という一人暮らしさんのために<br />一人暮らしさんのリアルな食事を共有し合うサイトです
@@ -402,21 +402,21 @@ export default {
       return recipes;
     },
   },
-  created() {
-    // 検索ぺージでfirebaseに登録されているレシピを表示
-    firebase
-      .firestore()
-      .collection("recipe")
-      .orderBy("createdAt", "desc")
-      .get()
-      .then((snapshot) => {
-        snapshot.docs.forEach((doc) => {
-          this.recipes.push({
-            ...doc.data(),
-          });
-        });
-      });
-  },
+  // created() {
+  //   // 検索ぺージでfirebaseに登録されているレシピを表示
+  //   firebase
+  //     .firestore()
+  //     .collection("recipe")
+  //     .orderBy("createdAt", "desc")
+  //     .get()
+  //     .then((snapshot) => {
+  //       snapshot.docs.forEach((doc) => {
+  //         this.recipes.push({
+  //           ...doc.data(),
+  //         });
+  //       });
+  //     });
+  // },
 };
 </script>
 
