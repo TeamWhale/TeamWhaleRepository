@@ -337,21 +337,21 @@ export default {
       return recipes;
     },
   },
-  created() {
-    // 検索ぺージでfirebaseに登録されているレシピを表示
-    firebase
-      .firestore()
-      .collection("recipe")
-      .orderBy("createdAt", "desc")
-      .get()
-      .then((snapshot) => {
-        snapshot.docs.forEach((doc) => {
-          this.recipes.push({
-            ...doc.data(),
-          });
-        });
-      });
-  },
+  // created() {
+  //   // 検索ぺージでfirebaseに登録されているレシピを表示
+  //   firebase
+  //     .firestore()
+  //     .collection("recipe")
+  //     .orderBy("createdAt", "desc")
+  //     .get()
+  //     .then((snapshot) => {
+  //       snapshot.docs.forEach((doc) => {
+  //         this.recipes.push({
+  //           ...doc.data(),
+  //         });
+  //       });
+  //     });
+  // },
 };
 </script>
 
