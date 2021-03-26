@@ -49,16 +49,20 @@
     <Detail v-if="detailFlg" v-bind:detail="Contents" />
     <!-- おすすめ表示 -->
     <div class="recom_wrapper">
-      <h2>ピックアップ</h2>
-      <div
+      <div class="recom_title_center">
+        <h2 class="recom_title">ピックアップ</h2>
+      </div>
+      <carousel
         :autoplay="true"
-        :autoplayTimeout="1000"
         :loop="true"
-        :speed="500"
-        class="recom_items"
+        :speed="2000"
+        paginationColor="#d1c9c8"
+        paginationActiveColor="#a9a4a4"
+        :perPage="4"
+        :scrollPerPage="false"
       >
-        <div
-          v-for="recomPost in recomPosts.slice(0, 5)"
+        <slide
+          v-for="recomPost in recomPosts.slice(0, 6)"
           @click="detailWindow(recomPost)"
           :key="recomPost.id"
           :style="{
@@ -68,10 +72,10 @@
           class="recom_item"
         >
           <div class="pickup_description">
-            <div v-text="recomPost.title" class="pickup_name">
+            <div class="pickup_name">
               {{ recomPost.title }}
             </div>
-            <div v-text="recomPost.selected" class="pickup_time">
+            <div class="pickup_time">
               {{ recomPost.selected }}
             </div>
             <div class="star">
@@ -84,19 +88,8 @@
               ></star-rating>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="carousel_arrows">
-        <img src="../assets/arrow-left.png" class="arrow" />
-        <div class="carousel_dots">
-          <div class="carousel_dot"></div>
-          <div class="carousel_dot"></div>
-          <div class="carousel_dot"></div>
-          <div class="carousel_dot"></div>
-          <div class="carousel_dot"></div>
-        </div>
-        <img src="../assets/arrow-right.png" class="arrow" />
-      </div>
+        </slide>
+      </carousel>
     </div>
     <!-- 検索結果表示 -->
     <div v-if="SearchCondition" class="body_wrapper">
@@ -113,10 +106,10 @@
           class="pickup_item"
         >
           <div class="pickup_description">
-            <div v-text="recipe.title" class="pickup_name">
+            <div class="pickup_name">
               {{ recipe.title }}
             </div>
-            <div v-text="recipe.selected" class="pickup_time">
+            <div class="pickup_time">
               {{ recipe.selected }}
             </div>
             <div class="star">
@@ -233,12 +226,15 @@ import "firebase/firestore";
 import Footer from "../components/Footer.vue";
 import Detail from "@/components/Detail.vue";
 import { StarRating } from "vue-rate-it";
+import { Carousel, Slide } from "vue-carousel";
 
 export default {
   components: {
     Detail,
     StarRating,
     Footer,
+    Carousel,
+    Slide,
   },
   data() {
     return {
@@ -497,9 +493,26 @@ export default {
 .recom_wrapper {
   margin-top: 50px;
 }
-.recom_items {
+.recom_title_center {
+  width: 1000px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.recom_title {
+  margin-left: 3%;
+}
+.VueCarousel {
+  height: 320px;
+}
+.VueCarousel-wrapper,
+.VueCarousel-inner,
+.VueCarousel-slide {
+  height: 100% !important;
+}
+.VueCarousel-slide .slider-inner {
+  /* width: 300px; */
+  height: 100%;
   display: flex;
-  overflow: hidden;
 }
 .recom_item {
   width: 288px;
@@ -510,38 +523,6 @@ export default {
   cursor: pointer;
   opacity: 0.7;
   transition-duration: 0.3s;
-}
-.carousel_arrows {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 27px;
-}
-.arrow {
-  width: 26px;
-  height: 33px;
-  margin-left: 90px;
-  margin-right: 90px;
-}
-.arrow:hover {
-  cursor: pointer;
-  opacity: 0.6;
-  transition-duration: 0.3s;
-}
-.carousel_dots {
-  display: flex;
-}
-.carousel_dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 5px;
-  background-color: #d1c9c8;
-  margin-left: 5px;
-  margin-right: 5px;
-}
-.carousel_dot:hover {
-  cursor: pointer;
-  background-color: #a9a4a4;
 }
 .body_wrapper {
   width: 1000px;

@@ -1,12 +1,24 @@
 <template>
   <div class="ViewModal">
     <div id="modal">
-      <!-- タイトル -->
-      <h1>{{ detail.title }}</h1>
-      <!-- 手作りか市販か， -->
-      <div>{{ detail.type }}</div>
+      <div>
+        <img
+          src="../assets/close-button.png"
+          @click="close"
+          class="close-button hover"
+        />
+      </div>
+      <div class="modal-head">
+        <!-- タイトル -->
+        <h1>{{ detail.title }}</h1>
+        <!-- 手作りか市販か， -->
+        <div class="detail-type">{{ detail.type }}</div>
+      </div>
       <!-- 紹介 -->
-      <div>{{ detail.introduce }}</div>
+      <div class="detail-introduce">
+        <img src="../assets/point-icon.png" class="point-icon" />
+        <div>{{ detail.introduce }}</div>
+      </div>
       <br />
       <!-- 詳細，手作りの場合のみ表示 -->
       <div id="detail">
@@ -21,7 +33,7 @@
             :key="index"
           >
             <div>
-              {{ index + 1 }}. {{ newIngredient.name }} ・・・
+              {{ newIngredient.name }} ・・・
               {{ newIngredient.amount }}
             </div>
           </div>
@@ -38,12 +50,10 @@
 
       <!-- My投稿の編集と削除 -->
       <div v-if="user">
-        <button v-on:click="editPost">編集</button>
-        <button v-on:click="deletePost">削除</button>
-      </div>
-
-      <div>
-        <button @click="close">閉じる</button>
+        <button v-on:click="editPost" class="edit-button hover">編集</button>
+        <button v-on:click="deletePost" class="delete-button hover">
+          削除
+        </button>
       </div>
     </div>
     <div id="overlay"></div>
@@ -56,7 +66,7 @@ import "firebase/auth";
 import "firebase/firestore";
 
 export default {
-  props:['detail'],
+  props: ["detail"],
   data() {
     return {
       user: false,
@@ -68,14 +78,14 @@ export default {
         .firestore()
         .collection("recipe")
         .doc(this.detail.id)
-        .update({title: this.detail.title})
+        .update({ title: this.detail.title });
     },
     deletePost() {
       firebase
         .firestore()
         .collection("recipe")
         .doc(this.detail.id)
-        .delete()
+        .delete();
     },
     close() {
       this.$parent.$data["detailFlg"] = false;
@@ -111,7 +121,7 @@ export default {
   z-index: 2;
   transform: translate(-50%, -50%);
   width: 750px;
-  height: 550px;
+  height: auto;
   max-width: 80%;
   max-height: 120%;
   box-sizing: border-box;
@@ -123,4 +133,58 @@ export default {
   display: flex;
   flex-wrap: wrap;
 } */
+.modal-head {
+  display: flex;
+}
+.detail-type {
+  margin-top: 57px;
+  margin-left: 60px;
+  font-size: 13px;
+  color: #3f1f1a;
+}
+.detail-introduce {
+  display: flex;
+  height: 40px;
+  border: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: #ff9900;
+  align-items: center;
+}
+.point-icon {
+  width: 20px;
+  height: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.hover:hover {
+  cursor: pointer;
+}
+.close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 20px;
+  height: 20px;
+}
+.edit-button {
+  width: 70px;
+  height: 35px;
+  background-color: #fff;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: #3662b8;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  color: #3662b8;
+}
+.delete-button {
+  width: 70px;
+  height: 35px;
+  border-radius: 5px;
+  background-color: #f03618;
+  border: none;
+  color: #fff;
+  margin-left: 5px;
+}
 </style>
