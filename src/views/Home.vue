@@ -539,6 +539,7 @@ export default {
   opacity: 0.7;
   transition-duration: 0.3s;
 }
+
 .body_wrapper {
   width: 1000px;
   margin-right: auto;
