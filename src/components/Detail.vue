@@ -38,7 +38,7 @@
             <div>{{ detail.selected }}</div>
           </div>
           <!-- 紹介 -->
-          <div class="detail-introduce det__intro">
+          <div class="det__intro">
             <img src="../assets/point-icon.png" class="icon" />
             <div>{{ detail.introduce }}</div>
           </div>
@@ -99,7 +99,7 @@ export default {
   },
   methods: {
     editPost() {
-      if(this.detail.type === "手作り"){
+      if (this.detail.type === "手作り") {
         this.$parent.$data["editFlg"] = true;
         this.$parent.$data["editCookedFlg"] = false;
         this.$parent.$data["detailFlg"] = false;
@@ -135,7 +135,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #overlay {
   position: fixed;
   left: 0;
@@ -155,6 +155,7 @@ export default {
   width: 740px;
   max-width: 80%;
   height: auto;
+  max-width: 80%;
   padding: 32px;
   border-radius: 8px;
   color: #3f1f1a;
@@ -209,11 +210,6 @@ hr {
   align-items: center;
 }
 /* 紹介 */
-.detail-introduce {
-  display: flex;
-  align-items: center;
-  margin-top: 10px;
-}
 .icon {
   width: 20px;
   height: 20px;
@@ -221,6 +217,9 @@ hr {
 }
 .det__intro {
   font-size: 13px;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
 }
 .intro__top {
   width: 80px;

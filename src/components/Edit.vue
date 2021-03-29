@@ -36,22 +36,19 @@
               :show-rating="false"
               v-model="rating"
             ></star-rating>
-            <!-- 調理時間 -->
-            <div class="edit__time" v-if="editDet.selected">
-              <img src="../assets/clock-icon.png" class="icon" />
-              <select name="time" v-model="selected" required>
-                <option disabled value="">選択してください</option>
-                <option v-for="option in options" :key="option.id">
-                  {{ option.name }}
-                </option>
-              </select>
-            </div>
+          </div>
+          <!-- 調理時間 -->
+          <div class="edit__time" v-if="editDet.selected">
+            調理時間
+            <select name="time" v-model="selected" required>
+              <option disabled value="">選択してください</option>
+              <option v-for="option in options" :key="option.id">
+                {{ option.name }}
+              </option>
+            </select>
           </div>
           <!-- 紹介 -->
           <div class="edit__intro">
-            <h3 class="intro__top">
-              紹介
-            </h3>
             <textarea
               v-model="introduce"
               id=""
@@ -80,7 +77,6 @@
         <h3 class="ingred__top">材料(1人分)</h3>
         <div v-for="(newIngredient, index) in newIngredients" :key="index">
           <div class="form_horizontal">
-            {{ index + 1 }}.
             <input
               v-model="newIngredient.name"
               type="text"
@@ -112,22 +108,20 @@
           :key="index"
           class="form_horizontal"
         >
-          <div>
-            {{ index + 1 }}.
-            <textarea
-              v-model="newHowTo.text"
-              cols="25"
-              rows="2"
-              placeholder="作り方を入力"
-              class="input_rec"
-              required
-            ></textarea>
-            <img
-              src="../assets/delete-button.png"
-              @click.prevent="removeNewHowTos(index)"
-              class="form_delete"
-            />
-          </div>
+          {{ index + 1 }}.
+          <textarea
+            v-model="newHowTo.text"
+            cols="25"
+            rows="2"
+            placeholder="作り方を入力"
+            class="input_rec"
+            required
+          ></textarea>
+          <img
+            src="../assets/delete-button.png"
+            @click.prevent="removeNewHowTos(index)"
+            class="form_delete"
+          />
         </div>
         <button @click.prevent="addNewHowTos" class="add_input">
           作り方を追加する
@@ -282,7 +276,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #overlay {
   position: fixed;
   left: 0;
@@ -302,6 +296,8 @@ export default {
   width: 740px;
   max-width: 80%;
   height: auto;
+  max-height: 80%;
+  overflow: scroll;
   padding: 32px;
   border-radius: 8px;
   color: #3f1f1a;
@@ -333,16 +329,20 @@ export default {
   justify-content: space-between;
   margin-top: 20px;
 }
+.edit__head-left {
+  margin-right: 15px;
+}
 /* 写真 */
 .edit__pic {
   width: 300px;
   height: 200px;
-  border-radius: 10px;
   object-fit: cover;
   /* フレームと影 */
   padding: 5px;
   background-color: #fff;
   box-shadow: 4px 4px 10px #777;
+  border-radius: 10px;
+  margin-right: 15px;
 }
 /* "編集画面"の文字 */
 .hammer-icon {
@@ -350,7 +350,7 @@ export default {
   height: 36px;
 }
 .page__title {
-  margin-left: 40%;
+  /* margin-left: 20%; */
   font-size: 26pt;
   color: #3f1f1a;
 }
@@ -362,33 +362,32 @@ hr {
 }
 .edit__star {
   display: flex;
-  position: fixed;
-  top: 26%;
 }
 /* 料理名 */
 .edit__title {
   border-style: solid;
-  width: 42%;
   padding: 10px;
   font-family: inherit;
   border-color: #ececec;
   border-radius: 5px;
   border-width: 2px;
-  font-size: 16pt;
+  font-size: 12pt;
 }
 .edit__time {
 }
+.icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 20px;
+}
 /* 紹介 */
 .edit__intro {
-  width: 45%;
-  height: 10%;
+  margin-top: 15px;
 }
 .intro__top {
   padding: 0.5em 0.75em;
   width: 80px;
   color: #3f1f1a;
-  background-color: #fce7c7;
-  box-shadow: 0 2px 6px #777;
 }
 .input_rec {
   border-style: solid;
@@ -399,7 +398,6 @@ hr {
   border-radius: 5px;
   border-width: 2px;
 }
-
 /* 材料 */
 .ingredient {
   width: 40%;
@@ -448,7 +446,6 @@ hr {
 
 /* 作り方 */
 .howTo {
-  width: 45%;
 }
 .howTo__top {
   padding: 0.5em 0.75em;
@@ -485,12 +482,11 @@ hr {
   background-color: #ff9900;
   text-align: center;
 }
-
 /* 編集，消去，閉じる */
 .edit__cont {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 10px;
+  right: 10px;
   display: flex;
 }
 .edit__button {
@@ -513,5 +509,12 @@ hr {
   color: #ff9900;
   margin-left: 5px;
   margin-right: 15px;
+}
+.close-button {
+  width: 20px;
+  height: 20px;
+}
+.hover:hover {
+  cursor: pointer;
 }
 </style>
