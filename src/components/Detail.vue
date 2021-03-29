@@ -50,7 +50,7 @@
       </div>
       <div class="det__bottom">
         <!-- 材料 -->
-        <div v-if="detail.newIngredients">
+        <div v-if="detail.newIngredients" class="ingred__wrapper">
           <h3 class="ingred__top">材料(1人分)</h3>
           <div class="ingred__conts">
             <div
@@ -65,7 +65,7 @@
           </div>
         </div>
         <!-- 作り方 -->
-        <div v-if="detail.newHowTo">
+        <div v-if="detail.newHowTo" class="howTo__box">
           <h3 class="howTo__top">作り方</h3>
           <div class="howTo__conts">
             <div v-for="(howTo, index) in detail.newHowTo" :key="index">
@@ -128,6 +128,11 @@ export default {
 
 <style>
 #overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
   z-index: 1;
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0.65);
@@ -136,11 +141,32 @@ export default {
   position: fixed;
   left: 50%;
   top: 50%;
-  width: 740px;
-  height: auto;
   z-index: 2;
+  transform: translate(-50%, -50%);
+  width: 740px;
+  max-width: 80%;
+  height: auto;
+  padding: 32px;
   border-radius: 8px;
   color: #3f1f1a;
+  background-image: repeating-linear-gradient(
+      45deg,
+      #fcf5ea 25%,
+      transparent 25%,
+      transparent 75%,
+      #fcf5ea 75%,
+      #fcf5ea
+    ),
+    repeating-linear-gradient(
+      45deg,
+      #fcf5ea 25%,
+      #ffffff 25%,
+      #ffffff 75%,
+      #fcf5ea 75%,
+      #fcf5ea
+    );
+  background-position: 0 0, 20px 20px;
+  background-size: 40px 40px;
 }
 .det__type {
   color: #cd8c5c;
@@ -189,7 +215,6 @@ hr {
 }
 .intro__top {
   width: 80px;
-  color: #3f1f1a;
 }
 /* 写真 */
 .det__pic {
@@ -204,11 +229,12 @@ hr {
 }
 .det__bottom {
   display: flex;
-  justify-content: space-between;
+  margin-top: 20px;
 }
 /* 材料 */
-.ingred__top {
-  color: #3f1f1a;
+.ingred__wrapper {
+  width: 280px;
+  margin-right: 30px;
 }
 .ingred__conts {
   font-size: 13px;
@@ -216,7 +242,6 @@ hr {
 /* 作り方 */
 .howTo__top {
   width: 100px;
-  color: #3f1f1a;
 }
 .howTo__conts {
   font-size: 13px;
@@ -235,7 +260,6 @@ hr {
   border-width: 1px;
   border-radius: 5px;
   border-color: #3f1f1a;
-  color: #3f1f1a;
 }
 .delete-button {
   width: 70px;
