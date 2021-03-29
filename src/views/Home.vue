@@ -69,7 +69,6 @@
       >
         <slide
           v-for="recomPost in recomPosts.slice(0, 6)"
-          @click="detailWindow(recomPost)"
           :key="recomPost.id"
           :style="{
             backgroundImage: 'url(' + recomPost.imageURL + ')',
@@ -77,7 +76,7 @@
           }"
           class="recom_item"
         >
-          <div class="pickup_description">
+          <div @click="detailWindow(recomPost)" class="pickup_description">
             <div class="pickup_name">
               {{ recomPost.title }}
             </div>

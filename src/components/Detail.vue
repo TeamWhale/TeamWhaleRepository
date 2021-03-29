@@ -110,7 +110,8 @@ export default {
       }
     },
     deletePost() {
-      firebase
+      if(window.confirm("本当に削除しますか？")) {
+        firebase
         .firestore()
         .collection("recipe")
         .doc(this.detail.id)
@@ -125,6 +126,7 @@ export default {
         .catch(() => {
           window.alert("削除できませんでした");
         });
+      }
     },
     close() {
       this.$parent.$data["detailFlg"] = false;
