@@ -13,12 +13,6 @@
             キャンセル
           </button>
         </div>
-        <!-- 閉じるボタン -->
-        <img
-          src="../assets/close-button.png"
-          @click="close"
-          class="close-button hover"
-        />
       </div>
       <!-- 手作りか市販か， -->
       <div class="det__type">{{ editDet.type }}</div>
@@ -276,14 +270,14 @@ export default {
   },
   mounted() {
     // 編集前の値
-    (this.title = this.editDet.title),
-      (this.selected = this.editDet.selected),
-      (this.imageName = this.editDet.imageName),
-      (this.imageURL = this.editDet.imageURL),
-      (this.introduce = this.editDet.introduce),
-      (this.newIngredients = this.editDet.newIngredients),
-      (this.newHowTos = this.editDet.newHowTo),
-      (this.rating = this.editDet.rating);
+    this.title = this.editDet.title,
+    this.selected = this.editDet.selected,
+    this.imageName = this.editDet.imageName,
+    this.imageURL = this.editDet.imageURL,
+    this.introduce = this.editDet.introduce,
+    this.newIngredients = this.editDet.newIngredients,
+    this.newHowTos = this.editDet.newHowTo,
+    this.rating = this.editDet.rating;
   },
 };
 </script>

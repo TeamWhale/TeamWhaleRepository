@@ -69,7 +69,6 @@
       >
         <slide
           v-for="recomPost in recomPosts.slice(0, 6)"
-          @click="detailWindow(recomPost)"
           :key="recomPost.id"
           :style="{
             backgroundImage: 'url(' + recomPost.imageURL + ')',
@@ -77,7 +76,7 @@
           }"
           class="recom_item"
         >
-          <div class="pickup_description">
+          <div @click="detailWindow(recomPost)" class="pickup_description">
             <div class="pickup_name">
               {{ recomPost.title }}
             </div>
@@ -310,7 +309,6 @@ export default {
       this.Contents = Cont;
       this.Contents.fromMyPage = false;
       this.detailFlg = true;
-      console.log(Cont)
     },
   },
   mounted() {
@@ -402,21 +400,6 @@ export default {
       return recipes;
     },
   },
-  // created() {
-  //   // 検索ぺージでfirebaseに登録されているレシピを表示
-  //   firebase
-  //     .firestore()
-  //     .collection("recipe")
-  //     .orderBy("createdAt", "desc")
-  //     .get()
-  //     .then((snapshot) => {
-  //       snapshot.docs.forEach((doc) => {
-  //         this.recipes.push({
-  //           ...doc.data(),
-  //         });
-  //       });
-  //     });
-  // },
 };
 </script>
 
@@ -482,7 +465,6 @@ export default {
   margin-left: auto;
 }
 .tab_item {
-  /* justify-content: center; */
   width: 140px;
   height: 100%;
   text-align: center;
@@ -571,12 +553,6 @@ h2 {
 .pickup_description {
   display: inline-block;
   font-size: 15px;
-  /* font-weight: bold; */
-  /* 白文字黒シャドー */
-  /* color: #fff;
-  text-shadow: 2px 2px 10px #777, -2px 2px 10px #777, 2px -2px 10px #777,
-    -2px -2px 10px #777; */
-  /* 白文字黒シャドー */
   color: #3f1f1a;
   font-weight: bold;
   text-shadow: 2px 2px 10px #f8f3f1, -2px 2px 10px #f8f3f1,

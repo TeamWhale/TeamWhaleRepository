@@ -350,21 +350,6 @@ export default {
       return recipes;
     },
   },
-  // created() {
-  //   // 検索ぺージでfirebaseに登録されているレシピを表示
-  //   firebase
-  //     .firestore()
-  //     .collection("recipe")
-  //     .orderBy("createdAt", "desc")
-  //     .get()
-  //     .then((snapshot) => {
-  //       snapshot.docs.forEach((doc) => {
-  //         this.recipes.push({
-  //           ...doc.data(),
-  //         });
-  //       });
-  //     });
-  // },
 };
 </script>
 
@@ -445,12 +430,6 @@ h2 {
 .pickup_description {
   display: inline-block;
   font-size: 15px;
-  /* font-weight: bold; */
-  /* 白文字黒シャドー */
-  /* color: #fff;
-  text-shadow: 2px 2px 10px #777, -2px 2px 10px #777, 2px -2px 10px #777,
-    -2px -2px 10px #777; */
-  /* 白文字黒シャドー */
   color: #3f1f1a;
   font-weight: bold;
   text-shadow: 2px 2px 10px #f8f3f1, -2px 2px 10px #f8f3f1,
