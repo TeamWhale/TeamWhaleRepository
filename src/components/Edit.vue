@@ -383,15 +383,9 @@ hr {
   font-size: 16pt;
 }
 .edit__time {
-  position: fixed;
-  left: 30%;
 }
-
 /* 紹介 */
 .edit__intro {
-  position: fixed;
-  top: 31%;
-  left: 5%;
   width: 45%;
   height: 10%;
 }
@@ -414,9 +408,6 @@ hr {
 
 /* 材料 */
 .ingredient {
-  position: fixed;
-  top: 53%;
-  left: 5%;
   width: 40%;
 }
 .ingred__top {
@@ -463,9 +454,6 @@ hr {
 
 /* 作り方 */
 .howTo {
-  position: fixed;
-  top: 53%;
-  left: 50%;
   width: 45%;
 }
 .howTo__top {
