@@ -309,7 +309,6 @@ export default {
       this.Contents = Cont;
       this.Contents.fromMyPage = false;
       this.detailFlg = true;
-      console.log(Cont)
     },
   },
   mounted() {
